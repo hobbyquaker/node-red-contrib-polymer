@@ -1,0 +1,44 @@
+<script type="text/javascript">
+    RED.nodes.registerType('polymer_paper-slider', {
+        category: 'polymer',
+        color: '#a6bbcf',
+        defaults: {
+            element: {value: 'polymer_paper-slider', required: true},
+            name: {value: ''},
+            html: {value: ''},
+            attributes: {value: ''},
+            immediate: {value: false}
+
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "polymer_paper-slider.png",
+        paletteLabel: 'paper-slider',
+        label: function() { return this.name || this.paletteLabel; }
+
+    });
+</script>
+
+<script type="text/x-red" data-template-name="polymer_paper-slider">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-html"><i class="fa fa-tag"></i> Label</label>
+        <input type="text" id="node-input-html">
+    </div>
+    <div class="form-row">
+        <label for="node-input-attributes"><i class="fa fa-tag"></i> Attributes</label>
+        <input type="text" id="node-input-attributes">
+    </div>
+    <div class="form-row">
+        <label for="node-input-immediate"><i class="fa fa-tag"></i> Immediate</label>
+        <input type="checkbox" id="node-input-immediate">
+    </div>
+
+</script>
+
+<script type="text/x-red" data-help-name="polymer_paper-slider">
+
+</script>

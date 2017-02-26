@@ -1,7 +1,7 @@
 {
-  "name": "node-red-contrib-ui",
-  "version": "1.2.19",
-  "description": "UI nodes for node-red",
+  "name": "node-red-polymer",
+  "version": "0.0.1",
+  "description": "Polymer based dashboard for node-red",
   "keywords": [
     "node-red"
   ],
@@ -9,28 +9,15 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Andrei Tatar",
+  "author": "Sebastian Raff",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/andrei-tatar/node-red-contrib-ui.git"
+    "url": "https://github.com/hobbyquaker/node-red-polymer.git"
   },
   "node-red": {
     "nodes": {
-      "ui_button": "nodes/ui_button.js",
-      "ui_button_row": "nodes/ui_button_row.js",
-      "ui_radio_button": "nodes/ui_radio_button.js",
-      "ui_switch": "nodes/ui_switch.js",
-      "ui_slider": "nodes/ui_slider.js",
-      "ui_numeric": "nodes/ui_numeric.js",
-      "ui_text": "nodes/ui_text.js",
-      "ui_text_input": "nodes/ui_text_input.js",
-      "ui_gauge": "nodes/ui_gauge.js",
-      "ui_chart": "nodes/ui_chart.js",
-      "ui_toast": "nodes/ui_toast.js",
-      "ui_link": "nodes/ui_link.js",
-      "ui_template": "nodes/ui_template.js",
-      "ui_tab": "nodes/ui_tab.js"
+      "polymer_paper-slider": "nodes/paper-slider.js"
     }
   },
   "dependencies": {
@@ -38,35 +25,6 @@
     "socket.io": "^1.3.7"
   },
   "devDependencies": {
-    "angular": "^1.4.8",
-    "angular-animate": "^1.4.8",
-    "angular-aria": "^1.4.8",
-    "angular-masonry": "^0.14.0",
-    "angular-material": "^1.0.2",
-    "angular-material-icons": "^0.6.0",
-    "angular-sanitize": "^1.4.8",
-    "angularjs-nvd3-directives": "0.0.8",
-    "d3": "^3.5.11",
-    "font-awesome": "^4.5.0",
-    "gulp": "^3.9.0",
-    "gulp-angular-templatecache": "^1.8.0",
-    "gulp-concat": "^2.6.0",
-    "gulp-html-replace": "^1.5.5",
-    "gulp-html-src": "^1.0.0",
-    "gulp-if": "^2.0.0",
-    "gulp-minify-css": "^1.2.2",
-    "gulp-minify-html": "^1.0.4",
-    "gulp-uglify": "^1.5.1",
-    "gulp-util": "^3.0.7",
-    "imagesloaded": "^3.2.0",
-    "jquery": "^2.1.4",
-    "jquery-bridget": "^1.1.0",
-    "justgage": "^1.1.0",
-    "masonry-layout": "^3.3.2",
-    "nvd3": "1.8.1",
-    "raphael": "^2.1.4",
-    "sprintf-js": "^1.0.3",
-    "streamqueue": "^1.1.1",
-    "svg-morpheus": "git://github.com/alexk111/SVG-Morpheus.git#master"
+
   }
 }
