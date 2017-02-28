@@ -1,0 +1,60 @@
+
+
+<dom-module id="node-red-polymer">
+    <template>
+        <app-drawer-layout>
+            <app-drawer>
+                <paper-menu selected="{{selected}}">
+                    <template is="dom-repeat" items="{{menu}}">
+                        <paper-item data-path="{{item.path}}">{{item.title}}</paper-item>
+                    </template>
+                </paper-menu>
+            </app-drawer>
+            <app-header-layout>
+                <app-header condenses reveals effects="waterfall">
+                    <app-toolbar>
+                        <paper-icon-button icon="menu" drawer-toggle></paper-icon-button>
+                        <div main-title>App name</div>
+                    </app-toolbar>
+                </app-header>
+                <iron-pages selected="{{selected}}">
+                    <content select=".page"></content>
+                </iron-pages>
+            </app-header-layout>
+        </app-drawer-layout>
+    </template>
+    <script>
+        Polymer({
+            is: "node-red-polymer",
+            properties: {
+                menu: {
+                    type: Array,
+                    observer: 'select'
+                },
+                selected: {
+                    type: Number,
+                    //value: 0,
+                    notify: true,
+                    reflectToAttribute: true,
+                    observer: 'navigate'
+                },
+                path: {
+                    type: String,
+                    notify: true,
+                    reflectToAttribute: true
+                }
+            },
+            navigate: function () {
+                if (typeof this.selected !== 'undefined') location.hash = '#/' + this.menu[this.selected].path;
+            },
+            select: function () {
+                var that = this;
+                this.menu.forEach(function (mItem, i) {
+                    if (mItem.path === location.hash.substr(2)) {
+                        that.selected = i;
+                    }
+                })
+            }
+        });
+    </script>
+</dom-module>

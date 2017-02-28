@@ -3,20 +3,62 @@
 <title>Node-RED Polymer</title>
 
 
+<style>
+    body {
+        margin: 0;
+        font-family: sans-serif;
+        background-color: #f1f1f1;
+    }
+
+    app-header {
+        background-color: #00897B;
+        color: #fff;
+    }
+    app-header paper-icon-button {
+        --paper-icon-button-ink-color: white;
+    }
+</style>
+
 
 <script src="socket.io/socket.io.js"></script>
 <script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
 
 <link rel="import" href="bower_components/polymer/polymer.html">
+
+<link rel="import" href="bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="bower_components/paper-icon-button/paper-icon-button.html">
+
+<link rel="import" href="bower_components/app-layout/app-drawer-layout/app-drawer-layout.html">
+<link rel="import" href="bower_components/app-layout/app-drawer/app-drawer.html">
+<link rel="import" href="bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
+<link rel="import" href="bower_components/app-layout/app-header/app-header.html">
+<link rel="import" href="bower_components/app-layout/app-header-layout/app-header-layout.html">
+<link rel="import" href="bower_components/app-layout/app-toolbar/app-toolbar.html">
+
+<link rel="import" href="bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="bower_components/paper-menu/paper-menu.html">
+<link rel="import" href="bower_components/paper-item/paper-item.html">
+<link rel="import" href="bower_components/paper-card/paper-card.html">
+
 <link rel="import" href="bower_components/paper-button/paper-button.html">
 <link rel="import" href="bower_components/paper-slider/paper-slider.html">
 <link rel="import" href="bower_components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="bower_components/paper-toggle-button/paper-toggle-button.html">
+
+<link rel="import" href="elements/node-red-polymer.html">
 
 
+<style>
+        paper-card {
+            width: calc(100% - 6px);
+            padding: 3px;
+            margin: 3px;
+        }
 
 
+</style>
 
-<div id="container"></div>
+<node-red-polymer></node-red-polymer>
 
 
 <script src="index.js"></script>

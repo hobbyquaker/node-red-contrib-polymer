@@ -2,25 +2,25 @@ module.exports = function(RED) {
 
     var ui = require('../ui')(RED);
 
-    function PolymerPaperSliderNode(config) {
+    function PolymerPaperToggleButtonNode(config) {
         RED.nodes.createNode(this, config);
         var node = this;
 
         var done = ui.add({
             node: node,
             control: {
-                type:           'polymer_paper-slider',
+                type:           'polymer_paper-toggle-button',
                 parent:         config.parent,
-                element:        'paper-slider',
+                element:        'paper-toggle-button',
                 html:           config.html,
                 attributes:     config.attributes,
-                valueAttribute: 'value',
-                event:          config.immediate ? 'immediate-value-change:immediateValue' : 'change:value'
+                valueAttribute: 'checked',
+                event:          'change:checked'
             }
         });
 
         node.on("close", done);
     }
 
-    RED.nodes.registerType("polymer_paper-slider", PolymerPaperSliderNode);
+    RED.nodes.registerType("polymer_paper-toggle-button", PolymerPaperToggleButtonNode);
 };

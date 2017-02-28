@@ -1,0 +1,51 @@
+<script type="text/javascript">
+    RED.nodes.registerType('polymer_nav_page', {
+        category: 'polymer',
+        color: '#a6bbcf',
+        defaults: {
+            name: {value: ''},
+            title: {value: ''},
+            parent: {value: ''}
+        },
+        inputs: 1,
+        outputs: 1,
+        //icon: "ui_switch.png",
+        paletteLabel: 'page',
+        label: function() { return this.name || 'page'; },
+        oneditprepare: function () {
+            var node = this;
+            var options = {};
+            RED.nodes.eachNode(function (site) {
+                if (site.type === 'polymer_nav_site') {
+                    options[site.name] = '<option value="' + site.id + '"' +
+                        (site.id === node.parent ? ' selected' : '') +
+                        '>' + site.name + '</option>';
+                }
+            });
+            Object.keys(options).sort().forEach(function (option) {
+                jQuery('#node-input-parent').append(options[option]);
+            });
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="polymer_nav_page">
+    <div class="form-row">
+        <label for="node-input-parent"><i class="fa fa-tag"></i> Parent Site</label>
+        <select id="node-input-parent">
+        </select>
+    </div>
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-title"><i class="fa fa-tag"></i> Title</label>
+        <input type="text" id="node-input-title">
+    </div>
+
+</script>
+
+<script type="text/x-red" data-help-name="polymer_nav_page">
+
+</script>

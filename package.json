@@ -17,7 +17,12 @@
   },
   "node-red": {
     "nodes": {
-      "polymer_paper-slider": "nodes/paper-slider.js"
+      "polymer_nav_site": "nodes/nav_site.js",
+      "polymer_nav_page": "nodes/nav_page.js",
+      "polymer_nav_group": "nodes/nav_group.js",
+      "polymer_paper-slider": "nodes/paper-slider.js",
+      "polymer_paper-toggle-button": "nodes/paper-toggle-button.js",
+      "polymer_paper-checkbox": "nodes/paper-checkbox.js"
     }
   },
   "dependencies": {

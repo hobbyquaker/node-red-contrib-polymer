@@ -1,12 +1,28 @@
+var serveStatic = 	require('serve-static');
+var	socketio = 		require('socket.io');
+var	path = 			require('path');
+var	fs = 			require('fs');
+var	events = 		require('events');
+
 var inited = false;
 var lastMsg = {};
+var settings = {};
+var nodes = {};
+
+
+var sites = {};
+var pages = {};
+var groups = {};
+var elements = {};
+
+
+var io;
 
 module.exports = function(RED) {
 	if (!inited) {
 		inited = true;
 		init(RED.server, RED.httpNode || RED.httpAdmin, RED.log, RED.settings);
 	}
-	
 	return { 
 		add: add,
 		emit: emit,
@@ -14,19 +30,6 @@ module.exports = function(RED) {
 		toFloat: toNumber.bind(null, true)
 	};
 };
-
-var serveStatic = require('serve-static'),
-	socketio = require('socket.io'),
-	path = require('path'),
-	fs = require('fs'),
-	events = require('events');
-
-var elements = {};
-
-
-var io;
-
-var settings = {};
 
 function toNumber(keepDecimals, config, input) {
 	if (typeof input === "number")
@@ -42,35 +45,10 @@ function emit(event, data) {
 	io.emit(event, data);
 }
 
-
-
-/*
-options:
-	node - the node that represents the control on a flow
-	control - the control to be added
-	tab - tab config node that this control belongs to
-	group - group name
-	[emitOnlyNewValues] - boolean (default true). 
-		If true, it checks if the payload changed before sending it
-		to the front-end. If the payload is the same no message is sent.
-	
-	[convert] - callback to convert the value before sending it to the front-end
-	[convertBack] - callback to convert the message from front-end before sending it to the next connected node
-	
-	[beforeEmit] - callback to prepare the message that is emitted to the front-end
-	[beforeSend] - callback to prepare the message that is sent to the output
-    
-    [forwardInputMessages] - default true. If true, forwards input messages to the output
-    [storeFrontEndInputAsState] - default true. If true, any message received from front-end is stored as state 
-*/
-
-var nodes = {};
-
 function add(opt) {
-
 	opt.control.id = opt.node.id;
 	var remove = addElement(opt.control);
-	
+
 	opt.node.on("input", function (msg) {
 		msg.id = opt.node.id;
 		if (!elements[msg.id]) elements[msg.id] = {};
@@ -82,7 +60,7 @@ function add(opt) {
 
     nodes[opt.node.id] = opt.node;
 
-	return function() {
+	return function () {
 		delete nodes[opt.node.id];
 		console.log('remove?');
 	};
@@ -111,15 +89,15 @@ function init(server, app, log, redSettings) {
 		} else {
 			log.info("Using development folder");
 			app.use(join(settings.path), serveStatic(path.join(__dirname, "src")));
-			
-
 		}
 	}); 
 
 	log.info("Polymer started at " + fullPath);
 
 	io.on('connection', function (socket) {
-		updateElements(socket);
+
+
+		update();
 
         socket.on('output', function (msg) {
             console.log('output', msg);
@@ -132,25 +110,40 @@ function init(server, app, log, redSettings) {
 
 }
 
-function updateElements() {
-	console.log(elements);
-	io.emit('elements', elements);
+
+
+function update(sock) {
+	(sock ? sock : io).emit('update', {
+		sites: sites,
+		pages: pages,
+		groups: groups,
+		elements: elements
+	});
 }
 
 function addElement(control) {
 	if (typeof control.type !== 'string') return;
 
-	elements[control.id] = control;
-    elements[control.id].lastMsg = lastMsg[control.id];
+    if (lastMsg[control.id]) control.lastMsg = lastMsg[control.id];
 
-    updateElements();
+	console.log('*** addElement', control);
+
+    if (control.type === 'polymer_nav_site') {
+        sites[control.id] = control;
+    } else if (control.type === 'polymer_nav_page') {
+        pages[control.id] = control;
+    } else if (control.type === 'polymer_nav_group') {
+        groups[control.id] = control;
+    } else {
+    	elements[control.id] = control;
+   	}
+	update();
+
+
 	
 	return function() {
-
-
-
-			updateElements();
-
+		console.log('???')
+		update();
 	}
 }
 
