@@ -1,6 +1,7 @@
 const gulp = require('gulp');
 const vulcanize = require('gulp-vulcanize');
 const gulpCopy = require('gulp-copy');
+const manifest = require('gulp-manifest');
 
 
 
@@ -21,4 +22,16 @@ gulp.task('copy', function () {
             'src/index.js'
         ])
         .pipe(gulpCopy('dist/', {prefix: 1}))
+});
+
+gulp.task('manifest', function(){
+    gulp.src(['dist/**/*'], { base: './' })
+        .pipe(manifest({
+            hash: true,
+            preferOnline: false,
+            network: ['*'],
+            filename: 'app.manifest',
+            exclude: 'dist/app.manifest'
+        }))
+        .pipe(gulp.dest('dist'));
 });
