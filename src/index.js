@@ -170,6 +170,7 @@ function initSite(siteName, pageName) {
 
     var container = document.querySelector('node-red-polymer');
 
+    container.setAttribute('title', sites[siteId].title);
 
     var menu = [];
     var content = '';

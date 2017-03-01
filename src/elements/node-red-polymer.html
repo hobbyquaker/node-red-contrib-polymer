@@ -14,7 +14,7 @@
                 <app-header condenses reveals effects="waterfall">
                     <app-toolbar>
                         <paper-icon-button icon="menu" drawer-toggle></paper-icon-button>
-                        <div main-title>App name</div>
+                        <div main-title>{{title}}</div>
                     </app-toolbar>
                 </app-header>
                 <iron-pages selected="{{selected}}">
@@ -42,6 +42,9 @@
                     type: String,
                     notify: true,
                     reflectToAttribute: true
+                },
+                title: {
+                    type: String
                 }
             },
             navigate: function () {
