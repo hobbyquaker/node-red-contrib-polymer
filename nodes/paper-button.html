@@ -1,0 +1,94 @@
+<script type="text/javascript">
+    RED.nodes.registerType('polymer_paper-button', {
+        category: 'polymer',
+        color: '#a6bbcf',
+        defaults: {
+            element: {value: 'polymer_paper-button', required: true},
+            name: {value: ''},
+            html: {value: ''},
+            attributes: {value: ''},
+            parent: {value: ''},
+            width: {value: '100%'},
+            height: {value: ''},
+            topic: {value: ''},
+            payload: {value: '',validate: (RED.validators.hasOwnProperty('typedInput')?RED.validators.typedInput('payloadType'):function(v) { return true})},
+            payloadType: { value: 'str'},
+
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "ui_button.png",
+        paletteLabel: 'button',
+        label: function() { return this.name || 'button'; },
+        oneditprepare: function () {
+            var node = this;
+            var options = {};
+            RED.nodes.eachNode(function (group) {
+                if (group.type === 'polymer_nav_group') {
+                    var optionText = RED.nodes.node(RED.nodes.node(RED.nodes.node(group.id).parent).parent).name + '/' +
+                        RED.nodes.node(RED.nodes.node(group.id).parent).name + '/' +
+                        group.name;
+
+                    options[optionText] = '<option value="' + group.id + '"' +
+                        (group.id === node.parent ? ' selected' : '') + '>' +
+                        optionText + '</option>';
+
+                }
+            });
+            Object.keys(options).sort().forEach(function (option) {
+                jQuery('#node-input-parent').append(options[option]);
+            });
+            $('#node-input-payload').typedInput({
+                default: 'str',
+                typeField: $("#node-input-payloadType"),
+                types:['flow','global','str','num','bool','json','date']
+            });
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="polymer_paper-button">
+    <div class="form-row">
+        <label for="node-input-parent"><i class="fa fa-tag"></i> Parent Group</label>
+        <select id="node-input-parent">
+        </select>
+    </div>
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-width"><i class="fa fa-tag"></i> Width</label>
+        <input type="text" id="node-input-width">
+    </div>
+    <div class="form-row">
+        <label for="node-input-height"><i class="fa fa-tag"></i> Height</label>
+        <input type="text" id="node-input-height">
+    </div>
+    <div class="form-row">
+        <label for="node-input-html"><i class="fa fa-tag"></i> Label</label>
+        <input type="text" id="node-input-html">
+    </div>
+    <div class="form-row">
+        <label for="node-input-attributes"><i class="fa fa-tag"></i> Attributes</label>
+        <input type="text" id="node-input-attributes">
+    </div>
+    <div class="form-row">
+        <label for="node-input-topic"><i class="fa fa-tag"></i> Topic</label>
+        <input type="text" id="node-input-topic">
+    </div>
+    <div class="form-row">
+        <label style="width:auto" for="node-input-payload"><i class="fa fa-envelope-o"></i> When clicked, send:</label>
+    </div>
+    <div class="form-row">
+        <label for="node-input-payload" style="padding-left: 25px; margin-right: -25px">Payload</label>
+        <input type="text" id="node-input-payload" style="width:70%">
+        <input type="hidden" id="node-input-payloadType">
+    </div>
+
+
+</script>
+
+<script type="text/x-red" data-help-name="polymer_paper-button">
+
+</script>

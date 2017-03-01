@@ -1,9 +1,12 @@
 {
   "name": "node-red-polymer",
   "version": "0.0.1",
-  "description": "Polymer based dashboard for node-red",
+  "description": "Polymer based dashboard for Node-RED",
   "keywords": [
-    "node-red"
+    "node-red",
+    "polymer",
+    "dashboard",
+    "ui"
   ],
   "main": "none",
   "scripts": {
@@ -20,7 +23,9 @@
       "polymer_nav_site": "nodes/nav_site.js",
       "polymer_nav_page": "nodes/nav_page.js",
       "polymer_nav_group": "nodes/nav_group.js",
+      "polymer_template": "nodes/polymer_template.js",
       "polymer_paper-slider": "nodes/paper-slider.js",
+      "polymer_paper-button": "nodes/paper-button.js",
       "polymer_paper-toggle-button": "nodes/paper-toggle-button.js",
       "polymer_paper-checkbox": "nodes/paper-checkbox.js"
     }
