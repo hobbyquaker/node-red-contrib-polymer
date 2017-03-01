@@ -1,4 +1,5 @@
 var isInited;
+var isFirstUpdate = true;
 
 var currentSiteName;
 var currentPageName;
@@ -18,7 +19,6 @@ var socket;
 
 window.addEventListener('WebComponentsReady', function (e) {
     console.log('components ready');
-
 
     function hashChange() {
         var hash = location.hash.substr(2);
@@ -43,6 +43,12 @@ window.addEventListener('WebComponentsReady', function (e) {
     });
 
     socket.on('update', function (data) {
+        if (!isFirstUpdate) {
+            location.reload();
+            return;
+        } else {
+            isFirstUpdate = false;
+        }
         console.log(data);
 
         sites = data.sites;
@@ -79,7 +85,6 @@ window.addEventListener('WebComponentsReady', function (e) {
         });
 
 
-
         console.log('sitePaths', sitePaths);
         console.log('pagePaths', pagePaths);
         console.log('tree', tree);
@@ -91,36 +96,9 @@ window.addEventListener('WebComponentsReady', function (e) {
             navigate(path[0], path[1]); // site, page
         }
 
-
-
-
-
-
     });
 
-    function updateElem(msg) {
-        console.log('input', msg);
-        var elem = document.getElementById(msg.id);
-        if (typeof msg.payload === 'boolean') {
-            if (msg.payload) {
-                elem.setAttribute(elements[msg.id].valueAttribute, msg.payload);
-            } else {
-                elem.removeAttribute(elements[msg.id].valueAttribute);
-            }
-        } else if (typeof msg.payload !== 'object') {
-            elem.setAttribute(elements[msg.id].valueAttribute, msg.payload);
-        } else {
-            Object.keys(msg.payload).forEach(function (attr) {
-                var val = msg.payload[attr];
-                if (val !== null) {
-                    elem.setAttribute(attr, val);
-                } else {
-                    elem.removeAttribute(attr);
-                }
-            });
-        }
 
-    }
 
     socket.on('input', updateElem);
 });
@@ -217,9 +195,6 @@ function createGroup(groupId, pageId, siteId) {
 
     groupElem.appendChild(contentElem);
 
-
-
-
     return groupElem;
 }
 
@@ -227,36 +202,103 @@ function createElements(groupElem, groupId, pageId, siteId) {
     tree[siteId][pageId][groupId].forEach(function (elemId) {
         var elem = elements[elemId];
 
-        var customElement = document.createElement(elem.element);
+        var container = document.createElement('div');
+        container.className = 'element';
+        if (elem.width) container.style.width = elem.width;
+        if (elem.height) container.style.height = elem.height;
 
-        customElement.setAttribute('id', elemId);
+        groupElem.querySelector('div.card-content').appendChild(container);
 
-        if (elem.html) {
-            var newContent = document.createTextNode(elem.html);
-            customElement.appendChild(newContent);
+        if (elem.element === 'node-red-template') {
+
+            /*
+            var tplElement = document.createElement('dom-module');
+            tplElement.setAttribute('id', 'node-red-template-' + elemId);
+            var tplTemplate = document.createElement('template');
+            tplTemplate.setAttribute('is', 'dom-bind');
+            tplTemplate.innerHTML = elem.html;
+            tplElement.appendChild(tplTemplate);
+            var tplScript = document.createElement('script');
+            var tplScriptText = document.createTextNode('Polymer({is:"node-red-template-' + elemId + '"})');
+            tplScript.appendChild(tplScriptText);
+            tplElement.appendChild(tplScript);
+            document.body.appendChild(tplElement);
+            elem.element = 'node-red-template-' + elemId;
+            createElement();
+             */
+
+            Polymer.Base.importHref(['elements/custom_template.html?node=' + elemId], function () {
+                elem.element = 'node-red-template-' + elemId;
+                createElement();
+            });
+
+        } else {
+            createElement();
         }
 
-        try {
-            var attrs = JSON.parse(elem.attributes);
-            Object.keys(attrs).forEach(function (attr) {
-                customElement.setAttribute(attr, attrs[attr]);
-            });
-        } catch (e) {}
+
+        function createElement() {
+            var customElement = Polymer.Base.create(elem.element, {'id': elemId}); //document.createElement(elem.element);
+
+            //customElement.setAttribute('id', elemId);
+
+            if (elem.html && elem.element.indexOf('node-red-template-') === -1) {
+                var newContent = document.createTextNode(elem.html);
+                customElement.appendChild(newContent);
+            }
+
+            try {
+                var attrs = JSON.parse(elem.attributes);
+                Object.keys(attrs).forEach(function (attr) {
+                    customElement.setAttribute(attr, attrs[attr]);
+                });
+            } catch (e) {}
 
 
-        var tmp = elem.event.split(':');
-        customElement.addEventListener(tmp[0], function (data) {
-            var msg = {id: elemId, payload: customElement[tmp[1]]};
-            console.log('output', msg);
-            socket.emit('output', msg);
-        });
+            if (elem.event) {
+                var tmp = elem.event.split(':');
+                customElement.addEventListener(tmp[0], function (data) {
+                    var msg = {id: elemId, payload: customElement[tmp[1]]};
+                    console.log('output', msg);
+                    socket.emit('output', msg);
+                });
+            }
 
 
-        groupElem.querySelector('div.card-content').appendChild(customElement);
-        if (elem.lastMsg) updateElem(elem.lastMsg);
+
+            container.appendChild(customElement);
+            if (elem.lastMsg) updateElem(elem.lastMsg);
+
+        }
+
+
 
     });
 
 
+
+}
+
+function updateElem(msg) {
+    console.log('input', msg);
+    var elem = document.getElementById(msg.id);
+    if (typeof msg.payload === 'boolean') {
+        if (msg.payload) {
+            elem.setAttribute(elements[msg.id].valueAttribute, msg.payload);
+        } else {
+            elem.removeAttribute(elements[msg.id].valueAttribute);
+        }
+    } else if (typeof msg.payload !== 'object') {
+        elem.setAttribute(elements[msg.id].valueAttribute, msg.payload);
+    } else {
+        Object.keys(msg.payload).forEach(function (attr) {
+            var val = msg.payload[attr];
+            if (val !== null) {
+                elem.setAttribute(attr, val);
+            } else {
+                elem.removeAttribute(attr);
+            }
+        });
+    }
 
 }

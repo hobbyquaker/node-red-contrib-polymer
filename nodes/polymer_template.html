@@ -1,0 +1,111 @@
+<script type="text/javascript">
+    // TODO array property definitions (for dom-repeat)
+    RED.nodes.registerType('polymer_template', {
+        category: 'polymer',
+        color: '#a6bbcf',
+        defaults: {
+            element: {value: 'polymer_template', required: true},
+            name: {value: ''},
+            html: {value: ''},
+            attributes: {value: ''},
+            parent: {value: ''},
+            width: {value: '100%'},
+            height: {value: ''},
+        },
+        inputs: 1,
+        outputs: 0,
+        icon: "ui_text.png",
+        paletteLabel: 'template',
+        label: function() { return this.name || 'template'; },
+        oneditprepare: function () {
+            var node = this;
+            var options = {};
+            RED.nodes.eachNode(function (group) {
+                if (group.type === 'polymer_nav_group') {
+                    var optionText = RED.nodes.node(RED.nodes.node(RED.nodes.node(group.id).parent).parent).name + '/' +
+                        RED.nodes.node(RED.nodes.node(group.id).parent).name + '/' +
+                        group.name;
+
+                    options[optionText] = '<option value="' + group.id + '"' +
+                        (group.id === node.parent ? ' selected' : '') + '>' +
+                        optionText + '</option>';
+
+                }
+            });
+            Object.keys(options).sort().forEach(function (option) {
+                jQuery('#node-input-parent').append(options[option]);
+            });
+
+
+            this.editor = RED.editor.createEditor({
+                id: 'node-input-html-editor',
+                mode: 'ace/mode/html',
+                value: jQuery("#node-input-html").val()
+            });
+
+            this.editor.focus();
+
+
+        },
+        oneditsave: function() {
+            var annot = this.editor.getSession().getAnnotations();
+            this.noerr = 0;
+            $("#node-input-noerr").val(0);
+            for (var k=0; k < annot.length; k++) {
+                if (annot[k].type === "error") {
+                    $("#node-input-noerr").val(annot.length);
+                    this.noerr = annot.length;
+                }
+            }
+            $("#node-input-html").val(this.editor.getValue());
+            delete this.editor;
+        },
+        oneditresize: function(size) {
+            var rows = $("#dialog-form>div:not(.node-text-editor-row)");
+            var height = $("#dialog-form").height();
+            for (var i=0;i<rows.size();i++) {
+                height -= $(rows[i]).outerHeight(true);
+            }
+            var editorRow = $("#dialog-form>div.node-text-editor-row");
+            height -= (parseInt(editorRow.css("marginTop"))+parseInt(editorRow.css("marginBottom")));
+            $(".node-text-editor").css("height",height+"px");
+            this.editor.resize();
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="polymer_template">
+    <div class="form-row">
+        <label for="node-input-parent"><i class="fa fa-tag"></i> Parent Group</label>
+        <select id="node-input-parent">
+        </select>
+    </div>
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-width"><i class="fa fa-tag"></i> Width</label>
+        <input type="text" id="node-input-width">
+    </div>
+    <div class="form-row">
+        <label for="node-input-height"><i class="fa fa-tag"></i> Height</label>
+        <input type="text" id="node-input-height">
+    </div>
+    <div class="form-row">
+        <label for="node-input-attributes"><i class="fa fa-tag"></i> Attributes</label>
+        <input type="text" id="node-input-attributes">
+    </div>
+    <div class="form-row">
+        <label for="node-input-html"><i class="fa fa-copy"></i> HTML</label>
+        <input type="hidden" id="node-input-html">
+    </div>
+    <div class="form-row node-text-editor-row">
+        <div style="height:250px;" class="node-text-editor" id="node-input-html-editor" ></div>
+    </div>
+
+</script>
+
+<script type="text/x-red" data-help-name="polymer_template">
+
+</script>
