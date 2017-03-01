@@ -62,7 +62,7 @@ function add(opt) {
 
 	return function () {
 		delete nodes[opt.node.id];
-		console.log('remove?');
+		//console.log('remove?');
 	};
 }
 
@@ -167,7 +167,7 @@ function addElement(control) {
 
 	
 	return function() {
-		console.log('???')
+		//console.log('???')
 		update();
 	}
 }

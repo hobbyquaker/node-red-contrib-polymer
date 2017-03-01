@@ -18,11 +18,11 @@ var socket;
 
 
 window.addEventListener('WebComponentsReady', function (e) {
-    console.log('components ready');
+    //console.log('components ready');
 
     function hashChange() {
         var hash = location.hash.substr(2);
-        console.log('hashChange', hash);
+        //console.log('hashChange', hash);
         var path = hash.split('/');
         navigate(path[0], path[1]); // site, page
     }
@@ -32,10 +32,10 @@ window.addEventListener('WebComponentsReady', function (e) {
 
     socket = io({path: location.pathname + 'socket.io'});
     socket.on('connect', function () {
-        console.log('connect');
+        //console.log('connect');
     });
     socket.on('event', function (data) {
-        console.log('event', data);
+        //console.log('event', data);
         socket.emit('ui-replay-state');
     });
     socket.on('disconnect', function () {
@@ -49,7 +49,7 @@ window.addEventListener('WebComponentsReady', function (e) {
         } else {
             isFirstUpdate = false;
         }
-        console.log(data);
+        //console.log(data);
 
         sites = data.sites;
         pages = data.pages;
@@ -85,13 +85,13 @@ window.addEventListener('WebComponentsReady', function (e) {
         });
 
 
-        console.log('sitePaths', sitePaths);
-        console.log('pagePaths', pagePaths);
-        console.log('tree', tree);
+        //console.log('sitePaths', sitePaths);
+        //console.log('pagePaths', pagePaths);
+        //console.log('tree', tree);
 
         if (!isInited) {
             var hash = location.hash.substr(2);
-            console.log('hash', hash);
+            //console.log('hash', hash);
             var path = hash.split('/');
             navigate(path[0], path[1]); // site, page
         }
@@ -106,7 +106,7 @@ window.addEventListener('WebComponentsReady', function (e) {
 
 
 function navigate(siteName, pageName) {
-    console.log('navigate?', siteName, pageName, isInited);
+    //console.log('navigate?', siteName, pageName, isInited);
 
     if (!sitePaths[siteName]) {
         siteName = Object.keys(sitePaths)[0];
@@ -127,7 +127,7 @@ function navigate(siteName, pageName) {
         return;
     } else if (isInited && currentSiteName !== siteName) {
         // Site Change
-        console.log('site change');
+        //console.log('site change');
         location.reload();
         //initSite(siteName, pageName);
     } else if (isInited && currentPageName !== pageName) {
@@ -144,7 +144,7 @@ function initSite(siteName, pageName) {
     isInited = true;
     currentSiteName = siteName;
     currentPageName = pageName;
-    console.log('initSite', siteName, pageName);
+    //console.log('initSite', siteName, pageName);
 
     var siteId = sitePaths[siteName];
 
@@ -174,14 +174,14 @@ function initSite(siteName, pageName) {
 
 function pageChange(pageName) {
     currentPageName = pageName;
-    console.log('pageChange', pageName);
+    //console.log('pageChange', pageName);
     document.querySelector('node-red-polymer').select();
 }
 
 
 function createPage(pageId, siteId) {
     var page = pages[pageId];
-    console.log('createPage', page);
+    //console.log('createPage', page);
     var pageElem = document.createElement('div');
 
     if (!page.groupOrder) page.groupOrder = [];
@@ -206,7 +206,7 @@ function createPage(pageId, siteId) {
 }
 
 function createGroup(groupId, pageId, siteId) {
-    console.log('createGroup', groupId);
+    //console.log('createGroup', groupId);
     var group = groups[groupId];
     var groupElem = document.createElement('paper-card');
     if (group.title) groupElem.setAttribute('heading', group.title);
@@ -303,7 +303,7 @@ function createElements(groupElem, groupId, pageId, siteId) {
                 if (typeof tmp[1] !== 'undefined') {
                     payload = customElement[tmp[1]];
                 } else {
-                    console.log(elem);
+                    //console.log(elem);
                     switch (elem.payloadType) {
                         case 'bool':
                             payload = elem.payload === 'true';
@@ -320,13 +320,13 @@ function createElements(groupElem, groupId, pageId, siteId) {
 
                 }
                 var msg = {id: elemId, payload: payload};
-                console.log('output', msg);
+                //console.log('output', msg);
                 socket.emit('output', msg);
             });
         }
 
         container.appendChild(customElement);
-        console.log('created', elem.id);
+        //console.log('created', elem.id);
         if (elem.lastMsg) {
             setTimeout(function () {
                 updateElem(elem.lastMsg);
@@ -338,7 +338,7 @@ function createElements(groupElem, groupId, pageId, siteId) {
 }
 
 function updateElem(msg) {
-    console.log('input', msg);
+    //console.log('input', msg);
     var elem = document.getElementById(msg.id);
     if (!elem) return;
     if (typeof msg.payload === 'boolean') {
