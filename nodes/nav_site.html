@@ -28,6 +28,7 @@
                 if (page.type === 'polymer_nav_page' && page.parent === site.id) pages[page.id] = page;
             });
 
+            if (!site.pageOrder) site.pageOrder = [];
             site.pageOrder.forEach(function (pageId) {
                 if (pages[pageId]) $pagelist.editableList('addItem', pages[pageId]);
             });
