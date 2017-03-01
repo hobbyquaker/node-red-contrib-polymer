@@ -18,10 +18,10 @@ var elements = {};
 
 var io;
 
-module.exports = function(RED) {
+module.exports = function (RED) {
 	if (!inited) {
 		inited = true;
-		init(RED.server, RED.httpNode || RED.httpAdmin, RED.log, RED.settings);
+		init(RED);
 	}
 	return { 
 		add: add,
@@ -73,8 +73,13 @@ function join() {
 	return '/'+paths.map(function(e){return e.replace(trimRegex,"");}).filter(function(e){return e;}).join('/');
 }
 
-function init(server, app, log, redSettings) {
-	var uiSettings = redSettings.ui || {};
+function init(RED) {
+	var server = RED.server;
+	var app = RED.httpNode || RED.httpAdmin;
+	var log = RED.log;
+	var redSettings = RED.settings;
+
+    var uiSettings = redSettings.ui || {};
 	settings.path = uiSettings.path || 'polymer';
 	settings.title = uiSettings.title || 'Node-RED Polymer';
 	settings.defaultGroupHeader = uiSettings.defaultGroup || 'Default';
@@ -83,6 +88,24 @@ function init(server, app, log, redSettings) {
 	var socketIoPath = join(fullPath, 'socket.io');
 	io = socketio(server, {path: socketIoPath});
 
+
+	app.get(join(settings.path) + '/elements/custom_template.html', function (req, res) {
+        var tplConfig = elements[req.query.node];
+
+		var template = '<dom-module id="node-red-template-' + tplConfig.id + '">\n' +
+			'<template><div>\n' +
+				tplConfig.html + '\n' +
+			'</div></template>\n' +
+			'<script>\n' +
+			'Polymer({\n' +
+			'is: "node-red-template-' + tplConfig.id + '"\n' +
+			'})\n' +
+			'</script>\n' +
+			'</dom-module>\n';
+
+		res.send(template);
+	});
+
 	fs.stat(path.join(__dirname, 'dist/index.html'), function(err, stat) { 
 		if (!err) { 
 			app.use(join(settings.path), serveStatic(path.join(__dirname, "dist"))); 
@@ -90,7 +113,9 @@ function init(server, app, log, redSettings) {
 			log.info("Using development folder");
 			app.use(join(settings.path), serveStatic(path.join(__dirname, "src")));
 		}
-	}); 
+	});
+
+
 
 	log.info("Polymer started at " + fullPath);
 
@@ -100,7 +125,7 @@ function init(server, app, log, redSettings) {
 		update();
 
         socket.on('output', function (msg) {
-            console.log('output', msg);
+            //console.log('output', msg);
             var id = msg.id;
             delete msg.id;
 			if (nodes[id]) nodes[id].send(msg);
@@ -126,7 +151,7 @@ function addElement(control) {
 
     if (lastMsg[control.id]) control.lastMsg = lastMsg[control.id];
 
-	console.log('*** addElement', control);
+	//console.log('*** addElement', control);
 
     if (control.type === 'polymer_nav_site') {
         sites[control.id] = control;
