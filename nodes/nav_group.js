@@ -12,7 +12,8 @@ module.exports = function(RED) {
                 type:           'polymer_nav_group',
                 parent:         config.parent,
                 name:           config.name,
-                title:          config.title
+                title:          config.title,
+                elementOrder:   config.elementOrder
             }
         });
 

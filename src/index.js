@@ -219,103 +219,121 @@ function createGroup(groupId, pageId, siteId) {
 }
 
 function createElements(groupElem, groupId, pageId, siteId) {
+
+    var container = groupElem.querySelector('div.card-content');
+
+    var elemOrder = groups[groupId].elementOrder;
+
+    var cmdQueue = [];
+    if (!elemOrder) elemOrder = [];
+    elemOrder.forEach(function (elemId) {
+        if (tree[siteId][pageId][groupId].indexOf(elemId) !== -1) {
+            cmdQueue.push(function (callback) {
+                createElemWrap(elements[elemId], container, callback);
+            });
+        }
+    });
+
     tree[siteId][pageId][groupId].forEach(function (elemId) {
-        var elem = elements[elemId];
+        if (elemOrder.indexOf(elemId) === -1) {
+            cmdQueue.push(function (callback) {
+                createElemWrap(elements[elemId], container, callback);
+            });
+        }
+    });
 
-        var container = document.createElement('div');
-        container.className = 'element';
-        if (elem.width) container.style.width = elem.width;
-        if (elem.height) container.style.height = elem.height;
+    async.series(cmdQueue);
 
-        groupElem.querySelector('div.card-content').appendChild(container);
-
+    function createElemWrap(elem, container, cb) {
         if (elem.element === 'node-red-template') {
 
-            /*
-            var tplElement = document.createElement('dom-module');
-            tplElement.setAttribute('id', 'node-red-template-' + elemId);
-            var tplTemplate = document.createElement('template');
-            tplTemplate.setAttribute('is', 'dom-bind');
-            tplTemplate.innerHTML = elem.html;
-            tplElement.appendChild(tplTemplate);
-            var tplScript = document.createElement('script');
-            var tplScriptText = document.createTextNode('Polymer({is:"node-red-template-' + elemId + '"})');
-            tplScript.appendChild(tplScriptText);
-            tplElement.appendChild(tplScript);
-            document.body.appendChild(tplElement);
-            elem.element = 'node-red-template-' + elemId;
-            createElement();
+            /* todo try again to get this working and remove this workaround!
+             var tplElement = document.createElement('dom-module');
+             tplElement.setAttribute('id', 'node-red-template-' + elemId);
+             var tplTemplate = document.createElement('template');
+             tplTemplate.setAttribute('is', 'dom-bind');
+             tplTemplate.innerHTML = elem.html;
+             tplElement.appendChild(tplTemplate);
+             var tplScript = document.createElement('script');
+             var tplScriptText = document.createTextNode('Polymer({is:"node-red-template-' + elemId + '"})');
+             tplScript.appendChild(tplScriptText);
+             tplElement.appendChild(tplScript);
+             document.body.appendChild(tplElement);
+             elem.element = 'node-red-template-' + elemId;
+             createElement();
              */
 
-            Polymer.Base.importHref(['elements/custom_template.html?node=' + elemId], function () {
-                elem.element = 'node-red-template-' + elemId;
-                createElement();
+            Polymer.Base.importHref(['elements/custom_template.html?node=' + elem.id], function () {
+                elem.element = 'node-red-template-' + elem.id;
+                createElement(elem, container);
+                if (typeof cb === 'function') cb();
 
             });
 
         } else {
-            createElement();
+            createElement(elem, container);
+            if (typeof cb === 'function') cb();
         }
 
+    }
 
-        function createElement() {
-            var customElement = document.createElement(elem.element);
+    function createElement(elem, container) {
+        var elemId = elem.id;
+        var customElement = document.createElement(elem.element);
 
-            customElement.setAttribute('id', elemId);
+        customElement.setAttribute('id', elemId);
 
-            if (elem.html && elem.element.indexOf('node-red-template-') === -1) {
-                var newContent = document.createTextNode(elem.html);
-                customElement.appendChild(newContent);
-            }
+        if (elem.html && elem.element.indexOf('node-red-template-') === -1) {
+            var newContent = document.createTextNode(elem.html);
+            customElement.appendChild(newContent);
+        }
 
-            try {
-                var attrs = JSON.parse(elem.attributes);
-                Object.keys(attrs).forEach(function (attr) {
-                    customElement.setAttribute(attr, attrs[attr]);
-                });
-            } catch (e) {}
+        try {
+            var attrs = JSON.parse(elem.attributes);
+            Object.keys(attrs).forEach(function (attr) {
+                customElement.setAttribute(attr, attrs[attr]);
+            });
+        } catch (e) {}
 
 
-            if (elem.event) {
-                var tmp = elem.event.split(':');
-                customElement.addEventListener(tmp[0], function (data) {
-                    var payload;
-                    if (typeof tmp[1] !== 'undefined') {
-                        payload = customElement[tmp[1]];
-                    } else {
-                        console.log(elem);
-                        switch (elem.payloadType) {
-                            case 'bool':
-                                payload = elem.payload === 'true';
-                                break;
-                            case 'num':
-                                payload = parseFloat(elem.payload);
-                                break;
-                            case 'json':
-                                payload = JSON.parse(elem.payload);
-                                break;
-                            default:
-                                payload = elem.payload;
-                        }
-
+        if (elem.event) {
+            var tmp = elem.event.split(':');
+            customElement.addEventListener(tmp[0], function (data) {
+                var payload;
+                if (typeof tmp[1] !== 'undefined') {
+                    payload = customElement[tmp[1]];
+                } else {
+                    console.log(elem);
+                    switch (elem.payloadType) {
+                        case 'bool':
+                            payload = elem.payload === 'true';
+                            break;
+                        case 'num':
+                            payload = parseFloat(elem.payload);
+                            break;
+                        case 'json':
+                            payload = JSON.parse(elem.payload);
+                            break;
+                        default:
+                            payload = elem.payload;
                     }
-                    var msg = {id: elemId, payload: payload};
-                    console.log('output', msg);
-                    socket.emit('output', msg);
-                });
-            }
 
-            container.appendChild(customElement);
-            console.log('created', elem.id);
-            if (elem.lastMsg) {
-                setTimeout(function () {
-                    updateElem(elem.lastMsg);
-                }, 0);
-            }
-
+                }
+                var msg = {id: elemId, payload: payload};
+                console.log('output', msg);
+                socket.emit('output', msg);
+            });
         }
 
-    });
+        container.appendChild(customElement);
+        console.log('created', elem.id);
+        if (elem.lastMsg) {
+            setTimeout(function () {
+                updateElem(elem.lastMsg);
+            }, 0);
+        }
+
+    }
 
 }
 

@@ -28,6 +28,7 @@
     "iron-menu-behavior": "PolymerElements/iron-menu-behavior#^1.2.0",
     "paper-menu": "PolymerElements/paper-menu#^1.2.2",
     "paper-item": "PolymerElements/paper-item#^1.2.1",
-    "paper-card": "PolymerElements/paper-card#^1.1.4"
+    "paper-card": "PolymerElements/paper-card#^1.1.4",
+    "async": "^2.1.5"
   }
 }
