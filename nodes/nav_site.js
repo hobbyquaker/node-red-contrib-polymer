@@ -11,7 +11,8 @@ module.exports = function(RED) {
             control: {
                 type:           'polymer_nav_site',
                 name:           config.name,
-                title:          config.title
+                title:          config.title,
+                pageOrder:      config.pageOrder
             }
         });
 

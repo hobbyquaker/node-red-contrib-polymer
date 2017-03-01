@@ -5,12 +5,47 @@
         defaults: {
             name: {value: ''},
             title: {value: ''},
+            pageOrder: {value: []}
         },
         inputs: 1,
         outputs: 1,
         //icon: "ui_switch.png",
         paletteLabel: 'site',
-        label: function() { return this.name || 'site'; }
+        label: function() { return this.name || 'site'; },
+        oneditprepare: function () {
+            var site = this;
+            var $pagelist = jQuery("#node-input-sort-container");
+            $pagelist.css('min-height','250px').css('min-width','450px').editableList({
+                sortable: true,
+                addButton: false,
+                addItem: function(row, index, data) {
+                    $(row).html(data.name);
+                }
+            });
+            var pages = {};
+
+            RED.nodes.eachNode(function (page) {
+                if (page.type === 'polymer_nav_page' && page.parent === site.id) pages[page.id] = page;
+            });
+
+            site.pageOrder.forEach(function (pageId) {
+                if (pages[pageId]) $pagelist.editableList('addItem', pages[pageId]);
+            });
+
+            Object.keys(pages).forEach(function (pageId) {
+                if (site.pageOrder.indexOf(pageId) === -1) $pagelist.editableList('addItem', pages[pageId]);
+            });
+
+        },
+        oneditsave: function () {
+            var $pagelist = jQuery("#node-input-sort-container");
+            var pages = $pagelist.editableList('items');
+            var pageOrder = [];
+            pages.each(function () {
+                pageOrder.push($(this).data('data').id);
+            });
+            this.pageOrder = pageOrder;
+        }
     });
 </script>
 
@@ -23,7 +58,9 @@
         <label for="node-input-title"><i class="fa fa-tag"></i> Title</label>
         <input type="text" id="node-input-title">
     </div>
-
+    <div class="form-row node-input-sort-container-row">
+        <ol id="node-input-sort-container"></ol>
+    </div>
 </script>
 
 <script type="text/x-red" data-help-name="polymer_nav_site">

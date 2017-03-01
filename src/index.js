@@ -110,12 +110,14 @@ function navigate(siteName, pageName) {
 
     if (!sitePaths[siteName]) {
         siteName = Object.keys(sitePaths)[0];
-        pageName = pages[Object.keys(tree[sitePaths[siteName]])[0]].name;
+        var pageId = sites[sitePaths[siteName]].pageOrder[0] || Object.keys(tree[sitePaths[siteName]])[0];
+        pageName = pages[pageId].name;
         window.location.hash = '#/' + siteName + '/' + pageName;
         return;
     }
     if (!pagePaths[siteName + '/' + pageName]) {
-        pageName = pages[Object.keys(tree[sitePaths[siteName]])[0]].name;
+        var pageId = sites[sitePaths[siteName]].pageOrder[0] || Object.keys(tree[sitePaths[siteName]])[0];
+        pageName = pages[pageId].name;
         window.location.hash = '#/' + siteName + '/' + pageName;
         return;
     }
@@ -152,10 +154,19 @@ function initSite(siteName, pageName) {
 
     var menu = [];
     var content = '';
+
+    sites[siteId].pageOrder.forEach(function (pageId) {
+        if (tree[siteId][pageId]) {
+            Polymer.dom(container).appendChild(createPage(pageId, siteId));
+            menu.push({title: pages[pageId].title, path: siteName + '/' + pages[pageId].name});
+        }
+    });
+
     Object.keys(tree[siteId]).forEach(function (pageId) {
-        console.log(pageId, pages[pageId]);
-        Polymer.dom(container).appendChild(createPage(pageId, siteId));
-        menu.push({title: pages[pageId].title, path: siteName + '/' + pages[pageId].name});
+        if (sites[siteId].pageOrder.indexOf(pageId) === -1) {
+            Polymer.dom(container).appendChild(createPage(pageId, siteId));
+            menu.push({title: pages[pageId].title, path: siteName + '/' + pages[pageId].name});
+        }
     });
     container.menu = menu;
 }
