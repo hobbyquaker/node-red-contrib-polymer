@@ -181,15 +181,24 @@ function pageChange(pageName) {
 
 function createPage(pageId, siteId) {
     var page = pages[pageId];
-    console.log('createPage', page.name);
+    console.log('createPage', page);
     var pageElem = document.createElement('div');
 
+    if (!page.groupOrder) page.groupOrder = [];
+    page.groupOrder.forEach(function (groupId) {
+        if (tree[siteId][pageId][groupId]) {
+            var groupElem = createGroup(groupId, pageId, siteId);
+            createElements(groupElem, groupId, pageId, siteId);
+            pageElem.appendChild(groupElem);
+        }
+    });
+
     Object.keys(tree[siteId][pageId]).forEach(function (groupId) {
-        var groupElem = createGroup(groupId, pageId, siteId);
-        createElements(groupElem, groupId, pageId, siteId);
-
-        pageElem.appendChild(groupElem);
-
+        if (page.groupOrder.indexOf(groupId) === -1) {
+            var groupElem = createGroup(groupId, pageId, siteId);
+            createElements(groupElem, groupId, pageId, siteId);
+            pageElem.appendChild(groupElem);
+        }
     });
 
     pageElem.className = 'page';

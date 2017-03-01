@@ -5,7 +5,8 @@
         defaults: {
             name: {value: ''},
             title: {value: ''},
-            parent: {value: ''}
+            parent: {value: ''},
+            groupOrder: {value: []}
         },
         inputs: 1,
         outputs: 1,
@@ -13,18 +14,49 @@
         paletteLabel: 'page',
         label: function() { return this.name || 'page'; },
         oneditprepare: function () {
-            var node = this;
+            var page = this;
             var options = {};
-            RED.nodes.eachNode(function (site) {
-                if (site.type === 'polymer_nav_site') {
-                    options[site.name] = '<option value="' + site.id + '"' +
-                        (site.id === node.parent ? ' selected' : '') +
-                        '>' + site.name + '</option>';
+            var $grouplist = jQuery("#node-input-sort-container");
+            $grouplist.css('min-height', '250px').css('min-width', '450px').editableList({
+                sortable: true,
+                addButton: false,
+                addItem: function(row, index, data) {
+                    $(row).html(data.name);
                 }
             });
+            var groups = {};
+            RED.nodes.eachNode(function (n) {
+                if (n.type === 'polymer_nav_site') {
+                    options[n.name] = '<option value="' + n.id + '"' +
+                        (n.id === page.parent ? ' selected' : '') +
+                        '>' + n.name + '</option>';
+                } else if (n.type === 'polymer_nav_group' && n.parent === page.id) {
+                    groups[n.id] = n;
+                    //$grouplist.editableList('addItem', n);
+                }
+            });
+
+            if (!page.groupOrder) page.groupOrder = [];
+            page.groupOrder.forEach(function (groupId) {
+                if (groups[groupId]) $grouplist.editableList('addItem', groups[groupId]);
+            });
+
+            Object.keys(groups).forEach(function (groupId) {
+                if (page.groupOrder.indexOf(groupId) === -1) $grouplist.editableList('addItem', groups[groupId]);
+            });
+            
             Object.keys(options).sort().forEach(function (option) {
                 jQuery('#node-input-parent').append(options[option]);
             });
+        },
+        oneditsave: function () {
+            var $grouplist = jQuery("#node-input-sort-container");
+            var groups = $grouplist.editableList('items');
+            var groupOrder = [];
+            groups.each(function () {
+                groupOrder.push($(this).data('data').id);
+            });
+            this.groupOrder = groupOrder;
         }
     });
 </script>
@@ -43,7 +75,9 @@
         <label for="node-input-title"><i class="fa fa-tag"></i> Title</label>
         <input type="text" id="node-input-title">
     </div>
-
+    <div class="form-row node-input-sort-container-row">
+        <ol id="node-input-sort-container"></ol>
+    </div>
 </script>
 
 <script type="text/x-red" data-help-name="polymer_nav_page">
