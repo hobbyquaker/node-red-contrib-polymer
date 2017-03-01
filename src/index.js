@@ -230,6 +230,7 @@ function createElements(groupElem, groupId, pageId, siteId) {
             Polymer.Base.importHref(['elements/custom_template.html?node=' + elemId], function () {
                 elem.element = 'node-red-template-' + elemId;
                 createElement();
+
             });
 
         } else {
@@ -238,9 +239,9 @@ function createElements(groupElem, groupId, pageId, siteId) {
 
 
         function createElement() {
-            var customElement = Polymer.Base.create(elem.element, {'id': elemId}); //document.createElement(elem.element);
+            var customElement = document.createElement(elem.element);
 
-            //customElement.setAttribute('id', elemId);
+            customElement.setAttribute('id', elemId);
 
             if (elem.html && elem.element.indexOf('node-red-template-') === -1) {
                 var newContent = document.createTextNode(elem.html);
@@ -258,30 +259,50 @@ function createElements(groupElem, groupId, pageId, siteId) {
             if (elem.event) {
                 var tmp = elem.event.split(':');
                 customElement.addEventListener(tmp[0], function (data) {
-                    var msg = {id: elemId, payload: customElement[tmp[1]]};
+                    var payload;
+                    if (typeof tmp[1] !== 'undefined') {
+                        payload = customElement[tmp[1]];
+                    } else {
+                        console.log(elem);
+                        switch (elem.payloadType) {
+                            case 'bool':
+                                payload = elem.payload === 'true';
+                                break;
+                            case 'num':
+                                payload = parseFloat(elem.payload);
+                                break;
+                            case 'json':
+                                payload = JSON.parse(elem.payload);
+                                break;
+                            default:
+                                payload = elem.payload;
+                        }
+
+                    }
+                    var msg = {id: elemId, payload: payload};
                     console.log('output', msg);
                     socket.emit('output', msg);
                 });
             }
 
-
-
             container.appendChild(customElement);
-            if (elem.lastMsg) updateElem(elem.lastMsg);
+            console.log('created', elem.id);
+            if (elem.lastMsg) {
+                setTimeout(function () {
+                    updateElem(elem.lastMsg);
+                }, 0);
+            }
 
         }
 
-
-
     });
-
-
 
 }
 
 function updateElem(msg) {
     console.log('input', msg);
     var elem = document.getElementById(msg.id);
+    if (!elem) return;
     if (typeof msg.payload === 'boolean') {
         if (msg.payload) {
             elem.setAttribute(elements[msg.id].valueAttribute, msg.payload);

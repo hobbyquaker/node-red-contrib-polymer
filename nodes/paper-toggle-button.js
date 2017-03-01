@@ -15,7 +15,9 @@ module.exports = function(RED) {
                 html:           config.html,
                 attributes:     config.attributes,
                 valueAttribute: 'checked',
-                event:          'change:checked'
+                event:          'change:checked',
+                width:          config.width,
+                height:         config.height
             }
         });
 

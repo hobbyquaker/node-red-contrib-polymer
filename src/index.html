@@ -10,12 +10,23 @@
         background-color: #f1f1f1;
     }
 
-    app-header {
-        background-color: #00897B;
-        color: #fff;
+    paper-card {
+        width: calc(100% - 6px);
+        padding: 3px;
+        margin: 3px;
     }
-    app-header paper-icon-button {
-        --paper-icon-button-ink-color: white;
+
+    paper-slider {
+        width: 100% !important;
+    }
+
+    paper-button {
+        width: 100% !important;
+    }
+
+    div.element {
+        display: inline-block;
+        width: 100%;
     }
 </style>
 
@@ -49,21 +60,11 @@
 
 
 <style>
-        paper-card {
-            width: calc(100% - 6px);
-            padding: 3px;
-            margin: 3px;
-        }
 
-        paper-slider {
-            width: 100% !important;
-        }
 
 
 </style>
 
 <node-red-polymer></node-red-polymer>
 
-
 <script src="index.js"></script>
-

@@ -15,7 +15,9 @@ module.exports = function(RED) {
                 html:           config.html,
                 attributes:     config.attributes,
                 valueAttribute: 'value',
-                event:          config.immediate ? 'immediate-value-change:immediateValue' : 'change:value'
+                event:          config.immediate ? 'immediate-value-change:immediateValue' : 'change:value',
+                width:          config.width,
+                height:         config.height
             }
         });
 
