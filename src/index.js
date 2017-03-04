@@ -306,9 +306,15 @@ function createElements(groupElem, groupId, pageId, siteId) {
         if (elem.attrs && elem.attrs.forEach) {
             elem.attrs.forEach(function (attr) {
                 var value = elem[attr];
-                if (typeof value === 'undefined') return;
-                if (typeof value === 'object') value = JSON.stringify(value);
-                customElement.setAttribute(attr, value);
+                if (value === null || (typeof value === 'undefined')) {
+                    customElement.removeAttribute(attr);
+                } else if (typeof value === 'object') {
+                    value = JSON.stringify(value);
+                    customElement.setAttribute(attr, value);
+                } else {
+                    customElement.setAttribute(attr, value);
+                }
+
             });
         }
 
@@ -362,11 +368,11 @@ function updateElem(msg) {
     console.log('input', msg);
     var elem = document.getElementById(elementId(msg.id));
     if (!elem) return;
-    if (msg.payload === null || typeof msg.payload === undefined) {
+    if (msg.payload === null || (typeof msg.payload === 'undefined')) {
         elem.removeAttribute(elements[msg.id].valueAttribute);
     } else if (typeof msg.payload !== 'object') {
         console.log('>', elements[msg.id].valueAttribute, msg.payload);
-        elem.setAttribute(elements[msg.id].valueAttribute, '' + msg.payload);
+        elem.setAttribute(elements[msg.id].valueAttribute, msg.payload);
     } else {
         Object.keys(msg.payload).forEach(function (attr) {
             var val = msg.payload[attr];
