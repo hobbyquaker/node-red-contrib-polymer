@@ -281,20 +281,36 @@ function createElements(groupElem, groupId, pageId, siteId) {
         var elemId = elem.id;
         var customElement = document.createElement(elem.element);
 
-        customElement.setAttribute('id', elemId);
+        customElement.setAttribute('id', elementId(elemId));
 
         if (elem.html && elem.element.indexOf('node-red-template-') === -1) {
             var newContent = document.createTextNode(elem.html);
             customElement.appendChild(newContent);
         }
 
+/*
+        if (elem.element === 'node-red-paper-dropdown') {
+            console.log('!!!', elem.options);
+            customElement.setAttribute('options', JSON.stringify(elem.options));
+        }
+
         try {
-            var attrs = JSON.parse(elem.attributes);
+            var attrs = elem.attributes; //JSON.parse(elem.attributes);
             Object.keys(attrs).forEach(function (attr) {
+                console.log(attr, attrs[attr]);
                 customElement.setAttribute(attr, attrs[attr]);
             });
         } catch (e) {}
+ */
 
+        if (elem.attrs && elem.attrs.forEach) {
+            elem.attrs.forEach(function (attr) {
+                var value = elem[attr];
+                if (typeof value === 'undefined') return;
+                if (typeof value === 'object') value = JSON.stringify(value);
+                customElement.setAttribute(attr, value);
+            });
+        }
 
         if (elem.event) {
             var tmp = elem.event.split(':');
@@ -302,17 +318,17 @@ function createElements(groupElem, groupId, pageId, siteId) {
                 var payload;
                 if (typeof tmp[1] !== 'undefined') {
                     payload = customElement[tmp[1]];
+                    if (typeof payload === 'undefined') return;
                 } else {
-                    //console.log(elem);
                     switch (elem.payloadType) {
                         case 'bool':
-                            payload = elem.payload === 'true';
+                            if (typeof elem.payload !== 'boolean') payload = elem.payload === 'true';
                             break;
                         case 'num':
-                            payload = parseFloat(elem.payload);
+                            if (typeof elem.payload === 'string') payload = parseFloat(elem.payload);
                             break;
                         case 'json':
-                            payload = JSON.parse(elem.payload);
+                            if (typeof elem.payload === 'string') payload = JSON.parse(elem.payload);
                             break;
                         default:
                             payload = elem.payload;
@@ -320,7 +336,8 @@ function createElements(groupElem, groupId, pageId, siteId) {
 
                 }
                 var msg = {id: elemId, payload: payload};
-                //console.log('output', msg);
+                if (elem.topic) msg.topic = elem.topic;
+                console.log('output', msg);
                 socket.emit('output', msg);
             });
         }
@@ -337,18 +354,19 @@ function createElements(groupElem, groupId, pageId, siteId) {
 
 }
 
+function elementId(id) {
+    return 'node-' + id.replace('.', '_');
+}
+
 function updateElem(msg) {
-    //console.log('input', msg);
-    var elem = document.getElementById(msg.id);
+    console.log('input', msg);
+    var elem = document.getElementById(elementId(msg.id));
     if (!elem) return;
-    if (typeof msg.payload === 'boolean') {
-        if (msg.payload) {
-            elem.setAttribute(elements[msg.id].valueAttribute, msg.payload);
-        } else {
-            elem.removeAttribute(elements[msg.id].valueAttribute);
-        }
+    if (msg.payload === null || typeof msg.payload === undefined) {
+        elem.removeAttribute(elements[msg.id].valueAttribute);
     } else if (typeof msg.payload !== 'object') {
-        elem.setAttribute(elements[msg.id].valueAttribute, msg.payload);
+        console.log('>', elements[msg.id].valueAttribute, msg.payload);
+        elem.setAttribute(elements[msg.id].valueAttribute, '' + msg.payload);
     } else {
         Object.keys(msg.payload).forEach(function (attr) {
             var val = msg.payload[attr];

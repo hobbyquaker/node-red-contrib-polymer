@@ -1,0 +1,125 @@
+<script type="text/javascript">
+    RED.nodes.registerType('polymer_paper-dropdown', {
+        category: 'polymer',
+        color: '#a6bbcf',
+        defaults: {
+            element: {value: 'node-red-paper-dropdown', required: true},
+            name: {value: ''},
+            label: {value: ''},
+            parent: {value: ''},
+            width: {value: '100%'},
+            height: {value: ''},
+            options: {value: []},
+            topic: {value: ''}
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "ui_radio.png",
+        paletteLabel: 'dropdown',
+        label: function() { return this.name || 'dropdown'; },
+        oneditprepare: function () {
+            var node = this;
+            var parentOptions = {};
+            var $optionslist = jQuery("#node-input-options-container");
+            $optionslist.css('min-height', '250px').css('min-width', '450px').editableList({
+                sortable: true,
+                addButton: true,
+                addItem: function(row, index, data) {
+                    console.log('?1?', data);
+                    if (data.type === 'json') data.value = JSON.stringify(data.value);
+                    var html = '<input type="text" class="input-dropdown-value" value="" id="node-input-value-' + index + '" style="width:50%">' +
+                        '<input type="hidden" class="input-dropdown-valueType" id="node-input-valueType-' + index + '">' +
+                        '<input type="text" class="input-dropdown-label" value="' + (data.label || '') + '" id="node-input-label-' + index + '" style="width:50%">';
+
+                    $(row).html(html);
+                    $('#node-input-value-' + index).val(data.value || '');
+                    $('#node-input-value-' + index).typedInput({
+                        default: data.type || 'str',
+                        typeField: $("#node-input-valueType-" + index),
+                        types:['str','num','bool']
+                    });
+
+
+                }
+
+            });
+
+            this.options.forEach(function (option) {
+                console.log(option);
+                $optionslist.editableList('addItem', option);
+            });
+
+            RED.nodes.eachNode(function (group) {
+                if (group.type === 'polymer_nav_group') {
+                    var optionText = RED.nodes.node(RED.nodes.node(RED.nodes.node(group.id).parent).parent).name + '/' +
+                        RED.nodes.node(RED.nodes.node(group.id).parent).name + '/' +
+                        group.name;
+
+                    parentOptions[optionText] = '<option value="' + group.id + '"' +
+                        (group.id === node.parent ? ' selected' : '') + '>' +
+                        optionText + '</option>';
+
+                }
+            });
+            Object.keys(parentOptions).sort().forEach(function (option) {
+                jQuery('#node-input-parent').append(parentOptions[option]);
+            });
+
+        },
+        oneditsave: function () {
+            var $optionslist = jQuery("#node-input-options-container");
+            var list = $optionslist.editableList('items');
+            var options = [];
+            list.each(function () {
+                var val = $(this).find('.input-dropdown-value').val();
+                var type = $(this).find('.input-dropdown-valueType').val();
+                switch (type) {
+                    case 'bool':
+                        val = val === 'true';
+                        break;
+                    case 'num':
+                        val = parseFloat(val);
+                        break;
+                }
+                options.push({
+                    value: val,
+                    label: $(this).find('.input-dropdown-label').val(),
+                    type: type
+                });
+            });
+            this.options = options;
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="polymer_paper-dropdown">
+    <div class="form-row">
+        <label for="node-input-parent"><i class="fa fa-tag"></i> Parent Group</label>
+        <select id="node-input-parent">
+        </select>
+    </div>
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-width"><i class="fa fa-tag"></i> Width</label>
+        <input type="text" id="node-input-width">
+    </div>
+    <div class="form-row">
+        <label for="node-input-height"><i class="fa fa-tag"></i> Height</label>
+        <input type="text" id="node-input-height">
+    </div>
+    <div class="form-row">
+        <label for="node-input-label"><i class="fa fa-tag"></i> Label</label>
+        <input type="text" id="node-input-label">
+    </div>
+    <div class="form-row node-input-options-container-row">
+        <ol id="node-input-options-container"></ol>
+    </div>
+
+</script>
+
+<script type="text/x-red" data-help-name="polymer_paper-dropdown">
+
+</script>

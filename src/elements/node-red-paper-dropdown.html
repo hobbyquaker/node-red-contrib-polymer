@@ -1,0 +1,61 @@
+<dom-module id="node-red-paper-dropdown">
+    <template>
+        <paper-dropdown-menu label="[[label]]">
+            <paper-listbox class="dropdown-content" on-iron-select="_select">
+                <template is="dom-repeat" items="[[options]]">
+                    <paper-item payload-value="[[item.value]]" payload-type="[[item.type]]">[[item.label]]</paper-item>
+                </template>
+            </paper-listbox>
+        </paper-dropdown-menu>
+    </template>
+    <script>
+
+        Polymer({
+            is: 'node-red-paper-dropdown',
+            properties: {
+                options: {
+                    type: Array
+                },
+                value: {
+                    observer: '_value'
+                }
+            },
+            _select: function () {
+                if (this.externalChange) {
+                    this.externalChange = false;
+                    return;
+                }
+                var item = this.querySelector('paper-listbox').selectedItem;
+                this.payload = item.payloadValue;
+                this.fire('selected-change');
+            },
+            _value: function () {
+                var that = this;
+                var selectIndex;
+                var payload;
+                this.querySelectorAll('paper-item').forEach(function (item, index) {
+                    var val = that.value;
+                    switch (item.payloadType) {
+                        case 'num':
+                            val = parseFloat(val);
+                            break;
+                        case 'bool':
+                            if (val === 'true') val = true;
+                            if (val === 'false') val = false;
+                            break;
+
+                    }
+                    if (item.payloadValue === val) {
+                        selectIndex = index;
+                        payload = val;
+                    }
+                });
+                this.externalChange = true;
+                this.payload = payload;
+                this.querySelector('paper-listbox').selectIndex(selectIndex);
+            }
+        });
+
+
+    </script>
+</dom-module>
