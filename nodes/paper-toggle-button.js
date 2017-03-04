@@ -15,6 +15,7 @@ module.exports = function(RED) {
                 html:           config.html,
                 attributes:     config.attributes,
                 valueAttribute: 'checked',
+                valueFalseNull: true,
                 event:          'change:checked',
                 width:          config.width,
                 height:         config.height

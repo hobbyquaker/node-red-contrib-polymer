@@ -356,6 +356,7 @@ function updateElem(msg) {
     console.log('input', msg);
     var elem = document.getElementById(elementId(msg.id));
     if (!elem) return;
+    if (elements[msg.id].valueFalseNull && msg.payload === false) msg.payload = null;
     if (msg.payload === null || (typeof msg.payload === 'undefined')) {
         elem.removeAttribute(elements[msg.id].valueAttribute);
     } else if (typeof msg.payload !== 'object') {
