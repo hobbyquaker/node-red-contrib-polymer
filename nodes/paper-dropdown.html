@@ -25,7 +25,6 @@
                 sortable: true,
                 addButton: true,
                 addItem: function(row, index, data) {
-                    console.log('?1?', data);
                     if (data.type === 'json') data.value = JSON.stringify(data.value);
                     var html = '<input type="text" class="input-dropdown-value" value="" id="node-input-value-' + index + '" style="width:50%">' +
                         '<input type="hidden" class="input-dropdown-valueType" id="node-input-valueType-' + index + '">' +
@@ -45,7 +44,6 @@
             });
 
             this.options.forEach(function (option) {
-                console.log(option);
                 $optionslist.editableList('addItem', option);
             });
 
