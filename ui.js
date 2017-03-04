@@ -9,12 +9,10 @@ var lastMsg = {};
 var settings = {};
 var nodes = {};
 
-
 var sites = {};
 var pages = {};
 var groups = {};
 var elements = {};
-
 
 var io;
 
@@ -25,20 +23,9 @@ module.exports = function (RED) {
 	}
 	return { 
 		add: add,
-		emit: emit,
-		toNumber: toNumber.bind(null, false),
-		toFloat: toNumber.bind(null, true)
+		emit: emit
 	};
 };
-
-function toNumber(keepDecimals, config, input) {
-	if (typeof input === "number")
-		return input;
-
-	var inputString = input.toString();
-	var nr = keepDecimals ? parseFloat(inputString) : parseInt(inputString);
-	return isNaN(nr) ? config.min : nr;
-}
 
 function emit(event, data) {
 	conole.log('>', event, data);
@@ -58,11 +45,15 @@ function add(opt) {
 		io.emit('input', msg);
 	});
 
+	opt.node.on('close', function () {
+		remove();
+	});
+
     nodes[opt.node.id] = opt.node;
 
 	return function () {
+		remove();
 		delete nodes[opt.node.id];
-		//console.log('remove?');
 	};
 }
 
@@ -72,6 +63,7 @@ function join() {
 	paths = Array.prototype.slice.call(arguments);
 	return '/'+paths.map(function(e){return e.replace(trimRegex,"");}).filter(function(e){return e;}).join('/');
 }
+
 
 function init(RED) {
 	var server = RED.server;
@@ -108,7 +100,7 @@ function init(RED) {
 
 	fs.stat(path.join(__dirname, 'dist/index.html'), function(err, stat) { 
 		if (!err) { 
-			app.use(join(settings.path), serveStatic(path.join(__dirname, "dist"))); 
+			app.use(join(settings.path), serveStatic(path.join(__dirname, "dist")));
 		} else {
 			log.info("Using development folder");
 			app.use(join(settings.path), serveStatic(path.join(__dirname, "src")));
@@ -120,21 +112,14 @@ function init(RED) {
 	log.info("Polymer started at " + fullPath);
 
 	io.on('connection', function (socket) {
-
-
 		update();
-
         socket.on('output', function (msg) {
-            //console.log('output', msg);
             var id = msg.id;
             delete msg.id;
 			if (nodes[id]) nodes[id].send(msg);
         });
 	});
-
-
 }
-
 
 
 function update(sock) {
@@ -146,12 +131,11 @@ function update(sock) {
 	});
 }
 
+
 function addElement(control) {
 	if (typeof control.type !== 'string') return;
 
     if (lastMsg[control.id]) control.lastMsg = lastMsg[control.id];
-
-	//console.log('*** addElement', control);
 
     if (control.type === 'polymer_nav_site') {
         sites[control.id] = control;
@@ -164,11 +148,17 @@ function addElement(control) {
    	}
 	update();
 
-
-	
-	return function() {
-		//console.log('???')
+	return function () {
+        delete nodes[control.id];
+        if (control.type === 'polymer_nav_site') {
+            delete sites[control.id];
+        } else if (control.type === 'polymer_nav_page') {
+            delete pages[control.id];
+        } else if (control.type === 'polymer_nav_group') {
+            delete groups[control.id];
+        } else {
+            delete elements[control.id];
+        }
 		update();
 	}
 }
-
