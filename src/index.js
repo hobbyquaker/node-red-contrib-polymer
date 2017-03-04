@@ -283,25 +283,13 @@ function createElements(groupElem, groupId, pageId, siteId) {
 
         customElement.setAttribute('id', elementId(elemId));
 
+        if (elem.width) customElement.style.width = elem.width;
+        if (elem.height) customElement.style.height = elem.height;
+
         if (elem.html && elem.element.indexOf('node-red-template-') === -1) {
             var newContent = document.createTextNode(elem.html);
             customElement.appendChild(newContent);
         }
-
-/*
-        if (elem.element === 'node-red-paper-dropdown') {
-            console.log('!!!', elem.options);
-            customElement.setAttribute('options', JSON.stringify(elem.options));
-        }
-
-        try {
-            var attrs = elem.attributes; //JSON.parse(elem.attributes);
-            Object.keys(attrs).forEach(function (attr) {
-                console.log(attr, attrs[attr]);
-                customElement.setAttribute(attr, attrs[attr]);
-            });
-        } catch (e) {}
- */
 
         if (elem.attrs && elem.attrs.forEach) {
             elem.attrs.forEach(function (attr) {

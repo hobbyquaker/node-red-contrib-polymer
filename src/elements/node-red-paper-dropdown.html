@@ -1,5 +1,13 @@
 <dom-module id="node-red-paper-dropdown">
     <template>
+        <style>
+            :host {
+                display: inline-block;
+            }
+            paper-dropdown-menu {
+                width: 100%;
+            }
+        </style>
         <paper-dropdown-menu label="[[label]]">
             <paper-listbox class="dropdown-content" on-iron-select="_select">
                 <template is="dom-repeat" items="[[options]]">
