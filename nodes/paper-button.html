@@ -13,6 +13,7 @@
             topic: {value: ''},
             payload: {value: '',validate: (RED.validators.hasOwnProperty('typedInput')?RED.validators.typedInput('payloadType'):function(v) { return true})},
             payloadType: { value: 'str'},
+            raised: { value: true}
 
         },
         inputs: 1,
@@ -70,8 +71,8 @@
         <input type="text" id="node-input-html">
     </div>
     <div class="form-row">
-        <label for="node-input-attributes"><i class="fa fa-tag"></i> Attributes</label>
-        <input type="text" id="node-input-attributes">
+        <label for="node-input-raised"><i class="fa fa-tag"></i> Raised</label>
+        <input type="checkbox" id="node-input-raised">
     </div>
     <div class="form-row">
         <label for="node-input-topic"><i class="fa fa-tag"></i> Topic</label>
