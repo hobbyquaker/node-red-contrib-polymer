@@ -1,0 +1,80 @@
+<script type="text/javascript">
+    RED.nodes.registerType('polymer_paper-toast', {
+        category: 'polymer',
+        color: '#a6bbcf',
+        defaults: {
+            name: {value: ''},
+            text: {value: ''},
+            alwaysOnTop: {value: false},
+            noCancelOnEscKey: {value: false},
+            noCancelOnOutsideClick: {value: false},
+            duration: {value: Infinity},
+            parent: {value: ''},
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "ui_toast.png",
+        paletteLabel: 'toast',
+        label: function() { return this.name || 'toast'; },
+        oneditprepare: function () {
+            var node = this;
+            var options = {
+                '*': '<option value=""' + (node.parent ? '' : ' selected') + '>*</option>'
+            };
+            var elems = {};
+            RED.nodes.eachNode(function (n) {
+                if (n.type === 'polymer_nav_site') {
+                    var optionText = RED.nodes.node(n.id).name + '/*';
+                    options[optionText] = '<option value="' + n.id + '"' +
+                        (n.id === node.parent ? ' selected' : '') +
+                        '>' + optionText + '</option>';
+                }
+                if (n.type === 'polymer_nav_page') {
+                    var optionText = RED.nodes.node(RED.nodes.node(n.id).parent).name + '/' + n.name;
+                    options[optionText] = '<option value="' + n.id + '"' +
+                        (n.id === node.parent ? ' selected' : '') +
+                        '>' + optionText + '</option>';
+                }
+            });
+
+            Object.keys(options).sort().forEach(function (option) {
+                jQuery('#node-input-parent').append(options[option]);
+            });
+        }
+
+    });
+</script>
+
+<script type="text/x-red" data-template-name="polymer_paper-toast">
+    <div class="form-row">
+        <label for="node-input-parent"><i class="fa fa-tag"></i> Visible on</label>
+        <select id="node-input-parent">
+        </select>
+    </div>
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-text"><i class="fa fa-tag"></i> Text</label>
+        <input type="text" id="node-input-text">
+    </div>
+    <div class="form-row">
+        <label for="node-input-duration"><i class="fa fa-tag"></i> Duration</label>
+        <input type="text" id="node-input-duration">
+    </div>
+
+   <div class="form-row">
+        <label style="display: inline"><input type="checkbox" id="node-input-alwaysOnTop" style="width: 50px; margin-top:-3px;"> Always on Top</label>
+    </div>
+    <div class="form-row">
+         <label style="display: inline"><input type="checkbox" id="node-input-noCancelOnEscKey" style="width: 50px; margin-top:-3px;"> No Cancel on Escape Key</label>
+    </div>
+    <div class="form-row">
+         <label style="display: inline"><input type="checkbox" id="node-input-noCancelOnOutsideClick" style="width: 50px; margin-top:-3px;"> No Cancel on Outside Click</label>
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="polymer_paper-toast">
+
+</script>

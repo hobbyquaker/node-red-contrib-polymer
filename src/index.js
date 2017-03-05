@@ -13,6 +13,7 @@ var sitePaths = {};
 var pagePaths = {};
 
 var tree = {};
+var toasts = [];
 
 var socket;
 
@@ -78,11 +79,15 @@ window.addEventListener('WebComponentsReady', function (e) {
         });
         Object.keys(elements).forEach(function (key) {
             var element = elements[key];
-            var group = groups[element.parent];
-            var page = pages[group.parent];
-            var site = sites[page.parent];
-            if (!tree[site.id][page.id][group.id]) tree[site.id][page.id][group.id] = [];
-            tree[site.id][page.id][group.id].push(element.id);
+            if (element.element !== 'paper-toast') {
+                var group = groups[element.parent];
+                var page = pages[group.parent];
+                var site = sites[page.parent];
+                if (!tree[site.id][page.id][group.id]) tree[site.id][page.id][group.id] = [];
+                tree[site.id][page.id][group.id].push(element.id);
+            } else {
+                toasts.push(element);
+            }
         });
 
 
@@ -171,8 +176,23 @@ function initSite(siteName, pageName) {
         }
     });
     container.menu = menu;
+
+    setTimeout(createToasts, 0);
+
 }
 
+function createToasts() {
+    toasts.forEach(function (toast) {
+        if (pages[toast.parent]) {
+            var page = document.getElementById('page-' + toast.parent.replace('.', '_'));
+            if (page) {
+                createElement(toast, page);
+            }
+        } else if ((sites[toast.parent] && (currentSiteName === sites[toast.parent].name)) || (!toast.parent)) {
+            createElement(toast, document.querySelector('body'));
+        }
+    });
+}
 
 function pageChange(pageName) {
     currentPageName = pageName;
@@ -190,6 +210,7 @@ function createPage(pageId, siteId) {
     var page = pages[pageId];
     //console.log('createPage', page);
     var pageElem = document.createElement('div');
+    pageElem.setAttribute('id', 'page-' + pageId.replace('.', '_'));
 
     if (!page.groupOrder) page.groupOrder = [];
     page.groupOrder.forEach(function (groupId) {
@@ -284,99 +305,101 @@ function createElements(groupElem, groupId, pageId, siteId) {
 
     }
 
-    function createElement(elem, container) {
-        var elemId = elem.id;
-        var customElement = document.createElement(elem.element);
 
-        customElement.setAttribute('id', elementId(elemId));
+}
 
-        if (elem.width) customElement.style.width = elem.width;
-        if (elem.height) customElement.style.height = elem.height;
+function createElement(elem, container) {
+    var elemId = elem.id;
+    var customElement = document.createElement(elem.element);
 
-        if (elem.html && elem.element.indexOf('node-red-template-') === -1) {
-            var newContent = document.createTextNode(elem.html);
-            customElement.appendChild(newContent);
-        }
+    customElement.setAttribute('id', elementId(elemId));
 
-        if (elem.attrs && elem.attrs.forEach) {
-            elem.attrs.forEach(function (attr) {
-                var value = elem[attr];
-                if (value === null || (typeof value === 'undefined')) {
-                    customElement.removeAttribute(attr);
-                } else if (typeof value === 'object') {
-                    value = JSON.stringify(value);
-                    customElement.setAttribute(attr, value);
-                } else {
-                    customElement.setAttribute(attr, value);
+    if (elem.width) customElement.style.width = elem.width;
+    if (elem.height) customElement.style.height = elem.height;
+
+    if (elem.html && elem.element.indexOf('node-red-template-') === -1) {
+        var newContent = document.createTextNode(elem.html);
+        customElement.appendChild(newContent);
+    }
+
+    if (elem.attrs && elem.attrs.forEach) {
+        elem.attrs.forEach(function (attr) {
+            var value = elem[attr];
+            if (value === null || (typeof value === 'undefined')) {
+                customElement.removeAttribute(attr);
+            } else if (typeof value === 'object') {
+                value = JSON.stringify(value);
+                customElement.setAttribute(attr, value);
+            } else {
+                customElement.setAttribute(attr, value);
+            }
+
+        });
+    }
+
+    if (elem.event) {
+        var tmp = elem.event.split(':');
+        customElement.addEventListener(tmp[0], function (data) {
+            var payload;
+            if (typeof tmp[1] !== 'undefined') {
+                payload = customElement[tmp[1]];
+                if (typeof payload === 'undefined') return;
+            } else {
+                switch (elem.payloadType) {
+                    case 'bool':
+                        if (typeof elem.payload !== 'boolean') payload = elem.payload === 'true';
+                        break;
+                    case 'num':
+                        if (typeof elem.payload === 'string') payload = parseFloat(elem.payload);
+                        break;
+                    case 'json':
+                        if (typeof elem.payload === 'string') payload = JSON.parse(elem.payload);
+                        break;
+                    default:
+                        payload = elem.payload;
                 }
 
-            });
-        }
-
-        if (elem.event) {
-            var tmp = elem.event.split(':');
-            customElement.addEventListener(tmp[0], function (data) {
-                var payload;
-                if (typeof tmp[1] !== 'undefined') {
-                    payload = customElement[tmp[1]];
-                    if (typeof payload === 'undefined') return;
-                } else {
-                    switch (elem.payloadType) {
-                        case 'bool':
-                            if (typeof elem.payload !== 'boolean') payload = elem.payload === 'true';
-                            break;
-                        case 'num':
-                            if (typeof elem.payload === 'string') payload = parseFloat(elem.payload);
-                            break;
-                        case 'json':
-                            if (typeof elem.payload === 'string') payload = JSON.parse(elem.payload);
-                            break;
-                        default:
-                            payload = elem.payload;
-                    }
-
+            }
+            if (payload === true && (typeof elem.payloadTrue !== 'undefined')) {
+                switch (elem.payloadTrueType) {
+                    case 'bool':
+                        payload = elem.payloadTrue === 'true';
+                        break;
+                    case 'num':
+                        payload = parseFloat(elem.payloadTrue);
+                        break;
+                    default:
+                        payload = elem.payloadTrue;
                 }
-                if (payload === true && (typeof elem.payloadTrue !== 'undefined')) {
-                    switch (elem.payloadTrueType) {
-                        case 'bool':
-                            payload = elem.payloadTrue === 'true';
-                            break;
-                        case 'num':
-                            payload = parseFloat(elem.payloadTrue);
-                            break;
-                        default:
-                            payload = elem.payloadTrue;
-                    }
-                } else if (payload === false && (typeof elem.payloadFalse !== 'undefined')) {
-                    switch (elem.payloadFalseType) {
-                        case 'bool':
-                            payload = elem.payloadFalse === 'true';
-                            break;
-                        case 'num':
-                            payload = parseFloat(elem.payloadFalse);
-                            break;
-                        default:
-                            payload = elem.payloadFalse;
-                    }
+            } else if (payload === false && (typeof elem.payloadFalse !== 'undefined')) {
+                switch (elem.payloadFalseType) {
+                    case 'bool':
+                        payload = elem.payloadFalse === 'true';
+                        break;
+                    case 'num':
+                        payload = parseFloat(elem.payloadFalse);
+                        break;
+                    default:
+                        payload = elem.payloadFalse;
                 }
-                var msg = {id: elemId, payload: payload};
-                if (elem.topic) msg.topic = elem.topic;
-                console.log('output', msg);
-                socket.emit('output', msg);
-            });
-        }
+            }
+            var msg = {id: elemId, payload: payload};
+            if (elem.topic) msg.topic = elem.topic;
+            console.log('output', msg);
+            socket.emit('output', msg);
+        });
+    }
 
-        container.appendChild(customElement);
-        //console.log('created', elem.id);
-        if (elem.lastMsg) {
-            setTimeout(function () {
-                updateElem(elem.lastMsg);
-            }, 0);
-        }
-
+    container.appendChild(customElement);
+    //console.log('created', elem.id);
+    if (elem.lastMsg) {
+        setTimeout(function () {
+            updateElem(elem.lastMsg);
+        }, 0);
     }
 
 }
+
 
 function elementId(id) {
     return 'node-' + id.replace('.', '_');
