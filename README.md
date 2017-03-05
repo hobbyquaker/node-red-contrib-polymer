@@ -1,7 +1,7 @@
 # node-red-contrib-polymer
 
-[![NPM version](https://badge.fury.io/js/node-red-polymer.svg)](http://badge.fury.io/js/node-red-polymer)
-[![Dependency Status](https://img.shields.io/gemnasium/hobbyquaker/node-red-polymer.svg?maxAge=2592000)](https://gemnasium.com/github.com/hobbyquaker/node-red-polymer)
+[![NPM version](https://badge.fury.io/js/node-red-contrib-polymer.svg)](http://badge.fury.io/js/node-red-contrib-polymer)
+[![Dependency Status](https://img.shields.io/gemnasium/hobbyquaker/node-red-contrib-polymer.svg?maxAge=2592000)](https://gemnasium.com/github.com/hobbyquaker/node-red-contrib-polymer)
 [![License][mit-badge]][mit-url]
 
 > A Polymer based dashboard UI for Node-RED
