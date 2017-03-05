@@ -5,9 +5,10 @@
         defaults: {
             element: {value: 'polymer_paper-button', required: true},
             name: {value: ''},
-            html: {value: ''},
+            label: {value: ''},
             attributes: {value: ''},
             parent: {value: ''},
+            repeat: {value: 0},
             width: {value: '100%'},
             height: {value: ''},
             topic: {value: ''},
@@ -67,12 +68,16 @@
         <input type="text" id="node-input-height">
     </div>
     <div class="form-row">
-        <label for="node-input-html"><i class="fa fa-tag"></i> Label</label>
-        <input type="text" id="node-input-html">
+        <label for="node-input-label"><i class="fa fa-tag"></i> Label</label>
+        <input type="text" id="node-input-label">
     </div>
     <div class="form-row">
         <label for="node-input-raised"><i class="fa fa-tag"></i> Raised</label>
         <input type="checkbox" id="node-input-raised">
+    </div>
+    <div class="form-row">
+        <label for="node-input-repeat"><i class="fa fa-tag"></i> Repeat</label>
+        <input type="number" id="node-input-repeat">
     </div>
     <div class="form-row">
         <label for="node-input-topic"><i class="fa fa-tag"></i> Topic</label>

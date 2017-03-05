@@ -1,0 +1,61 @@
+<dom-module id="node-red-paper-button">
+    <template>
+        <style>
+            :host {
+                display: inline-block;
+                height: 42px;
+            }
+            paper-button {
+                width: 100%;
+                height: 100%;
+            }
+        </style>
+        <paper-button id="button" raised$="[[raised]]" disabled$="[[disabled]]">
+            [[label]]
+        </paper-button>
+    </template>
+    <script>
+        Polymer({
+            is: 'node-red-paper-button',
+            properties: {
+                label: {
+                    type: String,
+                    value: ''
+                },
+                repeat: {
+                    type: Number,
+                    value: 0
+                }
+            },
+            ready: function () {
+                var that = this;
+                var button = this.querySelector('paper-button');
+                var interval;
+                button.addEventListener('mousedown', start);
+                button.addEventListener('mouseup', end);
+                button.addEventListener('mouseout', end);
+
+                button.addEventListener('click', function () {
+                    if (!that.repeat) that.fire('send');
+                });
+
+                function start() {
+                    if (that.repeat) {
+                        that.fire('send');
+                        if (!interval) {
+                            interval = setInterval(function () {
+                                that.fire('send');
+                            }, that.repeat * 1000)
+                        }
+                    }
+                }
+
+                function end() {
+                    clearInterval(interval);
+                    interval = null;
+                }
+
+            }
+        })
+    </script>
+</dom-module>

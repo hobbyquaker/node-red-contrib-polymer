@@ -11,17 +11,20 @@ module.exports = function(RED) {
             control: {
                 type:           'polymer_paper-button',
                 parent:         config.parent,
-                element:        'paper-button',
-                html:           config.html,
+                element:        'node-red-paper-button',
+                label:          config.label,
                 raised:         config.raised ? '' : null,
-                attrs:          ['raised'],
+                disabled:       config.disabled ? '' : null,
+                repeat:         config.repeat,
+                attrs:          ['raised', 'label', 'disabled', 'repeat'],
                 valueAttribute: 'active',
-                event:          'click',
+                valueFalseNull: true,
+                event:          'send',
                 width:          config.width,
                 height:         config.height,
                 topic:          config.topic,
                 payload:        config.payload,
-                payloadType:    config.payloadType,
+                payloadType:    config.payloadType
             }
         });
 
