@@ -46,7 +46,7 @@ e.g. Audio, Chart and Form. Also there is almost no documentation done until now
 
 ## Install
 
-As usual do `npm install node-red-polymer`. Default URL of the Dashboard is then 
+As usual do `npm install node-red-contrib-polymer`. Default URL of the Dashboard is then 
 `http://<node-red-host>:<node-red-port>/polymer`.
 
 
