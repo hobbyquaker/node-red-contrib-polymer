@@ -32,6 +32,7 @@ window.addEventListener('WebComponentsReady', function (e) {
 
     socket = io({path: location.pathname + 'socket.io'});
     socket.on('connect', function () {
+        document.getElementById('disconnect').removeAttribute('opened');
         //console.log('connect');
     });
     socket.on('event', function (data) {
@@ -39,7 +40,7 @@ window.addEventListener('WebComponentsReady', function (e) {
         socket.emit('ui-replay-state');
     });
     socket.on('disconnect', function () {
-
+        document.getElementById('disconnect').setAttribute('opened', '');
     });
 
     socket.on('update', function (data) {
