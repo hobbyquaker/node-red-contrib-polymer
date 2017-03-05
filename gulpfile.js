@@ -19,6 +19,7 @@ gulp.task('copy', function () {
         .src([
             'src/bower_components/async/dist/async.min.js',
             'src/bower_components/webcomponentsjs/webcomponents-lite.js',
+            'src/bower_components/web-animations-js/web-animations-next-lite.min.js',
             'src/index.js'
         ])
         .pipe(gulpCopy('dist/', {prefix: 1}))
