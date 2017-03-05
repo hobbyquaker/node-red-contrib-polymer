@@ -22,15 +22,10 @@ module.exports = function (RED) {
 		init(RED);
 	}
 	return { 
-		add: add,
-		emit: emit
+		add: add
 	};
 };
 
-function emit(event, data) {
-	conole.log('>', event, data);
-	io.emit(event, data);
-}
 
 function add(opt) {
 	opt.control.id = opt.node.id;

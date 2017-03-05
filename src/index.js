@@ -19,8 +19,6 @@ var socket;
 
 
 window.addEventListener('WebComponentsReady', function (e) {
-    //console.log('components ready');
-
     function hashChange() {
         var hash = location.hash.substr(2);
         //console.log('hashChange', hash);
@@ -30,16 +28,11 @@ window.addEventListener('WebComponentsReady', function (e) {
 
     window.addEventListener('hashchange', hashChange);
 
-
     socket = io({path: location.pathname + 'socket.io'});
     socket.on('connect', function () {
         document.getElementById('disconnect').removeAttribute('opened');
-        //console.log('connect');
     });
-    socket.on('event', function (data) {
-        //console.log('event', data);
-        socket.emit('ui-replay-state');
-    });
+
     socket.on('disconnect', function () {
         document.getElementById('disconnect').setAttribute('opened', '');
     });
@@ -51,7 +44,6 @@ window.addEventListener('WebComponentsReady', function (e) {
         } else {
             isFirstUpdate = false;
         }
-        //console.log(data);
 
         sites = data.sites;
         pages = data.pages;
@@ -90,11 +82,6 @@ window.addEventListener('WebComponentsReady', function (e) {
             }
         });
 
-
-        //console.log('sitePaths', sitePaths);
-        //console.log('pagePaths', pagePaths);
-        //console.log('tree', tree);
-
         if (!isInited) {
             var hash = location.hash.substr(2);
             //console.log('hash', hash);
@@ -104,16 +91,12 @@ window.addEventListener('WebComponentsReady', function (e) {
 
     });
 
-
-
     socket.on('input', updateElem);
 });
 
 
 
 function navigate(siteName, pageName) {
-    //console.log('navigate?', siteName, pageName, isInited);
-
     if (!sitePaths[siteName]) {
         siteName = Object.keys(sitePaths)[0];
         var pageId = sites[sitePaths[siteName]].pageOrder[0] || Object.keys(tree[sitePaths[siteName]])[0];
@@ -133,9 +116,7 @@ function navigate(siteName, pageName) {
         return;
     } else if (isInited && currentSiteName !== siteName) {
         // Site Change
-        //console.log('site change');
         location.reload();
-        //initSite(siteName, pageName);
     } else if (isInited && currentPageName !== pageName) {
         // Page Change
         pageChange(pageName);
@@ -150,7 +131,6 @@ function initSite(siteName, pageName) {
     isInited = true;
     currentSiteName = siteName;
     currentPageName = pageName;
-    console.log('initSite', siteName, pageName);
 
     var siteId = sitePaths[siteName];
     var pageId = pagePaths[siteName + '/' + pageName];
@@ -160,7 +140,6 @@ function initSite(siteName, pageName) {
     container.setAttribute('title', pages[pageId].title);
 
     var menu = [];
-    var content = '';
 
     sites[siteId].pageOrder.forEach(function (pageId) {
         if (tree[siteId][pageId]) {
@@ -208,7 +187,6 @@ function pageChange(pageName) {
 
 function createPage(pageId, siteId) {
     var page = pages[pageId];
-    //console.log('createPage', page);
     var pageElem = document.createElement('div');
     pageElem.setAttribute('id', 'page-' + pageId.replace('.', '_'));
 
@@ -234,7 +212,6 @@ function createPage(pageId, siteId) {
 }
 
 function createGroup(groupId, pageId, siteId) {
-    //console.log('createGroup', groupId);
     var group = groups[groupId];
     var groupElem = document.createElement('paper-card');
     if (group.title) groupElem.setAttribute('heading', group.title);
@@ -385,13 +362,12 @@ function createElement(elem, container) {
             }
             var msg = {id: elemId, payload: payload};
             if (elem.topic) msg.topic = elem.topic;
-            console.log('output', msg);
             socket.emit('output', msg);
         });
     }
 
     container.appendChild(customElement);
-    //console.log('created', elem.id);
+
     if (elem.lastMsg) {
         setTimeout(function () {
             updateElem(elem.lastMsg);
@@ -406,7 +382,6 @@ function elementId(id) {
 }
 
 function updateElem(msg) {
-    console.log('input', msg);
     var elem = document.getElementById(elementId(msg.id));
     if (!elem) return;
 
@@ -445,7 +420,6 @@ function updateElem(msg) {
     if (msg.payload === null || (typeof msg.payload === 'undefined')) {
         elem.removeAttribute(elements[msg.id].valueAttribute);
     } else if (typeof msg.payload !== 'object') {
-        console.log('>', elements[msg.id].valueAttribute, msg.payload);
         elem.setAttribute(elements[msg.id].valueAttribute, msg.payload);
     } else {
         Object.keys(msg.payload).forEach(function (attr) {
