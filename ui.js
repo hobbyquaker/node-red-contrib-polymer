@@ -107,13 +107,17 @@ function init(RED) {
 	log.info("Polymer started at " + fullPath);
 
 	io.on('connection', function (socket) {
-		update();
+		update(socket);
         socket.on('output', function (msg) {
             var id = msg.id;
             delete msg.id;
 			if (nodes[id]) nodes[id].send(msg);
         });
 	});
+
+	io.on('connect_error', function (error) {
+		console.log('connect_error', error);
+	})
 }
 
 
@@ -141,6 +145,7 @@ function addElement(control) {
     } else {
     	elements[control.id] = control;
    	}
+   	console.log('addElement')
 	update();
 
 	return function () {
@@ -154,6 +159,7 @@ function addElement(control) {
         } else {
             delete elements[control.id];
         }
+        console.log('removeElement')
 		update();
 	}
 }
