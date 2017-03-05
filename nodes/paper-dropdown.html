@@ -31,7 +31,7 @@
                         '<input type="text" class="input-dropdown-label" value="' + (data.label || '') + '" id="node-input-label-' + index + '" style="width:50%">';
 
                     $(row).html(html);
-                    $('#node-input-value-' + index).val(data.value || '');
+                    $('#node-input-value-' + index).val((typeof data.value === 'undefined' ? '' : data.value));
                     $('#node-input-value-' + index).typedInput({
                         default: data.type || 'str',
                         typeField: $("#node-input-valueType-" + index),
