@@ -1,6 +1,8 @@
 # node-red-polymer
 
-
+[![NPM version](https://badge.fury.io/js/xyz2mqtt-skeleton.svg)](http://badge.fury.io/js/xyz2mqtt-skeleton)
+[![Dependency Status](https://img.shields.io/gemnasium/hobbyquaker/xyz2mqtt-skeleton.svg?maxAge=2592000)](https://gemnasium.com/github.com/hobbyquaker/xyz2mqtt-skeleton)
+[![License][mit-badge]][mit-url]
 
 > A Polymer based dashboard UI for Node-RED
 
@@ -8,6 +10,8 @@ This is very similar to [node-red-dashboard](https://github.com/node-red/node-re
 In fact it's a fully rewritten fork of Andrei Tatars original 
 [node-red-contrib-ui](https://github.com/andrei-tatar/node-red-contrib-ui).
 
+
+## FAQs
 
 #### So why another dashboard UI when node-red-dashboard already exists?
 
@@ -17,7 +21,7 @@ In fact it's a fully rewritten fork of Andrei Tatars original
 * Educational purpose, fun, ... :)
 
 
-#### Can node-red-dashboard and node-red-polymer coexist on one node-red instance?
+#### Can node-red-polymer and node-red-dashboard coexist on one node-red instance?
 
 * Yes, it's no problem to install and use them both.
 
@@ -34,8 +38,23 @@ and they could also output status information.
 * Buttons can send messages repeatedly on continuous press with configurable interval.
 
 This project is in an early development stage, see the issue tracker to get an idea of the roadmap.
+
 Until now I only implemented what I want for myself, e.g. I'm only using it on my phone in portait mode,
-so there is now multi-column layout until now... Also there is almost no documentation done until now...
+so there is no multi-column layout yet... Several Widgets known from node-red-dashboard aren't implemented,
+e.g. Audio, Chart and Form. Also there is almost no documentation done until now...
+
+
+## Install
+
+As usual do `npm install node-red-polymer`. Default URL of the Dashboard is then 
+`http://<node-red-host>:<node-red-port>/polymer`.
+
+
+## Usage
+
+There are some checks and convinience things missing until now, so you need to make sure that you use create a Site 
+Node, a Page Node and a Group Node. The Group needs to have the Page as parent, the Page needs to have the Site as 
+parent. Then you can add an element with the Group as parent.
 
 
 ## Contributing
@@ -44,6 +63,8 @@ Pull requests welcome!
 
 Please post feature requests, bug reports, suggestions and critics in the Github issue tracker.
 
+For Developing you need to `bower install` in the src directory.
+
 
 ## License
 
@@ -51,3 +72,6 @@ MIT
 
 Copyright (c) 2017 Sebastian Raff
 Copyright (c) 2015 Andrei Tatar
+
+[mit-badge]: https://img.shields.io/badge/License-MIT-blue.svg?style=flat
+[mit-url]: LICENSE
