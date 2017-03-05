@@ -13,12 +13,17 @@ module.exports = function(RED) {
                 parent:         config.parent,
                 element:        'paper-checkbox',
                 html:           config.html,
-                attributes:     config.attributes,
+                attrs:          [],
                 valueAttribute: 'checked',
                 valueFalseNull: true,
                 event:          'change:checked',
                 width:          config.width,
-                height:         config.height
+                height:         config.height,
+                payloadTrue:    config.payloadTrue,
+                payloadFalse:   config.payloadFalse,
+                payloadTrueType:    config.payloadTrueType,
+                payloadFalseType:   config.payloadFalseType,
+                topic:          config.topic
             }
         });
 

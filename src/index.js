@@ -329,6 +329,29 @@ function createElements(groupElem, groupId, pageId, siteId) {
                     }
 
                 }
+                if (payload === true && (typeof elem.payloadTrue !== 'undefined')) {
+                    switch (elem.payloadTrueType) {
+                        case 'bool':
+                            payload = elem.payloadTrue === 'true';
+                            break;
+                        case 'num':
+                            payload = parseFloat(elem.payloadTrue);
+                            break;
+                        default:
+                            payload = elem.payloadTrue;
+                    }
+                } else if (payload === false && (typeof elem.payloadFalse !== 'undefined')) {
+                    switch (elem.payloadFalseType) {
+                        case 'bool':
+                            payload = elem.payloadFalse === 'true';
+                            break;
+                        case 'num':
+                            payload = parseFloat(elem.payloadFalse);
+                            break;
+                        default:
+                            payload = elem.payloadFalse;
+                    }
+                }
                 var msg = {id: elemId, payload: payload};
                 if (elem.topic) msg.topic = elem.topic;
                 console.log('output', msg);
@@ -356,7 +379,39 @@ function updateElem(msg) {
     console.log('input', msg);
     var elem = document.getElementById(elementId(msg.id));
     if (!elem) return;
+
+    var replacement;
+    if (typeof elements[msg.id].payloadFalse !== 'undefined') {
+        switch (elements[msg.id].payloadFalseType) {
+            case 'bool':
+                replacement = elements[msg.id].payloadFalse === 'true';
+                break;
+            case 'num':
+                replacement = parseFloat(elements[msg.id].payloadFalse);
+                break;
+            default:
+                replacement = elements[msg.id].payloadFalse;
+        }
+        if (msg.payload === replacement) {
+            msg.payload = false;
+        } else if (typeof elements[msg.id].payloadTrue !== 'undefined') {
+            switch (elements[msg.id].payloadTrueType) {
+                case 'bool':
+                    replacement = elements[msg.id].payloadTrue === 'true';
+                    break;
+                case 'num':
+                    replacement = parseFloat(elements[msg.id].payloadTrue);
+                    break;
+                default:
+                    replacement = elements[msg.id].payloadTrue;
+            }
+            if (msg.payload === replacement) msg.payload = true;
+        }
+
+    }
+
     if (elements[msg.id].valueFalseNull && msg.payload === false) msg.payload = null;
+
     if (msg.payload === null || (typeof msg.payload === 'undefined')) {
         elem.removeAttribute(elements[msg.id].valueAttribute);
     } else if (typeof msg.payload !== 'object') {
