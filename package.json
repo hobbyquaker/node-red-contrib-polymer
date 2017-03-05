@@ -1,5 +1,5 @@
 {
-  "name": "node-red-polymer",
+  "name": "node-red-contrib-polymer",
   "version": "0.0.1",
   "description": "Polymer based dashboard UI for Node-RED",
   "keywords": [
@@ -16,7 +16,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/hobbyquaker/node-red-polymer.git"
+    "url": "https://github.com/hobbyquaker/node-red-contrib-polymer.git"
   },
   "node-red": {
     "nodes": {

@@ -1,4 +1,4 @@
-# node-red-polymer
+# node-red-contrib-polymer
 
 [![NPM version](https://badge.fury.io/js/node-red-polymer.svg)](http://badge.fury.io/js/node-red-polymer)
 [![Dependency Status](https://img.shields.io/gemnasium/hobbyquaker/node-red-polymer.svg?maxAge=2592000)](https://gemnasium.com/github.com/hobbyquaker/node-red-polymer)
@@ -21,12 +21,12 @@ In fact it's a fully rewritten fork of Andrei Tatars original
 * Educational purpose, fun, ... :)
 
 
-#### Can node-red-polymer and node-red-dashboard coexist on one node-red instance?
+#### Can node-red-contrib-polymer and node-red-dashboard coexist on one node-red instance?
 
 * Yes, it's no problem to install and use them both.
 
 
-#### What are the differences between node-red-dashboard and node-red-polymer?
+#### What are the differences between node-red-dashboard and node-red-contrib-polymer?
 
 * Sites: You can create an unlimited number of independent dashboards.
 * Hash-Navigation: Sites and pages are reflected as an URL hash, you can directly jump to a specific page.
