@@ -20,6 +20,8 @@ gulp.task('copy', function () {
             'src/bower_components/async/dist/async.min.js',
             'src/bower_components/webcomponentsjs/webcomponents-lite.js',
             'src/bower_components/web-animations-js/web-animations-next-lite.min.js',
+            'src/bower_components/components-font-awesome/css/font-awesome.min.css',
+            'src/bower_components/components-font-awesome/fonts/*',
             'src/index.js'
         ])
         .pipe(gulpCopy('dist/', {prefix: 1}))
