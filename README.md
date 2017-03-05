@@ -52,9 +52,9 @@ As usual do `npm install node-red-polymer`. Default URL of the Dashboard is then
 
 ## Usage
 
-There are some checks and convinience things missing until now, so you need to make sure that you use create a Site 
-Node, a Page Node and a Group Node. The Group needs to have the Page as parent, the Page needs to have the Site as 
-parent. Then you can add an element with the Group as parent.
+There are some checks and convinience things missing until now, so you need to make sure that you create a Site Node, 
+a Page Node and a Group Node. The Group needs to have the Page as parent, the Page needs to have the Site as parent. 
+Then you can add an element with the Group as parent.
 
 
 ## Contributing
@@ -70,8 +70,7 @@ For Developing you need to `bower install` in the src directory.
 
 MIT 
 
-Copyright (c) 2017 Sebastian Raff
-
+Copyright (c) 2017 Sebastian Raff    
 Copyright (c) 2015 Andrei Tatar
 
 [mit-badge]: https://img.shields.io/badge/License-MIT-blue.svg?style=flat
