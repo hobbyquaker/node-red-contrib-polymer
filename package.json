@@ -1,7 +1,7 @@
 {
   "name": "node-red-polymer",
   "version": "0.0.1",
-  "description": "Polymer based dashboard for Node-RED",
+  "description": "Polymer based dashboard UI for Node-RED",
   "keywords": [
     "node-red",
     "polymer",
@@ -23,16 +23,23 @@
       "polymer_nav_site": "nodes/nav_site.js",
       "polymer_nav_page": "nodes/nav_page.js",
       "polymer_nav_group": "nodes/nav_group.js",
+      "polymer_paper-toast": "nodes/paper-toast.js",
       "polymer_template": "nodes/polymer_template.js",
-      "polymer_paper-slider": "nodes/paper-slider.js",
       "polymer_paper-button": "nodes/paper-button.js",
+      "polymer_paper-checkbox": "nodes/paper-checkbox.js",
       "polymer_paper-toggle-button": "nodes/paper-toggle-button.js",
-      "polymer_paper-checkbox": "nodes/paper-checkbox.js"
+      "polymer_paper-dropdown": "nodes/paper-dropdown.js",
+      "polymer_paper-slider": "nodes/paper-slider.js"
     }
   },
   "dependencies": {
     "serve-static": "^1.12.0",
     "socket.io": "^1.7.3"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-copy": "^1.0.0",
+    "gulp-manifest": "^0.1.1",
+    "gulp-vulcanize": "^6.1.0"
+  }
 }
