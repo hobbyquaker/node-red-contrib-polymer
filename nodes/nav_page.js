@@ -11,6 +11,7 @@ module.exports = function(RED) {
             control: {
                 type:           'polymer_nav_page',
                 title:          config.title,
+                icon:           config.icon,
                 parent:         config.parent,
                 name:           config.name,
                 groupOrder:     config.groupOrder

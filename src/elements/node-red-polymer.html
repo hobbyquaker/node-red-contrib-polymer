@@ -16,7 +16,7 @@
             <app-drawer>
                 <paper-menu selected="{{selected}}">
                     <template is="dom-repeat" items="{{menu}}">
-                        <paper-item data-path="{{item.path}}">{{item.title}}</paper-item>
+                        <paper-item data-path="{{item.path}}"><i class$="{{item.icon}}"></i> {{item.title}}</paper-item>
                     </template>
                 </paper-menu>
             </app-drawer>
