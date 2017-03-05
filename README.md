@@ -71,6 +71,7 @@ For Developing you need to `bower install` in the src directory.
 MIT 
 
 Copyright (c) 2017 Sebastian Raff
+
 Copyright (c) 2015 Andrei Tatar
 
 [mit-badge]: https://img.shields.io/badge/License-MIT-blue.svg?style=flat
