@@ -144,13 +144,14 @@ function initSite(siteName, pageName) {
     isInited = true;
     currentSiteName = siteName;
     currentPageName = pageName;
-    //console.log('initSite', siteName, pageName);
+    console.log('initSite', siteName, pageName);
 
     var siteId = sitePaths[siteName];
+    var pageId = pagePaths[siteName + '/' + pageName];
+
 
     var container = document.querySelector('node-red-polymer');
-
-    container.setAttribute('title', sites[siteId].title);
+    container.setAttribute('title', pages[pageId].title);
 
     var menu = [];
     var content = '';
@@ -174,7 +175,12 @@ function initSite(siteName, pageName) {
 
 function pageChange(pageName) {
     currentPageName = pageName;
-    //console.log('pageChange', pageName);
+
+    var pageId = pagePaths[currentSiteName + '/' + pageName];
+
+    var container = document.querySelector('node-red-polymer');
+    container.setAttribute('title', pages[pageId].title);
+
     document.querySelector('node-red-polymer').select();
 }
 
