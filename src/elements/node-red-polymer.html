@@ -59,7 +59,7 @@
             },
             navigate: function () {
                 if (typeof this.selected !== 'undefined') location.hash = '#/' + this.menu[this.selected].path;
-                var drawer = this.querySelector('app-drawer')
+                var drawer = this.querySelector('app-drawer');
                 if (drawer.opened && !drawer.persistent) drawer.removeAttribute('opened');
             },
             select: function () {
