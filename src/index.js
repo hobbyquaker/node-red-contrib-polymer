@@ -159,7 +159,9 @@ function initSite(siteName, pageName) {
     sites[siteId].pageOrder.forEach(function (pageId) {
         if (tree[siteId][pageId]) {
             Polymer.dom(container).appendChild(createPage(pageId, siteId));
-            menu.push({title: pages[pageId].title, path: siteName + '/' + pages[pageId].name});
+            var icon = 'menu-icon';
+            if (pages[pageId].icon) icon = icon + ' fa fa-' + pages[pageId].icon;
+            menu.push({title: pages[pageId].title, icon: icon, path: siteName + '/' + pages[pageId].name});
         }
     });
 
