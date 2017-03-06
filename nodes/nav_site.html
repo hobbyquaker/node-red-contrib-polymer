@@ -5,6 +5,7 @@
         defaults: {
             name: {value: ''},
             title: {value: ''},
+            theme: {value: ''},
             pageOrder: {value: []}
         },
         inputs: 1,
@@ -58,6 +59,13 @@
     <div class="form-row">
         <label for="node-input-title"><i class="fa fa-tag"></i> Title</label>
         <input type="text" id="node-input-title">
+    </div>
+    <div class="form-row">
+        <label for="node-input-theme"><i class="fa fa-tag"></i> Theme</label>
+        <select type="text" id="node-input-theme">
+            <option value="">Bright</option>
+            <option value="theme-dark">Dark</option>
+        </select>
     </div>
     <div class="form-row node-input-sort-container-row">
         <ol id="node-input-sort-container"></ol>

@@ -12,6 +12,7 @@ module.exports = function(RED) {
                 type:           'polymer_nav_site',
                 name:           config.name,
                 title:          config.title,
+                theme:          config.theme,
                 pageOrder:      config.pageOrder
             }
         });

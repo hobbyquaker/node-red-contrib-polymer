@@ -1,17 +1,15 @@
+
 <dom-module id="node-red-polymer">
+
+
     <template>
         <style>
-
-            app-header {
-                background-color: #00897B;
-                color: #fff;
+            paper-menu {
+                height: 100%;
+                overflow-y: scroll;
             }
-
-            app-header paper-icon-button {
-                --paper-icon-button-ink-color: white;
-            }
-
         </style>
+
         <app-drawer-layout>
             <app-drawer>
                 <paper-menu selected="{{selected}}">

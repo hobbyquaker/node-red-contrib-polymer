@@ -19,6 +19,8 @@ var socket;
 
 
 window.addEventListener('WebComponentsReady', function (e) {
+
+
     function hashChange() {
         var hash = location.hash.substr(2);
         //console.log('hashChange', hash);
@@ -129,11 +131,23 @@ function navigate(siteName, pageName) {
 
 function initSite(siteName, pageName) {
     isInited = true;
+
     currentSiteName = siteName;
     currentPageName = pageName;
 
     var siteId = sitePaths[siteName];
     var pageId = pagePaths[siteName + '/' + pageName];
+
+
+    //var container = document.createElement('node-red-polymer');
+    //document.querySelector('body').appendChild(container);
+    console.log(sites[siteId]);
+
+    if (sites[siteId].theme) {
+        document.querySelector('body').className = sites[siteId].theme;
+        Polymer.updateStyles();
+    }
+    document.querySelector('div.loader').style.display = 'none';
 
 
     var container = document.querySelector('node-red-polymer');
@@ -290,6 +304,7 @@ function createElements(groupElem, groupId, pageId, siteId) {
 function createElement(elem, container) {
     var elemId = elem.id;
     var customElement = document.createElement(elem.element);
+    customElement.classList.add('node-red-widget');
 
     customElement.setAttribute('id', elementId(elemId));
 
