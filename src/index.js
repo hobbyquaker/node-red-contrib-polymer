@@ -145,7 +145,7 @@ function initSite(siteName, pageName) {
     document.querySelector('title').innerHTML = sites[siteId].title;
 
     if (sites[siteId].theme) {
-        document.querySelector('body').className = sites[siteId].theme;
+        document.querySelector('body').className = 'theme-' + sites[siteId].theme;
         Polymer.updateStyles();
     }
     document.querySelector('div.loader').style.display = 'none';
