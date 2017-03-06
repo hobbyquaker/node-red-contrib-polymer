@@ -322,6 +322,7 @@ function createElement(elem, container) {
     if (elem.attrs && elem.attrs.forEach) {
         elem.attrs.forEach(function (attr) {
             var value = elem[attr];
+            if (attr === 'inputType') attr = 'type';
             if (value === null || (typeof value === 'undefined')) {
                 customElement.removeAttribute(attr);
             } else if (typeof value === 'object') {
@@ -444,6 +445,7 @@ function updateElem(msg) {
     } else {
         Object.keys(msg.payload).forEach(function (attr) {
             var val = msg.payload[attr];
+            if (attr === 'inputType') attr = 'type';
             if (val !== null) {
                 elem.setAttribute(attr, val);
             } else {

@@ -28,6 +28,7 @@
       "polymer_paper-button": "nodes/paper-button.js",
       "polymer_paper-checkbox": "nodes/paper-checkbox.js",
       "polymer_paper-toggle-button": "nodes/paper-toggle-button.js",
+      "polymer_paper-input": "nodes/paper-input.js",
       "polymer_paper-dropdown": "nodes/paper-dropdown.js",
       "polymer_paper-slider": "nodes/paper-slider.js"
     }
