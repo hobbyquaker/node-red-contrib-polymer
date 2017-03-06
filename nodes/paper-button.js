@@ -22,6 +22,7 @@ module.exports = function(RED) {
                 event:          'send',
                 width:          config.width,
                 height:         config.height,
+                icon:           config.icon,
                 topic:          config.topic,
                 payload:        config.payload,
                 payloadType:    config.payloadType
