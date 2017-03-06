@@ -141,7 +141,8 @@ function initSite(siteName, pageName) {
 
     //var container = document.createElement('node-red-polymer');
     //document.querySelector('body').appendChild(container);
-    console.log(sites[siteId]);
+
+    document.querySelector('title').innerHTML = sites[siteId].title;
 
     if (sites[siteId].theme) {
         document.querySelector('body').className = sites[siteId].theme;
