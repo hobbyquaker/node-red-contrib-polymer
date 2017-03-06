@@ -117,7 +117,7 @@ function init(RED) {
 
 	io.on('connect_error', function (error) {
 		console.log('connect_error', error);
-	})
+	});
 }
 
 
@@ -145,8 +145,7 @@ function addElement(control) {
     } else {
     	elements[control.id] = control;
    	}
-   	console.log('addElement')
-	update();
+   	update();
 
 	return function () {
         delete nodes[control.id];
@@ -159,7 +158,6 @@ function addElement(control) {
         } else {
             delete elements[control.id];
         }
-        console.log('removeElement')
-		update();
+        update();
 	}
 }
