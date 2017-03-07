@@ -48,9 +48,8 @@
                     }
                     if (that.srcInterval) {
                         setInterval(function () {
-                            var tmp = elem.src;
                             elem.src = '';
-                            elem.src = tmp + (tmp.indexOf('?') === -1 ? '?' : '&') + 'nocachetimestamp=' + (new Date()).getTime();
+                            elem.src = that.srcUrl + (that.srcUrl.indexOf('?') === -1 ? '?' : '&') + 'nocachetimestamp=' + (new Date()).getTime();
                         }, that.srcInterval * 1000);
                     }
 
@@ -58,7 +57,6 @@
                 
             },
             _isImg: function (type) {
-                console.log('isImg', type);
                 return type === 'img';
             },
             _isIframe: function (type) {
