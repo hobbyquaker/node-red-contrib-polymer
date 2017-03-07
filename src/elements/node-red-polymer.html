@@ -70,6 +70,17 @@
                     if (mItem.path === location.hash.substr(2)) {
                         that.selected = i;
                     }
+                });
+            },
+            ready: function () {
+                var that = this;
+                var drawer = this.querySelector('app-drawer');
+                this.querySelector('paper-menu').addEventListener('iron-items-changed', function () {
+                    that.querySelectorAll('paper-item').forEach(function (item) {
+                        item.addEventListener('click', function () {
+                            if (!drawer.persistent) drawer.removeAttribute('opened');
+                        });
+                    });
                 })
             }
         });
