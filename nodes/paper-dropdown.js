@@ -13,13 +13,16 @@ module.exports = function(RED) {
                 parent:         config.parent,
                 element:        'node-red-paper-dropdown',
                 label:           config.label,
-                attrs:          ['options', 'label'],
+                attrs:          ['options', 'label', 'horizontal-align', 'vertical-align', 'menu-width'],
                 valueAttribute: 'value',
                 event:          'selected-change:payload',
                 width:          config.width,
+                'menu-width':   'min-width: ' + config.menuWidth,
                 height:         config.height,
                 options:        config.options,
-                topic:          config.topic
+                topic:          config.topic,
+                'horizontal-align': config.horizontalAlign,
+                'vertical-align': config.verticalAlign
             }
         });
 

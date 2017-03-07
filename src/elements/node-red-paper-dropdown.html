@@ -8,8 +8,8 @@
                 width: 100%;
             }
         </style>
-        <paper-dropdown-menu label="[[label]]">
-            <paper-listbox class="dropdown-content" on-iron-select="_select">
+        <paper-dropdown-menu label="[[label]]" horizontal-align="[[horizontalAlign]]" vertical-align="[[verticalAlign]]">
+            <paper-listbox style$="[[menuWidth]]" class="dropdown-content" on-iron-select="_select">
                 <template is="dom-repeat" items="[[options]]">
                     <paper-item payload-value="[[item.value]]" payload-type="[[item.type]]">[[item.label]]</paper-item>
                 </template>
