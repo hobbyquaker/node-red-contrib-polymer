@@ -6,6 +6,7 @@
             name: {value: ''},
             title: {value: ''},
             theme: {value: ''},
+            forceNarrow: {value: false},
             pageOrder: {value: []}
         },
         inputs: 1,
@@ -67,6 +68,11 @@
             <option value="dark">Dark</option>
         </select>
     </div>
+    <div class="form-row">
+        <label for="node-input-forceNarrow"><i class="fa fa-tag"></i> Hide Menu</label>
+        <input type="checkbox" id="node-input-forceNarrow">
+    </div>
+
     <div class="form-row node-input-sort-container-row">
         <ol id="node-input-sort-container"></ol>
     </div>

@@ -13,7 +13,8 @@ module.exports = function(RED) {
                 name:           config.name,
                 title:          config.title,
                 theme:          config.theme,
-                pageOrder:      config.pageOrder
+                pageOrder:      config.pageOrder,
+                forceNarrow:    config.forceNarrow
             }
         });
 
