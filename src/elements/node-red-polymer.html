@@ -10,7 +10,7 @@
             }
         </style>
 
-        <app-drawer-layout>
+        <app-drawer-layout force-narrow="[[forceNarrow]]">
             <app-drawer>
                 <paper-menu selected="{{selected}}">
                     <template is="dom-repeat" items="{{menu}}">
@@ -53,6 +53,10 @@
                 },
                 title: {
                     type: String
+                },
+                forceNarrow: {
+                    type: Boolean,
+                    value: null
                 }
             },
             navigate: function () {

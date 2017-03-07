@@ -151,8 +151,12 @@ function initSite(siteName, pageName) {
     document.querySelector('div.loader').style.display = 'none';
 
 
+
     var container = document.querySelector('node-red-polymer');
     container.setAttribute('title', pages[pageId].title);
+    if (sites[siteId].forceNarrow) {
+        container.setAttribute('force-narrow', '');
+    }
 
     var menu = [];
 
