@@ -1,0 +1,70 @@
+<dom-module id="node-red-external">
+    <template>
+        <style>
+            img {
+                width: 100%;
+            }
+            iframe {
+                border: 0;
+                padding: 0;
+                margin: 0;
+                width: 100%;
+                height: 100%;
+            }
+        </style>
+        <template is="dom-if" if="{{_isImg(srcType)}}">
+            <img src="{{srcUrl}}">
+        </template>
+        <template is="dom-if" if="{{_isIframe(srcType)}}">
+            <iframe src="{{srcUrl}}"></iframe>
+        </template>
+    </template>
+    <script>
+        Polymer({
+            is: 'node-red-external',
+            properties: {
+                srcUrl: {
+                    type: String
+                },
+                srcType: {
+                    type: String,
+                    value: 'img'
+                },
+                srcInterval: {
+                    type: String
+                }
+            },
+            ready: function () {
+                var elem;
+                var that = this;
+                setTimeout(function () {
+                    switch (that.srcType) {
+                        case 'img':
+                            elem = that.querySelector('img');
+                            break;
+                        case 'iframe':
+                            elem = that.querySelector('iframe');
+                            break;
+                    }
+                    if (that.srcInterval) {
+                        setInterval(function () {
+                            var tmp = elem.src;
+                            elem.src = '';
+                            elem.src = tmp + (tmp.indexOf('?') === -1 ? '?' : '&') + 'nocachetimestamp=' + (new Date()).getTime();
+                        }, that.srcInterval * 1000);
+                    }
+
+                }, 0);
+                
+            },
+            _isImg: function (type) {
+                console.log('isImg', type);
+                return type === 'img';
+            },
+            _isIframe: function (type) {
+                return type === 'iframe';
+            }
+        })
+    </script>
+
+</dom-module>

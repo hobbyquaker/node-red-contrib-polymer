@@ -1,0 +1,83 @@
+<script type="text/javascript">
+    RED.nodes.registerType('polymer_external', {
+        category: 'polymer',
+        color: '#a6bbcf',
+        defaults: {
+            name: {value: ''},
+            srcUrl: {value: ''},
+            srcType: {value: 'img'},
+            srcInterval: {value: 0},
+            attributes: {value: ''},
+            parent: {value: ''},
+            width: {value: '100%'},
+            height: {value: ''}
+        },
+        inputs: 1,
+        outputs: 0,
+        //icon: "ui_text.png", // TODO Icon
+        paletteLabel: 'external',
+        label: function() { return this.name || 'external'; },
+        oneditprepare: function () {
+            console.log('?');
+            var node = this;
+            var options = {};
+            RED.nodes.eachNode(function (group) {
+                if (group.type === 'polymer_nav_group') {
+                    var optionText = RED.nodes.node(RED.nodes.node(RED.nodes.node(group.id).parent).parent).name + '/' +
+                        RED.nodes.node(RED.nodes.node(group.id).parent).name + '/' +
+                        group.name;
+
+                    options[optionText] = '<option value="' + group.id + '"' +
+                        (group.id === node.parent ? ' selected' : '') + '>' +
+                        optionText + '</option>';
+
+                }
+            });
+            Object.keys(options).sort().forEach(function (option) {
+                jQuery('#node-input-parent').append(options[option]);
+            });
+            console.log('!');
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="polymer_external">
+    <div class="form-row">
+        <label for="node-input-parent"><i class="fa fa-tag"></i> Parent Group</label>
+        <select id="node-input-parent">
+        </select>
+    </div>
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-width"><i class="fa fa-tag"></i> Width</label>
+        <input type="text" id="node-input-width">
+    </div>
+    <div class="form-row">
+        <label for="node-input-height"><i class="fa fa-tag"></i> Height</label>
+        <input type="text" id="node-input-height">
+    </div>
+    <div class="form-row">
+        <label for="node-input-srcUrl"><i class="fa fa-tag"></i> URL</label>
+        <input type="text" id="node-input-srcUrl">
+    </div>
+    <div class="form-row">
+        <label for="node-input-srcType"><i class="fa fa-tag"></i> Type</label>
+        <select id="node-input-srcType">
+            <option value="img">img</option>
+            <option value="iframe">iframe</option>
+        </select>
+    </div>
+    <div class="form-row">
+        <label for="node-input-srcInterval"><i class="fa fa-tag"></i> Interval</label>
+        <input type="number" id="node-input-srcInterval">
+    </div>
+
+
+</script>
+
+<script type="text/x-red" data-help-name="polymer_external">
+
+</script>
