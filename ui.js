@@ -140,7 +140,7 @@ function addElement(control) {
         sites[control.id] = control;
     } else if (control.type === 'polymer_nav_page') {
         pages[control.id] = control;
-    } else if (control.type === 'polymer_nav_group') {
+    } else if (control.type.indexOf('polymer_nav_group') === 0) {
         groups[control.id] = control;
     } else {
     	elements[control.id] = control;
@@ -153,7 +153,7 @@ function addElement(control) {
             delete sites[control.id];
         } else if (control.type === 'polymer_nav_page') {
             delete pages[control.id];
-        } else if (control.type === 'polymer_nav_group') {
+        } else if (control.type.indexOf('polymer_nav_group') === 0) {
             delete groups[control.id];
         } else {
             delete elements[control.id];

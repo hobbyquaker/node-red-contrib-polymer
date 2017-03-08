@@ -236,12 +236,25 @@ function createPage(pageId, siteId) {
 
 function createGroup(groupId, pageId, siteId) {
     var group = groups[groupId];
-    var groupElem = document.createElement('paper-card');
-    if (group.title) groupElem.setAttribute('heading', group.title);
-    var contentElem = document.createElement('div');
-    contentElem.className = 'card-content';
 
-    groupElem.appendChild(contentElem);
+    var groupElem = document.createElement('paper-card');
+
+
+    switch (group.type) {
+        case 'polymer_nav_group':
+            var contentElem = document.createElement('div');
+            contentElem.className = 'card-content';
+            if (group.title) groupElem.setAttribute('heading', group.title);
+            groupElem.appendChild(contentElem);
+            break;
+
+        case 'polymer_nav_group_collapsible':
+            var collapse = document.createElement('node-red-collapse');
+            if (group.title) collapse.setAttribute('heading', group.title);
+            groupElem.appendChild(collapse);
+            break;
+
+    }
 
     return groupElem;
 }

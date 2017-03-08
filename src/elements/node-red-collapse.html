@@ -1,0 +1,63 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../bower_components/iron-collapse/iron-collapse.html">
+<link rel="import" href="../bower_components/paper-material/paper-material.html">
+<link rel="import" href="../bower_components/paper-styles/default-theme.html">
+<dom-module id="node-red-collapse">
+    <template>
+        <style>
+            .header {
+                @apply(--layout-horizontal);
+
+                @apply(--layout-justified);
+            }
+
+
+            .header .title-text {
+                padding: 16px;
+                font-size: 24px;
+                font-weight: 400;
+                color: var(--paper-card-header-color, #000);
+            }
+
+            .header paper-icon-button {
+                top: 8px;
+                right: 8px;
+                color: var(--paper-card-header-color, #000);
+            }
+
+        </style>
+        <div class="header" on-tap="_toggleOpened">
+            <div class="flex">
+                <div class="title-text">[[heading]]</div>
+            </div>
+            <paper-icon-button class="toogle" icon="[[_toggleIcon]]"></paper-icon-button>
+
+        </div>
+
+        <iron-collapse opened="{{opened}}">
+            <div class="card-content"></div>
+        </iron-collapse>
+
+    </template>
+    <script>
+        Polymer({
+            is: 'node-red-collapse',
+            properties: {
+                opened: {
+                    type: Boolean
+                },
+                _toggleIcon: {
+                    type: String,
+                    computed: '_computeToggleIcon(opened)'
+                }
+            },
+            _toggleOpened: function () {
+                this.opened = !this.opened;
+            },
+            _computeToggleIcon: function(opened) {
+                return opened ? 'icons:expand-less' : 'icons:expand-more';
+            }
+        })
+    </script>
+</dom-module>

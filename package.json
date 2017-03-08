@@ -1,6 +1,6 @@
 {
   "name": "node-red-contrib-polymer",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Polymer based dashboard UI for Node-RED",
   "keywords": [
     "node-red",
@@ -23,6 +23,7 @@
       "polymer_nav_site": "nodes/nav_site.js",
       "polymer_nav_page": "nodes/nav_page.js",
       "polymer_nav_group": "nodes/nav_group.js",
+      "polymer_nav_group_collapsible": "nodes/nav_group_collapsible.js",
       "polymer_paper-toast": "nodes/paper-toast.js",
       "polymer_template": "nodes/polymer_template.js",
       "polymer_external": "nodes/polymer_external.js",

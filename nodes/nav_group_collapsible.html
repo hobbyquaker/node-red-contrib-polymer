@@ -1,0 +1,86 @@
+<script type="text/javascript">
+    RED.nodes.registerType('polymer_nav_group_collapsible', {
+        category: 'polymer',
+        color: '#869baf',
+        defaults: {
+            name: {value: ''},
+            parent: {value: ''},
+            title: {value: ''},
+            elementOrder: {value: []}
+        },
+        inputs: 1,
+        outputs: 1,
+        //icon: "ui_switch.png",
+        paletteLabel: 'group_collapsible',
+        label: function() { return this.name || 'group_collapsible'; },
+        oneditprepare: function () {
+            var group = this;
+            var options = {};
+            var elems = {};
+            var $elemlist = jQuery("#node-input-sort-container");
+            $elemlist.css('min-height', '250px').css('min-width', '450px').editableList({
+                sortable: true,
+                addButton: false,
+                addItem: function(row, index, data) {
+                    $(row).html((data.name && data.name !== '') ? data.name : data.id);
+                }
+            });
+            RED.nodes.eachNode(function (n) {
+                if (n.type === 'polymer_nav_page') {
+                    var optionText = RED.nodes.node(RED.nodes.node(n.id).parent).name + '/' + n.name;
+                    options[optionText] = '<option value="' + n.id + '"' +
+                        (n.id === group.parent ? ' selected' : '') +
+                        '>' + optionText + '</option>';
+                } else if ((n.type.indexOf('polymer_nav_') === -1) && (n.parent === group.id)) {
+                    elems[n.id] = n;
+                }
+            });
+
+            if (!group.elementOrder) group.elementOrder = [];
+            group.elementOrder.forEach(function (elemId) {
+                if (elems[elemId]) $elemlist.editableList('addItem', elems[elemId]);
+            });
+
+            Object.keys(elems).forEach(function (elemId) {
+                if (group.elementOrder.indexOf(elemId) === -1) $elemlist.editableList('addItem', elems[elemId]);
+            });
+
+            Object.keys(options).sort().forEach(function (option) {
+                jQuery('#node-input-parent').append(options[option]);
+            });
+        },
+        oneditsave: function () {
+            var $elemlist = jQuery("#node-input-sort-container");
+            var elems = $elemlist.editableList('items');
+            var elemOrder = [];
+            elems.each(function () {
+                elemOrder.push($(this).data('data').id);
+            });
+
+            this.elementOrder = elemOrder;
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="polymer_nav_group_collapsible">
+    <div class="form-row">
+        <label for="node-input-parent"><i class="fa fa-tag"></i> Parent Page</label>
+        <select id="node-input-parent">
+        </select>
+    </div>
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-title"><i class="fa fa-tag"></i> Title</label>
+        <input type="text" id="node-input-title">
+    </div>
+        <div class="form-row node-input-sort-container-row">
+        <ol id="node-input-sort-container"></ol>
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="polymer_nav_group_collapsible">
+
+</script>

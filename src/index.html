@@ -55,6 +55,10 @@
             margin: 3px;
         }
 
+        .card-content {
+            width: calc(100% - 52px);
+        }
+
         i.menu-icon {
             width: 21px;
             padding-right: 5px;
@@ -107,6 +111,7 @@
     <link rel="import" href="elements/node-red-paper-dropdown.html">
     <link rel="import" href="elements/node-red-paper-button.html">
     <link rel="import" href="elements/node-red-external.html">
+    <link rel="import" href="elements/node-red-collapse.html">
 
 
     <style is="custom-style">
@@ -119,7 +124,6 @@
         .theme-dark node-red-polymer ::content #contentContainer {
             background-color: #424b4b;
         }
-
 
 
         .theme-dark node-red-polymer ::content app-toolbar {

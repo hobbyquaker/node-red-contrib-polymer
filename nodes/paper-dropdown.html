@@ -48,7 +48,7 @@
             });
 
             RED.nodes.eachNode(function (group) {
-                if (group.type === 'polymer_nav_group') {
+                if (group.type.indexOf('polymer_nav_group') === 0) {
                     var optionText = RED.nodes.node(RED.nodes.node(RED.nodes.node(group.id).parent).parent).name + '/' +
                         RED.nodes.node(RED.nodes.node(group.id).parent).name + '/' +
                         group.name;
