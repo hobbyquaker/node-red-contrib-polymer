@@ -16,10 +16,14 @@
             }
         </style>
         <template is="dom-if" if="{{_isImg(srcType)}}">
-            <img src="{{srcUrl}}">
+            <div id="external">
+                <img src="{{srcUrl}}">
+            </div>
         </template>
         <template is="dom-if" if="{{_isIframe(srcType)}}">
-            <iframe src="{{srcUrl}}"></iframe>
+            <div id="external">
+                <iframe src="{{srcUrl}}"></iframe>
+            </div>
         </template>
     </template>
     <script>
@@ -40,7 +44,9 @@
             ready: function () {
                 var elem;
                 var that = this;
+
                 setTimeout(function () {
+                    var container = that.querySelector('#external');
                     switch (that.srcType) {
                         case 'img':
                             elem = that.querySelector('img');
@@ -50,7 +56,12 @@
                             break;
                     }
                     if (that.srcInterval) {
+                        elem.addEventListener('load', function () {
+                            container.style.height = '';
+                        });
                         setInterval(function () {
+                            var height = container.offsetHeight;
+                            container.style.height = height + 'px';
                             elem.src = '';
                             elem.src = that.srcUrl + (that.srcUrl.indexOf('?') === -1 ? '?' : '&') + 'nocachetimestamp=' + (new Date()).getTime();
                         }, that.srcInterval * 1000);
