@@ -11,16 +11,18 @@ module.exports = function(RED) {
             control: {
                 type:           'polymer_paper-input',
                 parent:         config.parent,
-                element:        'paper-input',
+                element:        'node-red-paper-input',
                 inputType:      config.inputType,
-                attrs:          ['inputType', 'label'],
+                attrs:          ['inputType', 'label', 'min', 'max', 'step', 'maxlength', 'pattern', 'has-button', 'label-button'],
                 valueAttribute: 'value',
-                event:          'change:value',
+                event:          'set:value',
                 name:           config.name,
                 label:          config.label,
                 width:          config.width,
                 height:         config.height,
-                topic:          config.topic
+                topic:          config.topic,
+                'has-button':   config.hasButton ? '' : null,
+                'label-button': config.labelButton
             }
         });
 

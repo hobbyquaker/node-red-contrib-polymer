@@ -6,9 +6,15 @@
             name: {value: ''},
             label: {value: ''},
             inputType: {value: 'text'},
+            hasButton: {value: false},
+            labelButton: {value: 'Set'},
             parent: {value: ''},
             width: {value: '100%'},
             height: {value: ''},
+            min: {value: ''},
+            max: {value: ''},
+            step: {value: ''},
+            maxlength: {value: ''},
             topic: {value: ''}
         },
         inputs: 1,
@@ -67,24 +73,49 @@
         <label for="node-input-inputType"><i class="fa fa-tag"></i> Type</label>
         <select id="node-input-inputType">
             <option value="text">Text</option>
+            <option value="password">Password</option>
             <option value="number">Number</option>
             <option value="time">Time</option>
             <option value="datetime-local">Datetime</option>
             <option value="color">Color</option>
-            <!--<option value="email">Email</option>-->
+            <option value="email">Email</option>
             <option value="month">Month</option>
-            <!--<option value="tel">Tel</option>-->
-            <!--<option value="url">URL</option>-->
+            <option value="tel">Tel</option>
+            <option value="url">URL</option>
             <option value="week">Week</option>
         </select>
     </div>
+
+     <div class="form-row">
+        <label for="node-input-hasButton"><i class="fa fa-tag"></i> Button</label>
+        <input type="checkbox" id="node-input-hasButton">
+    </div>
+
+
+    <div class="form-row">
+        <label for="node-input-min"><i class="fa fa-tag"></i> Min</label>
+        <input type="text" id="node-input-min">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-max"><i class="fa fa-tag"></i> Max</label>
+        <input type="text" id="node-input-max">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-step"><i class="fa fa-tag"></i> Step</label>
+        <input type="text" id="node-input-step">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-maxlength"><i class="fa fa-tag"></i> Maxlength</label>
+        <input type="text" id="node-input-maxlength">
+    </div>
+
     <div class="form-row">
         <label for="node-input-topic"><i class="fa fa-tag"></i> Topic</label>
         <input type="text" id="node-input-topic">
     </div>
-
-
-
 
 </script>
 

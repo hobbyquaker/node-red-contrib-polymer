@@ -1,0 +1,82 @@
+<dom-module id="node-red-paper-input">
+    <template>
+        <style>
+            :host {
+                display: inline-block;
+                width: 100%;
+            }
+            #input-container {
+                width: 100%;
+                display: flex;
+                flex-direction: row;
+                align-items: flex-end;
+            }
+            #button-container {
+                padding-left: 6px;
+            }
+            paper-input {
+                flex-grow: 1;
+            }
+            paper-button {
+
+            }
+        </style>
+        <div id="input-container">
+            <paper-input
+
+                value="{{value}}"
+                label="[[label]]"
+                type="[[type]]"
+                min="[[min]]"
+                max="[[max]]"
+                step="[[step]]"
+                maxlength="[[maxlength]]"
+                pattern="[[pattern]]"
+
+            ></paper-input>
+            <template is="dom-if" if="[[hasButton]]">
+                <div id="button-container">
+                    <paper-button>[[labelButton]]</paper-button>
+                </div>
+            </template>
+        </div>
+    </template>
+    <script>
+        Polymer({
+            is: 'node-red-paper-input',
+            properties: {
+                label: {
+                    type: String,
+                    value: ''
+                },
+                hasButton: {
+                    type: Boolean
+                },
+                labelButton: {
+                    type: String,
+                    value: 'Set'
+                }
+
+            },
+            ready: function () {
+                var that = this;
+                setTimeout(function () {
+                    that._init.apply(that);
+                }, 0);
+
+            },
+            _init: function () {
+                var input = this.querySelector('paper-input');
+                var button = this.querySelector('paper-button');
+                if (this.hasButton) {
+                    button.addEventListener('click', this._send);
+                } else {
+                    input.addEventListener('change', this._send);
+                }
+            },
+            _send: function () {
+                this.fire('set');
+            }
+        })
+    </script>
+</dom-module>
