@@ -25,6 +25,7 @@
             <paper-input
 
                 value="{{value}}"
+                inputValue="{{inputValue}}"
                 label="[[label]]"
                 type="[[type]]"
                 min="[[min]]"
@@ -55,6 +56,10 @@
                 labelButton: {
                     type: String,
                     value: 'Set'
+                },
+                value: {
+                    type: String,
+                    reflectToAttribute: true
                 }
 
             },
@@ -76,6 +81,9 @@
             },
             _send: function () {
                 this.fire('set');
+            },
+            _valueChange: function () {
+                console.log('valueChange', this.value);
             }
         })
     </script>
