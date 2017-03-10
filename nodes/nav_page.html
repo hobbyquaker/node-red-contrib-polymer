@@ -31,7 +31,7 @@
                     options[n.name] = '<option value="' + n.id + '"' +
                         (n.id === page.parent ? ' selected' : '') +
                         '>' + n.name + '</option>';
-                } else if (n.type === 'polymer_nav_group' && n.parent === page.id) {
+                } else if (n.type.indexOf('polymer_nav_group') !== -1 && n.parent === page.id) {
                     groups[n.id] = n;
                     //$grouplist.editableList('addItem', n);
                 }
