@@ -4,6 +4,10 @@ const vulcanize =   require('gulp-vulcanize');
 const gulpCopy =    require('gulp-copy');
 const manifest =    require('gulp-manifest');
 
+
+gulp.task('default', ['clean', 'vulcanize', 'copy', 'manifest']);
+
+
 gulp.task('clean', function () {
     return gulp.src('dist/*', {read: false})
         .pipe(clean());
@@ -43,6 +47,3 @@ gulp.task('manifest', ['vulcanize', 'copy'], function (){
         }))
         .pipe(gulp.dest('dist'));
 });
-
-
-gulp.task('default', ['clean', 'vulcanize', 'copy', 'manifest']);
