@@ -32,7 +32,7 @@ gulp.task('copy', ['clean'], function () {
 });
 
 gulp.task('manifest', ['vulcanize', 'copy'], function (){
-    gulp.src(['dist/**/*'], { base: './' })
+    gulp.src(['dist/**/*'], { base: './dist' })
         .pipe(manifest({
             hash: true,
             timestamp: false,
