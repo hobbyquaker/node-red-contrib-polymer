@@ -1,11 +1,15 @@
-const gulp = require('gulp');
-const vulcanize = require('gulp-vulcanize');
-const gulpCopy = require('gulp-copy');
-const manifest = require('gulp-manifest');
+const gulp =        require('gulp');
+const clean =       require('gulp-clean');
+const vulcanize =   require('gulp-vulcanize');
+const gulpCopy =    require('gulp-copy');
+const manifest =    require('gulp-manifest');
 
+gulp.task('clean', function () {
+    return gulp.src('dist/*', {read: false})
+        .pipe(clean());
+});
 
-
-gulp.task('vulcanize', function() {
+gulp.task('vulcanize', ['clean'], function () {
     return gulp.src('src/index.html')
         .pipe(vulcanize({
             excludes: ['socket.io/socket.io.js'],
@@ -14,7 +18,7 @@ gulp.task('vulcanize', function() {
         .pipe(gulp.dest('dist'));
 });
 
-gulp.task('copy', function () {
+gulp.task('copy', ['clean'], function () {
     return gulp
         .src([
             'src/bower_components/async/dist/async.min.js',
@@ -27,10 +31,11 @@ gulp.task('copy', function () {
         .pipe(gulpCopy('dist/', {prefix: 1}))
 });
 
-gulp.task('manifest', function(){
+gulp.task('manifest', ['vulcanize', 'copy'], function (){
     gulp.src(['dist/**/*'], { base: './' })
         .pipe(manifest({
             hash: true,
+            timestamp: false,
             preferOnline: false,
             network: ['*'],
             filename: 'app.manifest',
@@ -38,3 +43,6 @@ gulp.task('manifest', function(){
         }))
         .pipe(gulp.dest('dist'));
 });
+
+
+gulp.task('default', ['clean', 'vulcanize', 'copy', 'manifest']);
