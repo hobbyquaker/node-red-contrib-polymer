@@ -238,7 +238,7 @@ function createGroup(groupId, pageId, siteId) {
     var group = groups[groupId];
 
     var groupElem = document.createElement('paper-card');
-
+    groupElem.setAttribute('id', 'group-' + groupId.replace('.', '_'));
 
     switch (group.type) {
         case 'polymer_nav_group':

@@ -26,6 +26,7 @@
       "polymer_nav_group_collapsible": "nodes/nav_group_collapsible.js",
       "polymer_paper-toast": "nodes/paper-toast.js",
       "polymer_template": "nodes/polymer_template.js",
+      "polymer_html": "nodes/polymer_html.js",
       "polymer_external": "nodes/polymer_external.js",
       "polymer_paper-button": "nodes/paper-button.js",
       "polymer_paper-checkbox": "nodes/paper-checkbox.js",
