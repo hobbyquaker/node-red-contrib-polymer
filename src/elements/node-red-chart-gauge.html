@@ -1,0 +1,58 @@
+<dom-module id="node-red-chart-gauge">
+    <template>
+        <style>
+            :host {
+                display: inline-block;
+                min-height: 24px;
+            }
+            google-chart {
+                width: 100%;
+            }
+        </style>
+        <google-chart type="gauge" data='[ ["Label", "Value"], ["",0] ]'></google-chart>
+
+    </template>
+    <script>
+        Polymer({
+            is: 'node-red-chart-gauge',
+            properties: {
+                value: {
+                    type: Number,
+                    value: 0,
+                    observer: '_valueChange'
+                },
+                label: {
+                    type: String,
+                    value: ''
+                }
+            },
+            ready: function () {
+                this.firstReady = true;
+                var that = this;
+                var chart = that.querySelector('google-chart');
+                console.log(chart);
+                chart.addEventListener('google-chart-ready', function () {
+
+                    // TODO find a better way and remove this ugly workaround!
+
+                    if (!that.firstReady) return;
+                    that.firstReady = false;
+                    chart.setAttribute('data', JSON.stringify(
+                        [["Label", "Value"],[that.label, 0]]
+                    ));
+                    that._valueChange.apply(that);
+                });
+            },
+            _valueChange: function () {
+                var that = this;
+                console.log('valueChange', this.value);
+                var chart = this.querySelector('google-chart');
+                chart.setAttribute('data', JSON.stringify(
+                    [["Label", "Value"],[that.label, that.value || 0]]
+                ));
+
+            }
+        });
+    </script>
+
+</dom-module>
