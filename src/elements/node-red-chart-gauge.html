@@ -47,7 +47,6 @@
             },
             _valueChange: function () {
                 var that = this;
-                console.log('valueChange', this.value);
                 var chart = this.querySelector('google-chart');
                 chart.setAttribute('data', JSON.stringify(
                     [["Label", "Value"],[that.label, that.value || 0]]
