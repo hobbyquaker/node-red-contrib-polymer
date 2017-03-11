@@ -9,8 +9,7 @@
                 width: 100%;
             }
         </style>
-        <google-chart type="gauge" data='[ ["Label", "Value"], ["",0] ]'></google-chart>
-
+        <google-chart type="gauge" options$="[[options]]" data='[ ["Label", "Value"], ["",0] ]'></google-chart>
     </template>
     <script>
         Polymer({
@@ -22,6 +21,10 @@
                     observer: '_valueChange'
                 },
                 label: {
+                    type: String,
+                    value: ''
+                },
+                options: {
                     type: String,
                     value: ''
                 }

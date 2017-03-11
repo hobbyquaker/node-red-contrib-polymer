@@ -14,11 +14,39 @@ module.exports = function(RED) {
                 element:        'node-red-chart-gauge',
                 label:          config.label,
                 attrType:       'gauge',
-                attrs:          ['attrType'],
+                attrs:          ['attrType', 'options'],
                 valueAttribute: 'value',
                 topic:          config.topic,
+                min:            config.min,
+                max:            config.max,
+                majorTicks:     config.majorTicks,
+                minorTicks:     config.minorTicks,
+                greenFrom:      config.greenFrom,
+                greenTo:        config.greenTo,
+                greenColor:     config.greenColor,
+                yellowFrom:     config.yellowFrom,
+                yellowTo:       config.yellowTo,
+                yellowColor:    config.yellowColor,
+                redFrom:        config.redFrom,
+                redTo:          config.redTo,
+                redColor:       config.redColor,
                 width:          config.width,
-                height:         config.height
+                height:         config.height,
+                options:        JSON.stringify({
+                    min:            config.min || undefined,
+                    max:            config.max,
+                    majorTicks:     config.majorTicks || undefined,
+                    minorTicks:     config.minorTicks || undefined,
+                    greenFrom:      config.greenFrom || undefined,
+                    greenTo:        config.greenTo || undefined,
+                    greenColor:     config.greenColor || undefined,
+                    yellowFrom:     config.yellowFrom || undefined,
+                    yellowTo:       config.yellowTo || undefined,
+                    yellowColor:    config.yellowColor || undefined,
+                    redFrom:        config.redFrom || undefined,
+                    redTo:          config.redTo || undefined,
+                    redColor:       config.redColor || undefined
+                })
             }
         });
 

@@ -8,7 +8,20 @@
             parent: {value: ''},
             width: {value: '100%'},
             height: {value: ''},
-            topic: {value: ''}
+            topic: {value: ''},
+            min:            {value: 0},
+            max:            {value: 100},
+            majorTicks:     {value: ''},
+            minorTicks:     {value: 2},
+            greenFrom:      {value: ''},
+            greenTo:        {value: ''},
+            greenColor:     {value: '#109618'},
+            yellowFrom:     {value: ''},
+            yellowTo:       {value: ''},
+            yellowColor:    {value: '#FF9900'},
+            redFrom:        {value: ''},
+            redTo:          {value: ''},
+            redColor:       {value: '#DC3912'}
         },
         inputs: 1,
         outputs: 0,
@@ -60,6 +73,62 @@
         <label for="node-input-label"><i class="fa fa-tag"></i> Label</label>
         <input type="text" id="node-input-label">
     </div>
+    <div class="form-row">
+        <label for="node-input-min"><i class="fa fa-tag"></i> Min</label>
+        <input type="text" id="node-input-min">
+    </div>
+    <div class="form-row">
+        <label for="node-input-max"><i class="fa fa-tag"></i> Max</label>
+        <input type="text" id="node-input-max">
+    </div>
+    <div class="form-row">
+        <label for="node-input-majorTicks"><i class="fa fa-tag"></i> majorTicks</label>
+        <input type="text" id="node-input-majorTicks">
+    </div>
+    <div class="form-row">
+        <label for="node-input-minorTicks"><i class="fa fa-tag"></i> minorTicks</label>
+        <input type="number" id="node-input-minorTicks">
+    </div>
+    <div class="form-row">
+        <label for="node-input-majorTicks"><i class="fa fa-tag"></i> majorTicks</label>
+        <input type="text" id="node-input-majorTicks">
+    </div>
+    <div class="form-row">
+        <label for="node-input-greenFrom"><i class="fa fa-tag"></i> greenFrom</label>
+        <input type="number" id="node-input-greenFrom">
+    </div>
+    <div class="form-row">
+        <label for="node-input-greenTo"><i class="fa fa-tag"></i> greenTo</label>
+        <input type="number" id="node-input-greenTo">
+    </div>
+    <div class="form-row">
+        <label for="node-input-greenColor"><i class="fa fa-tag"></i> greenColor</label>
+        <input type="color" id="node-input-greenColor">
+    </div>
+    <div class="form-row">
+        <label for="node-input-yellowFrom"><i class="fa fa-tag"></i> yellowFrom</label>
+        <input type="number" id="node-input-yellowFrom">
+    </div>
+    <div class="form-row">
+        <label for="node-input-yellowTo"><i class="fa fa-tag"></i> yellowTo</label>
+        <input type="number" id="node-input-yellowTo">
+    </div>
+    <div class="form-row">
+        <label for="node-input-yellowColor"><i class="fa fa-tag"></i> yellowColor</label>
+        <input type="color" id="node-input-yellowColor">
+    </div>
+    <div class="form-row">
+        <label for="node-input-redFrom"><i class="fa fa-tag"></i> redFrom</label>
+        <input type="number" id="node-input-redFrom">
+    </div>
+    <div class="form-row">
+        <label for="node-input-redTo"><i class="fa fa-tag"></i> redTo</label>
+        <input type="number" id="node-input-redTo">
+    </div>
+    <div class="form-row">
+        <label for="node-input-redColor"><i class="fa fa-tag"></i> redColor</label>
+        <input type="color" id="node-input-redColor">
+    </div>
 
     <div class="form-row">
         <label for="node-input-topic"><i class="fa fa-tag"></i> Topic</label>
@@ -74,5 +143,6 @@
 </script>
 
 <script type="text/x-red" data-help-name="google_chart-gauge">
-
+    see options here: <a href="https://developers.google.com/chart/interactive/docs/gallery/gauge" target="_blank">
+    https://developers.google.com/chart/interactive/docs/gallery/gauge</a>
 </script>
