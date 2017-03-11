@@ -32,6 +32,7 @@ window.addEventListener('WebComponentsReady', function (e) {
 
     socket = io({path: location.pathname + 'socket.io'});
     socket.on('connect', function () {
+        console.log(socket);
         document.getElementById('disconnect').removeAttribute('opened');
     });
 
@@ -339,7 +340,7 @@ function createElement(elem, container) {
     if (elem.attrs && elem.attrs.forEach) {
         elem.attrs.forEach(function (attr) {
             var value = elem[attr];
-            if (attr === 'inputType') attr = 'type';
+            if (attr === 'attrType') attr = 'type';
             if (value === null || (typeof value === 'undefined')) {
                 customElement.removeAttribute(attr);
             } else if (typeof value === 'object') {
@@ -462,7 +463,7 @@ function updateElem(msg) {
     } else {
         Object.keys(msg.payload).forEach(function (attr) {
             var val = msg.payload[attr];
-            if (attr === 'inputType') attr = 'type';
+            if (attr === 'attrType') attr = 'type';
             if (val !== null) {
                 elem.setAttribute(attr, val);
             } else {
