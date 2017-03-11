@@ -1,0 +1,33 @@
+<dom-module id="node-red-html">
+    <template>
+        <style>
+            :host {
+                display: inline-block;
+                min-height: 24px;
+            }
+        </style>
+        <div id="html-container">
+
+        </div>
+
+    </template>
+    <script>
+        Polymer({
+            is: 'node-red-html',
+            properties: {
+                innerHTML: {
+                    type: String,
+                    value: '',
+                    observer: '_html'
+                }
+            },
+            ready: function () {
+
+            },
+            _html: function () {
+                this.querySelector('#html-container').innerHTML = this.innerHTML;
+            }
+        })
+    </script>
+
+</dom-module>
