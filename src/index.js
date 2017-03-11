@@ -425,6 +425,7 @@ function updateElem(msg) {
     if (!elem) return;
 
     var replacement;
+    var replaced;
     if (typeof elements[msg.id].payloadFalse !== 'undefined') {
         switch (elements[msg.id].payloadFalseType) {
             case 'bool':
@@ -438,7 +439,10 @@ function updateElem(msg) {
         }
         if (msg.payload === replacement) {
             msg.payload = false;
-        } else if (typeof elements[msg.id].payloadTrue !== 'undefined') {
+            replaced = true;
+        }
+
+        if (!replaced && typeof elements[msg.id].payloadTrue !== 'undefined') {
             switch (elements[msg.id].payloadTrueType) {
                 case 'bool':
                     replacement = elements[msg.id].payloadTrue === 'true';
@@ -463,12 +467,47 @@ function updateElem(msg) {
     } else {
         Object.keys(msg.payload).forEach(function (attr) {
             var val = msg.payload[attr];
-            if (attr === 'attrType') attr = 'type';
-            if (val !== null) {
-                elem.setAttribute(attr, val);
+
+            if (attr === 'style' && typeof val === 'object') {
+                // TODO some elements need workaround:
+                // when they are rendered with display:none on start they render wrong size when
+                // display:none is removed later
+                Object.keys(val).forEach(function (style) {
+                    elem.style[style] = val[style];
+                });
+
+            } else if (attr === 'addClass') {
+                if (typeof val === 'string') {
+                    val = val.split(' ');
+                }
+                if (typeof val === 'object' && val.forEach) {
+                    val.forEach(function (c) {
+                        elem.classList.add(c);
+                    });
+                }
+
+            } else if (attr === 'removeClass') {
+                if (typeof val === 'string') {
+                    val = val.split(' ');
+                }
+                if (typeof val === 'object' && val.forEach) {
+                    val.forEach(function (c) {
+                        elem.classList.remove(c);
+                    });
+                }
+
             } else {
-                elem.removeAttribute(attr);
+                if (attr === 'attrType') {
+                    attr = 'type';
+                }
+                if (val !== null) {
+                    elem.setAttribute(attr, val);
+                } else {
+                    elem.removeAttribute(attr);
+                }
             }
+
+
         });
     }
 
