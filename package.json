@@ -33,7 +33,8 @@
       "polymer_paper-toggle-button": "nodes/paper-toggle-button.js",
       "polymer_paper-input": "nodes/paper-input.js",
       "polymer_paper-dropdown": "nodes/paper-dropdown.js",
-      "polymer_paper-slider": "nodes/paper-slider.js"
+      "polymer_paper-slider": "nodes/paper-slider.js",
+      "google_chart-gauge": "nodes/google_chart-gauge.js"
     }
   },
   "dependencies": {

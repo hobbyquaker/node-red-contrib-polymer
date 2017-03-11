@@ -1,0 +1,78 @@
+<script type="text/javascript">
+    RED.nodes.registerType('google_chart-gauge', {
+        category: 'polymer',
+        color: '#a6bbcf',
+        defaults: {
+            name: {value: ''},
+            label: {value: ''},
+            parent: {value: ''},
+            width: {value: '100%'},
+            height: {value: ''},
+            topic: {value: ''}
+        },
+        inputs: 1,
+        outputs: 0,
+        //icon: "ui_button.png",
+        paletteLabel: 'gauge',
+        label: function() { return this.name || 'gauge'; },
+        oneditprepare: function () {
+            var node = this;
+            var options = {};
+            RED.nodes.eachNode(function (group) {
+                if (group.type.indexOf('polymer_nav_group') === 0) {
+                    var optionText = RED.nodes.node(RED.nodes.node(RED.nodes.node(group.id).parent).parent).name + '/' +
+                        RED.nodes.node(RED.nodes.node(group.id).parent).name + '/' +
+                        group.name;
+
+                    options[optionText] = '<option value="' + group.id + '"' +
+                        (group.id === node.parent ? ' selected' : '') + '>' +
+                        optionText + '</option>';
+
+                }
+            });
+            Object.keys(options).sort().forEach(function (option) {
+                jQuery('#node-input-parent').append(options[option]);
+            });
+
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="google_chart-gauge">
+    <div class="form-row">
+        <label for="node-input-parent"><i class="fa fa-tag"></i> Parent Group</label>
+        <select id="node-input-parent">
+        </select>
+    </div>
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-width"><i class="fa fa-tag"></i> Width</label>
+        <input type="text" id="node-input-width">
+    </div>
+    <div class="form-row">
+        <label for="node-input-height"><i class="fa fa-tag"></i> Height</label>
+        <input type="text" id="node-input-height">
+    </div>
+    <div class="form-row">
+        <label for="node-input-label"><i class="fa fa-tag"></i> Label</label>
+        <input type="text" id="node-input-label">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-topic"><i class="fa fa-tag"></i> Topic</label>
+        <input type="text" id="node-input-topic">
+    </div>
+    <div class="form-row">
+        <label style="width:auto" for="node-input-payload"><i class="fa fa-envelope-o"></i> When clicked, send:</label>
+    </div>
+
+
+
+</script>
+
+<script type="text/x-red" data-help-name="google_chart-gauge">
+
+</script>
