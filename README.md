@@ -27,15 +27,18 @@ In fact it's a fully rewritten fork of Andrei Tatars original
 
 * Uses [Polymer](https://www.polymer-project.org) instead of Angular. I don't like Angular. Your mileage may vary.
 * Sites: You can create an unlimited number of independent dashboards.
-* Hash-Navigation: Sites and pages are reflected as an URL hash, you can directly jump to a specific page.
+* Hash-Navigation: Sites and pages are reflected as an URL hash, you can directly jump to a specific page and the 
+browser navigation works as expected.
 * When Deploying in Node-RED the current Page will be preserved after reload. It's even possible to optionally preserve 
 the scroll position.
 * Sites, pages and groups are "normal" nodes. That makes it more intuitive to directly manipulate them through messages
-and they could also output status information.
+and they can also output status information.
 * *All* HTML-attributes of every node can be easily manipulated by just passing a message to them.
 * No fixed grid, nodes can be sized without restrictions.
 * Toasts can be bound to specific sites or pages.
 * Buttons can send messages repeatedly on continuous press with configurable interval.
+* Collapsible Group Containers.
+* Icon preview and autocomplete.
 
 
 This project is in an early development stage, see the issue tracker to get an idea of the roadmap.
