@@ -36,6 +36,8 @@ module.exports = function(RED) {
                 options:        JSON.stringify({
                     min:            config.min || undefined,
                     max:            config.max,
+                    width:          (config.width.indexOf('px') !== -1 ? parseInt(config.width.replace('px', ''), 10) : undefined),
+                    height:         (config.height.indexOf('px') !== -1 ? parseInt(config.height.replace('px', ''), 10) : undefined),
                     majorTicks:     config.majorTicks || undefined,
                     minorTicks:     config.minorTicks || undefined,
                     greenFrom:      config.greenFrom || undefined,
