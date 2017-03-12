@@ -12,6 +12,7 @@ module.exports = function(RED) {
                 type:           'polymer_paper-toggle-button',
                 parent:         config.parent,
                 element:        'paper-toggle-button',
+                'class':        config.class,
                 html:           config.html,
                 attrs:          [],
                 valueAttribute: 'checked',

@@ -12,6 +12,7 @@ module.exports = function(RED) {
                 type:           'polymer_paper-checkbox',
                 parent:         config.parent,
                 element:        'paper-checkbox',
+                'class':        config.class,
                 html:           config.html,
                 attrs:          [],
                 valueAttribute: 'checked',

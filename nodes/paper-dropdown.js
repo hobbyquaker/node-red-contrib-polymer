@@ -12,6 +12,7 @@ module.exports = function(RED) {
                 type:           'polymer_paper-dropdown',
                 parent:         config.parent,
                 element:        'node-red-paper-dropdown',
+                'class':        config.class,
                 label:           config.label,
                 attrs:          ['options', 'label', 'horizontal-align', 'vertical-align', 'menu-width'],
                 valueAttribute: 'value',

@@ -12,12 +12,14 @@ module.exports = function(RED) {
                 type:           'polymer_paper-toast',
                 parent:         config.parent,
                 element:        'paper-toast',
+                'class':        config.class,
                 text:           config.text,
+                'on-click': 'this.close',
                 'always-on-top':            config.alwaysOnTop              ? '' : null,
                 'no-cancel-on-esc-key':       config.noCancelOnEscKey         ? '' : null,
                 'no-cancel-on-outside-click': config.noCancelOnOutsideClick   ? '' : null,
                 duration:       config.duration ? config.duration : Infinity,
-                attrs:          ['always-on-top', 'no-cancel-on-esc-key', 'no-cancel-on-outside-click', 'duration', 'text'],
+                attrs:          ['on-click', 'always-on-top', 'no-cancel-on-esc-key', 'no-cancel-on-outside-click', 'duration', 'text'],
                 valueAttribute: 'opened',
                 valueFalseNull: true
             }

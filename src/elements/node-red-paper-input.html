@@ -32,11 +32,12 @@
                 step="[[step]]"
                 maxlength="[[maxlength]]"
                 pattern="[[pattern]]"
+                disabled="[[disabled]]"
 
             ></paper-input>
             <template is="dom-if" if="[[hasButton]]">
                 <div id="button-container">
-                    <paper-button raised="[[raisedButton]]">[[labelButton]]</paper-button>
+                    <paper-button raised="[[raisedButton]]" disabled="[[disabled]]">[[labelButton]]</paper-button>
                 </div>
             </template>
         </div>
@@ -48,6 +49,9 @@
                 label: {
                     type: String,
                     value: ''
+                },
+                disabled: {
+                    type: Boolean
                 },
                 hasButton: {
                     type: Boolean

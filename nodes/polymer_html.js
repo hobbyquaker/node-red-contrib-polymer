@@ -11,6 +11,7 @@ module.exports = function(RED) {
             control: {
                 type:           'polymer_html',
                 parent:         config.parent,
+                'class':        config.class,
                 element:        'node-red-html',
                 valueAttribute: 'inner-h-t-m-l',
                 width:          config.width,

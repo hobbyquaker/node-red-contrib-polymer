@@ -5,6 +5,7 @@
         defaults: {
             name: {value: ''},
             parent: {value: ''},
+            'class': {value: ''},
             title: {value: ''},
             elementOrder: {value: []}
         },
@@ -76,7 +77,12 @@
         <label for="node-input-title"><i class="fa fa-tag"></i> Title</label>
         <input type="text" id="node-input-title">
     </div>
-        <div class="form-row node-input-sort-container-row">
+    <div class="form-row">
+        <label for="node-input-class"><i class="fa fa-tag"></i> Class</label>
+        <input type="text" id="node-input-class">
+    </div>
+
+    <div class="form-row node-input-sort-container-row">
         <ol id="node-input-sort-container"></ol>
     </div>
 </script>

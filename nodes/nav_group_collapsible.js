@@ -11,6 +11,7 @@ module.exports = function(RED) {
             control: {
                 type:           'polymer_nav_group_collapsible',
                 parent:         config.parent,
+                'class':        config.class,
                 name:           config.name,
                 title:          config.title,
                 elementOrder:   config.elementOrder

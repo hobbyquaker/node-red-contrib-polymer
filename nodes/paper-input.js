@@ -12,6 +12,7 @@ module.exports = function(RED) {
                 type:           'polymer_paper-input',
                 parent:         config.parent,
                 element:        'node-red-paper-input',
+                'class':        config.class,
                 attrType:       config.attrType,
                 attrs:          ['attrType', 'label', 'min', 'max', 'step', 'maxlength', 'pattern', 'has-button', 'label-button', 'raised-button'],
                 valueAttribute: 'value',

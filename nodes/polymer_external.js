@@ -11,6 +11,7 @@ module.exports = function(RED) {
             control: {
                 type:           'polymer_external',
                 parent:         config.parent,
+                'class':        config.class,
                 element:        'node-red-external',
                 'src-interval': config.srcInterval,
                 'src-url':      config.srcUrl,

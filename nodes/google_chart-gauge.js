@@ -11,6 +11,7 @@ module.exports = function(RED) {
             control: {
                 type:           'google_chart-gauge',
                 parent:         config.parent,
+                'class':        config.class,
                 element:        'node-red-chart-gauge',
                 label:          config.label,
                 attrType:       'gauge',

@@ -12,6 +12,7 @@ module.exports = function(RED) {
                 type:           'polymer_paper-slider',
                 parent:         config.parent,
                 element:        'paper-slider',
+                'class':        config.class,
                 pin:            config.pin ? '' : null,
                 snaps:          config.snaps ? '' : null,
                 editable:       config.editable ? '' : null,
