@@ -350,6 +350,12 @@ function createElement(elem, container) {
     if (elem.width) customElement.style.width = elem.width;
     if (elem.height) customElement.style.height = elem.height;
 
+    if (elem.class) {
+        elem.class.split(' ').forEach(function (c) {
+            customElement.classList.add(c);
+        });
+    }
+
     if (elem.html && elem.element.indexOf('node-red-template-') === -1) {
         var newContent = document.createTextNode(elem.html);
         customElement.appendChild(newContent);
