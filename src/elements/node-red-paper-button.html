@@ -9,8 +9,13 @@
                 width: 100%;
                 height: 100%;
             }
+            i.fa {
+                display: inline-block;
+                padding-right: 3px;
+            }
         </style>
         <paper-button id="button" raised$="[[raised]]" disabled$="[[disabled]]">
+            <i></i>
             [[label]]
         </paper-button>
     </template>
@@ -30,13 +35,16 @@
                     type: String,
                     value: '',
                     observer: '_color'
+                },
+                icon: {
+                    type: String,
+                    value: '',
+                    observer: '_icon'
                 }
             },
             ready: function () {
                 var that = this;
                 var button = this.querySelector('paper-button');
-
-
 
                 var interval;
 
@@ -68,6 +76,12 @@
             _color: function () {
                 if (this.color) {
                     this.querySelector('paper-button').style.backgroundColor = this.color;
+                }
+            },
+            _icon: function () {
+                if (this.icon) {
+                    this.querySelector('i').classList.add('fa');
+                    this.querySelector('i').classList.add('fa-' + this.icon);
                 }
             }
         })

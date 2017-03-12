@@ -17,7 +17,7 @@ module.exports = function(RED) {
                 raised:         config.raised ? '' : null,
                 disabled:       config.disabled ? '' : null,
                 repeat:         config.repeat,
-                attrs:          ['raised', 'label', 'disabled', 'repeat', 'color'],
+                attrs:          ['raised', 'label', 'disabled', 'repeat', 'color', 'icon'],
                 valueAttribute: 'active',
                 valueFalseNull: true,
                 event:          'send',
