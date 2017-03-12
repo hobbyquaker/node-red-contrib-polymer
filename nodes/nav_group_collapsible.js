@@ -15,6 +15,7 @@ module.exports = function(RED) {
                 name:           config.name,
                 title:          config.title,
                 elementOrder:   config.elementOrder,
+                saveOpened:     config.saveOpened,
                 valueAttribute: 'opened',
                 valueFalseNull: true
             }

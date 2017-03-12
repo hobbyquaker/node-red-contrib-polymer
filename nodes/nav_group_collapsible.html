@@ -7,6 +7,7 @@
             parent: {value: ''},
             'class': {value: ''},
             title: {value: ''},
+            saveOpened: {value: true},
             elementOrder: {value: []}
         },
         inputs: 1,
@@ -81,7 +82,10 @@
         <label for="node-input-class"><i class="fa fa-tag"></i> Class</label>
         <input type="text" id="node-input-class">
     </div>
-
+    <div class="form-row">
+        <label for="node-input-saveOpened"><i class="fa fa-tag"></i> Save Opened</label>
+        <input type="checkbox" id="node-input-saveOpened">
+    </div>
     <div class="form-row node-input-sort-container-row">
         <ol id="node-input-sort-container"></ol>
     </div>

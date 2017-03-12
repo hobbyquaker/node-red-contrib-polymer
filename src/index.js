@@ -329,17 +329,19 @@ function createGroup(groupId, pageId, siteId) {
             var groupElem = document.createElement('node-red-collapse');
             groupElem.setAttribute('id', elementId(groupId));
             if (group.title) groupElem.setAttribute('heading', group.title);
-            if (store.get(groupId) && store.get(groupId).opened) groupElem.setAttribute('opened', true);
-            groupElem.addEventListener('change', function (event) {
-                var groupStore = store.get(groupId) || {}
-                groupStore.opened = event.detail;
-                store.set(groupId, groupStore);
-                if (socket) socket.emit('output', {
-                    id: groupId,
-                    payload: event.detail
-                });
+            if (group.saveOpened && store.get(groupId) && store.get(groupId).opened) groupElem.setAttribute('opened', true);
+            if (group.saveOpened) {
+                groupElem.addEventListener('change', function (event) {
+                    var groupStore = store.get(groupId) || {}
+                    groupStore.opened = event.detail;
+                    store.set(groupId, groupStore);
+                    if (socket) socket.emit('output', {
+                        id: groupId,
+                        payload: event.detail
+                    });
 
-            });
+                });
+            }
             break;
 
     }
