@@ -6,7 +6,8 @@
             element: {value: 'polymer_paper-button', required: true},
             name: {value: ''},
             label: {value: ''},
-            attributes: {value: ''},
+            'class': {value: ''},
+            color: {color: ''},
             parent: {value: ''},
             repeat: {value: 0},
             width: {value: '100%'},
@@ -62,6 +63,10 @@
         <input type="text" id="node-input-name">
     </div>
     <div class="form-row">
+        <label for="node-input-class"><i class="fa fa-tag"></i> Class</label>
+        <input type="text" id="node-input-class">
+    </div>
+    <div class="form-row">
         <label for="node-input-width"><i class="fa fa-tag"></i> Width</label>
         <input type="text" id="node-input-width">
     </div>
@@ -73,6 +78,11 @@
         <label for="node-input-label"><i class="fa fa-tag"></i> Label</label>
         <input type="text" id="node-input-label">
     </div>
+    <div class="form-row">
+        <label for="node-input-color"><i class="fa fa-tag"></i> Color</label>
+        <input type="color" id="node-input-color">
+    </div>
+
     <!--
     <div class="form-row">
         <label for="node-input-icon"><i class="fa fa-tag"></i> Icon</label>

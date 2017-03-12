@@ -25,12 +25,21 @@
                 repeat: {
                     type: Number,
                     value: 0
+                },
+                color: {
+                    type: String,
+                    value: '',
+                    observer: '_color'
                 }
             },
             ready: function () {
                 var that = this;
                 var button = this.querySelector('paper-button');
+
+
+
                 var interval;
+
                 button.addEventListener('mousedown', start);
                 button.addEventListener('mouseup', end);
                 button.addEventListener('mouseout', end);
@@ -55,6 +64,11 @@
                     interval = null;
                 }
 
+            },
+            _color: function () {
+                if (this.color) {
+                    this.querySelector('paper-button').style.backgroundColor = this.color;
+                }
             }
         })
     </script>
