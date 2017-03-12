@@ -33,8 +33,11 @@ function add(opt) {
 
 	opt.node.on("input", function (msg) {
 		msg.id = opt.node.id;
-		if (!elements[msg.id]) elements[msg.id] = {};
-		elements[msg.id].lastMsg = msg;
+		//if (!elements[msg.id]) elements[msg.id] = {};
+		if (elements[msg.id]) elements[msg.id].lastMsg = msg;
+		if (groups[msg.id]) groups[msg.id].lastMsg = msg;
+		if (pages[msg.id]) pages[msg.id].lastMsg = msg;
+		if (sites[msg.id]) sites[msg.id].lastMsg = msg;
 		lastMsg[msg.id] = msg;
 
 		io.emit('input', msg);

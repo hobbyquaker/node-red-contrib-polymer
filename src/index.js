@@ -60,6 +60,10 @@ window.addEventListener('WebComponentsReady', function (e) {
         });
         Object.keys(pages).forEach(function (key) {
             var page = pages[key];
+            if (!page.parent) {
+                console.log('Error: page', key, 'has no parent. skipping', page);
+                return;
+            }
             var site = sites[page.parent];
             pagePaths[site.name + '/' + page.name] = page.id;
             if (!tree[site.id]) tree[page.parent] = {};
@@ -67,6 +71,10 @@ window.addEventListener('WebComponentsReady', function (e) {
         });
         Object.keys(groups).forEach(function (key) {
             var group = groups[key];
+            if (!group.parent) {
+                console.log('Error: group', key, 'has no parent. skipping', group);
+                return;
+            }
             var page = pages[group.parent];
             var site = sites[page.parent];
             if (!tree[site.id][page.id]) tree[site.id][page.id] = {};
@@ -75,6 +83,10 @@ window.addEventListener('WebComponentsReady', function (e) {
         Object.keys(elements).forEach(function (key) {
             var element = elements[key];
             if (element.element !== 'paper-toast') {
+                if (!element.parent) {
+                    console.log('Error: element', key, 'has no parent. skipping', element);
+                    return;
+                }
                 var group = groups[element.parent];
                 var page = pages[group.parent];
                 var site = sites[page.parent];
@@ -187,7 +199,7 @@ function initSite(siteName, pageName) {
 function createToasts() {
     toasts.forEach(function (toast) {
         if (pages[toast.parent]) {
-            var page = document.getElementById('page-' + toast.parent.replace('.', '_'));
+            var page = document.getElementById(elementId(toast.parent));
             if (page) {
                 createElement(toast, page);
             }
@@ -212,7 +224,7 @@ function pageChange(pageName) {
 function createPage(pageId, siteId) {
     var page = pages[pageId];
     var pageElem = document.createElement('div');
-    pageElem.setAttribute('id', 'page-' + pageId.replace('.', '_'));
+    pageElem.setAttribute('id', elementId(pageId));
 
     if (!page.groupOrder) page.groupOrder = [];
     page.groupOrder.forEach(function (groupId) {
@@ -239,7 +251,7 @@ function createGroup(groupId, pageId, siteId) {
     var group = groups[groupId];
 
     var groupElem = document.createElement('paper-card');
-    groupElem.setAttribute('id', 'group-' + groupId.replace('.', '_'));
+    groupElem.setAttribute('id', elementId(groupId));
 
     switch (group.type) {
         case 'polymer_nav_group':
@@ -255,6 +267,12 @@ function createGroup(groupId, pageId, siteId) {
             groupElem.appendChild(collapse);
             break;
 
+    }
+
+    if (group.lastMsg) {
+        setTimeout(function () {
+            updateElem(group.lastMsg);
+        }, 0);
     }
 
     return groupElem;
@@ -421,49 +439,58 @@ function elementId(id) {
 }
 
 function updateElem(msg) {
+    console.log('updateElem', msg)
     var elem = document.getElementById(elementId(msg.id));
     if (!elem) return;
 
     var replacement;
     var replaced;
-    if (typeof elements[msg.id].payloadFalse !== 'undefined') {
-        switch (elements[msg.id].payloadFalseType) {
+
+    var subject;
+    if (elements[msg.id]) subject = elements[msg.id];
+    if (groups[msg.id]) subject = groups[msg.id];
+    if (pages[msg.id]) subject = pages[msg.id];
+    if (sites[msg.id]) subject = sites[msg.id];
+
+
+    if (typeof subject.payloadFalse !== 'undefined') {
+        switch (subject.payloadFalseType) {
             case 'bool':
-                replacement = elements[msg.id].payloadFalse === 'true';
+                replacement = subject.payloadFalse === 'true';
                 break;
             case 'num':
-                replacement = parseFloat(elements[msg.id].payloadFalse);
+                replacement = parseFloat(subject.payloadFalse);
                 break;
             default:
-                replacement = elements[msg.id].payloadFalse;
+                replacement = subject.payloadFalse;
         }
         if (msg.payload === replacement) {
             msg.payload = false;
             replaced = true;
         }
 
-        if (!replaced && typeof elements[msg.id].payloadTrue !== 'undefined') {
-            switch (elements[msg.id].payloadTrueType) {
+        if (!replaced && typeof subject.payloadTrue !== 'undefined') {
+            switch (subject.payloadTrueType) {
                 case 'bool':
-                    replacement = elements[msg.id].payloadTrue === 'true';
+                    replacement = subject.payloadTrue === 'true';
                     break;
                 case 'num':
-                    replacement = parseFloat(elements[msg.id].payloadTrue);
+                    replacement = parseFloat(subject.payloadTrue);
                     break;
                 default:
-                    replacement = elements[msg.id].payloadTrue;
+                    replacement = subject.payloadTrue;
             }
             if (msg.payload === replacement) msg.payload = true;
         }
 
     }
 
-    if (elements[msg.id].valueFalseNull && msg.payload === false) msg.payload = null;
+    if (subject.valueFalseNull && msg.payload === false) msg.payload = null;
 
     if (msg.payload === null || (typeof msg.payload === 'undefined')) {
-        elem.removeAttribute(elements[msg.id].valueAttribute);
+        elem.removeAttribute(subject.valueAttribute);
     } else if (typeof msg.payload !== 'object') {
-        elem.setAttribute(elements[msg.id].valueAttribute, msg.payload);
+        elem.setAttribute(subject.valueAttribute, msg.payload);
     } else {
         Object.keys(msg.payload).forEach(function (attr) {
             var val = msg.payload[attr];
