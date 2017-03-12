@@ -85,7 +85,13 @@ remove them.
 
 Example `msg.payload`:
 ```
-{"label": "new label!", "raised":"", "disabled": null, "style": {"background-color": "red", "font-weight": "bold"}, "addClass": "foo"}
+{
+    "label": "new label!", 
+    "raised": "", 
+    "disabled": null, 
+    "style": {"background-color": "red", "font-weight": "bold"}, 
+    "addClass": "foo"
+}
 
 ```
 This will change the attribute label to "new label!", add the attribute `raised`, remove the attribute `disabled`, sets 
