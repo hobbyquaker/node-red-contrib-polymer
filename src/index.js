@@ -292,6 +292,13 @@ function createGroup(groupId, pageId, siteId) {
         case 'polymer_nav_group_collapsible':
             var collapse = document.createElement('node-red-collapse');
             if (group.title) collapse.setAttribute('heading', group.title);
+            collapse.addEventListener('change', function (event) {
+                if (socket) socket.emit('output', {
+                    id: groupId,
+                    payload: event.detail
+                });
+
+            });
             groupElem.appendChild(collapse);
             break;
 

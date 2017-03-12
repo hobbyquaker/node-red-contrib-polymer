@@ -54,8 +54,9 @@
             },
             _toggleOpened: function () {
                 this.opened = !this.opened;
+                this.fire('change', this.opened);
             },
-            _computeToggleIcon: function(opened) {
+            _computeToggleIcon: function (opened) {
                 return opened ? 'icons:expand-less' : 'icons:expand-more';
             }
         })
