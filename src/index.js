@@ -32,7 +32,7 @@ window.addEventListener('WebComponentsReady', function (e) {
 
     socket = io({path: location.pathname + 'socket.io'});
     socket.on('connect', function () {
-        console.log(socket);
+        //console.log(socket);
         document.getElementById('disconnect').removeAttribute('opened');
     });
 
@@ -439,7 +439,7 @@ function elementId(id) {
 }
 
 function updateElem(msg) {
-    console.log('updateElem', msg)
+    //console.log('updateElem', msg)
     var elem = document.getElementById(elementId(msg.id));
     if (!elem) return;
 
