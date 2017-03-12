@@ -19,7 +19,7 @@
                 </paper-menu>
             </app-drawer>
             <app-header-layout>
-                <app-header condenses reveals effects="waterfall">
+                <app-header fixed="[[fixed]]" reveals="[[reveals]]" effects="waterfall">
                     <app-toolbar>
                         <paper-icon-button icon="menu" drawer-toggle></paper-icon-button>
                         <div main-title>{{title}}</div>
@@ -56,7 +56,15 @@
                 },
                 forceNarrow: {
                     type: Boolean,
-                    value: null
+                    value: false
+                },
+                fixed: {
+                    type: Boolean,
+                    value: false
+                },
+                reveals: {
+                    type: Boolean,
+                    value: false
                 }
             },
             navigate: function () {

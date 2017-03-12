@@ -165,19 +165,22 @@ function initSite(siteName, pageName) {
     if (sites[siteId].css) {
         var style = document.createElement('style');
         style.innerText = sites[siteId].css;
-        document.querySelector('body').append(style);
+        document.querySelector('head').append(style);
     }
 
     document.querySelector('div.loader').style.display = 'none';
 
-
-
-
-
     var container = document.querySelector('node-red-polymer');
     container.setAttribute('title', pages[pageId].title);
+
     if (sites[siteId].forceNarrow) {
         container.setAttribute('force-narrow', '');
+    }
+    if (sites[siteId].fixed) {
+        container.setAttribute('fixed', '');
+    }
+    if (sites[siteId].reveals) {
+        container.setAttribute('reveals', '');
     }
 
     var menu = [];
@@ -549,8 +552,6 @@ function updateElem(msg) {
                 }
             }
 
-
         });
     }
-
 }

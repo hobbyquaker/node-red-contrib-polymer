@@ -15,7 +15,9 @@ module.exports = function(RED) {
                 css:            config.css,
                 theme:          config.theme,
                 pageOrder:      config.pageOrder,
-                forceNarrow:    config.forceNarrow
+                forceNarrow:    config.forceNarrow,
+                fixed:          config.fixed,
+                reveals:        config.reveals
             }
         });
 
