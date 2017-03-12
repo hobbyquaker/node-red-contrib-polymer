@@ -70,6 +70,7 @@ Example `msg.payload`:
 ```
 will add the classes "blue" and "bold" and remove the class "foo"
 
+
 ### Settings styles via msg
 
 Example `msg.payload`:
@@ -84,11 +85,11 @@ remove them.
 
 Example `msg.payload`:
 ```
-{"raised":"", "disabled": null, "style": {"background-color":red}, "addClass": "foo"}
+{"raised":"", "disabled": null, "style": {"background-color": "red", "font-weight": "bold"}, "addClass": "foo"}
 
 ```
-This will add the attribute `raised`, remove the attribute `disabled`, sets the background-color to red and add the
-class `foo` with one single message.
+This will add the attribute `raised`, remove the attribute `disabled`, sets the background-color to red, the font-weight
+to bold and add the class `foo` - with one single message.
 
 
 ## Contributing
