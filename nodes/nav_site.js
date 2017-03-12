@@ -15,6 +15,7 @@ module.exports = function(RED) {
                 css:            config.css,
                 theme:          config.theme,
                 pageOrder:      config.pageOrder,
+                saveScroll:     config.saveScroll,
                 forceNarrow:    config.forceNarrow,
                 fixed:          config.fixed,
                 reveals:        config.reveals

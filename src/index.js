@@ -17,7 +17,22 @@ var toasts = [];
 
 var socket;
 
-var storage = document.querySelector('node-red-polymer').storage;
+console.log(store.getAll());
+
+if (!store.get('clientId')) {
+    store.set('clientId', ('00000000' + (Math.ceil(Math.random() * Math.pow(2, 32))).toString(16)).slice(-8))
+    store.set('created', new Date());
+}
+
+store.set('connectionDate', new Date());
+
+if (!store.get('connectionCount')) {
+    store.set('connectionCount', 1);
+} else {
+    store.set('connectionCount', store.get('connectionCount') + 1);
+}
+
+
 
 
 window.addEventListener('WebComponentsReady', function (e) {
@@ -207,14 +222,35 @@ function initSite(siteName, pageName) {
 
     setTimeout(createToasts, 0);
 
+    if (sites[siteId].saveScroll) saveScroll();
+
     siteOutput(siteId, pageId);
 
+}
+
+function saveScroll() {
+    var scrollTimer;
+    window.addEventListener('scroll', function () {
+        clearTimeout(scrollTimer);
+        scrollTimer = setTimeout(function () {
+            var scrollObj = {};
+            scrollObj[currentSiteName + '/' + currentPageName] = window.scrollY;
+            store.set('scrollY', scrollObj);
+        }, 250);
+    });
+
+    var scrollY = store.get('scrollY');
+    if (scrollY && scrollY[currentSiteName + '/' + currentPageName]) {
+        setTimeout(function () {
+            window.scrollTo(0, scrollY[currentSiteName + '/' + currentPageName]);
+        }, 300);
+    }
 }
 
 
 function siteOutput(siteId, pageId) {
     var msg = {id: siteId, payload: {
-        clientId: storage.clientId,
+        clientId: store.get('clientId'),
         pageId: pageId
     }};
     if (socket) socket.emit('output', msg);
@@ -292,7 +328,11 @@ function createGroup(groupId, pageId, siteId) {
         case 'polymer_nav_group_collapsible':
             var collapse = document.createElement('node-red-collapse');
             if (group.title) collapse.setAttribute('heading', group.title);
+            if (store.get(groupId) && store.get(groupId).opened) collapse.setAttribute('opened', true);
             collapse.addEventListener('change', function (event) {
+                var groupStore = store.get(groupId) || {}
+                groupStore.opened = event.detail;
+                store.set(groupId, groupStore);
                 if (socket) socket.emit('output', {
                     id: groupId,
                     payload: event.detail

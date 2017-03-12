@@ -10,11 +10,6 @@
             }
         </style>
 
-        <iron-localstorage name="node-red-polymer-storage"
-                           value="{{storage}}"
-                           on-iron-localstorage-load-empty="initializeDefaultStorage"
-        ></iron-localstorage>
-
         <app-drawer-layout force-narrow="[[forceNarrow]]">
             <app-drawer>
                 <paper-menu selected="{{selected}}">
@@ -41,9 +36,6 @@
         Polymer({
             is: "node-red-polymer",
             properties: {
-                storage: {
-                    type: Object
-                },
                 menu: {
                     type: Array,
                     observer: 'select'
@@ -99,12 +91,6 @@
                         });
                     });
                 })
-            },
-            initializeDefaultStorage: function () {
-                this.storage = {
-                    created: new Date(),
-                    clientId: ('00000000' + ((Math.floor(Math.random() * Math.pow(2, 32)))).toString(16)).slice(-8)
-                };
             }
         });
     </script>
