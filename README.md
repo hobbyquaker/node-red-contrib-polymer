@@ -13,12 +13,9 @@ In fact it's a fully rewritten fork of Andrei Tatars original
 
 ## FAQs
 
-#### So why another dashboard UI when node-red-dashboard already exists?
+#### So why another Node-RED Dashboard UI when node-red-dashboard already exists?
 
-* I don't like AngularJS, I favor [Polymer](https://www.polymer-project.org).
-* I missed several features in node-red-dashboard...
-* I think many of the node-red-dashboard concepts are to opinionated.
-* Educational purpose, fun, ... :)
+* Mhmm. There are reasons.
 
 
 #### Can node-red-contrib-polymer and node-red-dashboard coexist on one node-red instance?
@@ -28,6 +25,7 @@ In fact it's a fully rewritten fork of Andrei Tatars original
 
 #### What are the differences between node-red-dashboard and node-red-contrib-polymer?
 
+* Uses [Polymer](https://www.polymer-project.org) instead of Angular. I don't like Angular. Your mileage may vary.
 * Sites: You can create an unlimited number of independent dashboards.
 * Hash-Navigation: Sites and pages are reflected as an URL hash, you can directly jump to a specific page.
 * When Deploying in Node-RED the current Page will be preserved after reload. It's even possible to optionally preserve 
@@ -58,6 +56,7 @@ As usual do `npm install node-red-contrib-polymer`. Default URL of the Dashboard
 There are some checks and convinience things missing until now, so you need to make sure that you create a Site Node, 
 a Page Node and a Group Node. The Group needs to have the Page as parent, the Page needs to have the Site as parent. 
 Then you can add an element with the Group as parent.
+
 
 ### Adding and removing classes via msg
 
