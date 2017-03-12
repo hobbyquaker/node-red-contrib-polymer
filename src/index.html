@@ -85,6 +85,8 @@
 
     <link rel="import" href="bower_components/polymer/polymer.html">
 
+    <link rel="import" href="bower_components/iron-localstorage/iron-localstorage.html">
+
     <link rel="import" href="bower_components/iron-icons/iron-icons.html">
     <link rel="import" href="bower_components/paper-icon-button/paper-icon-button.html">
 
@@ -107,7 +109,7 @@
     <link rel="import" href="bower_components/paper-listbox/paper-listbox.html">
     <link rel="import" href="bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
     <link rel="import" href="bower_components/paper-toast/paper-toast.html">
-">
+
     <link rel="import" href="bower_components/google-chart/google-chart.html">
 
     <link rel="import" href="elements/node-red-polymer.html">
@@ -209,6 +211,8 @@
 <body>
 
     <div class="loader"></div>
+
+    <iron-localstorage id="storage" name="node-red-polymer-storage"></iron-localstorage>
 
     <node-red-polymer></node-red-polymer>
 
