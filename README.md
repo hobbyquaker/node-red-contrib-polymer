@@ -97,6 +97,14 @@ This will change the attribute label to "new label!", add the attribute `raised`
 the background-color to red, the font-weight to bold and add the class `foo` - _all with one single message_.
 
 
+## Icons
+
+node-red-contrib-polymer uses the [Font Awesome Icons](http://fontawesome.io/icons/). Just type in the name of an icon
+into the icon option.
+
+Until now Icons can be used in the Page and Button Widgets.
+
+
 ## Contributing
 
 Pull requests welcome!
