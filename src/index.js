@@ -17,9 +17,10 @@ var toasts = [];
 
 var socket;
 
+var storage = document.querySelector('node-red-polymer').storage;
+
 
 window.addEventListener('WebComponentsReady', function (e) {
-
 
     function hashChange() {
         var hash = location.hash.substr(2);
@@ -206,7 +207,19 @@ function initSite(siteName, pageName) {
 
     setTimeout(createToasts, 0);
 
+    siteOutput(siteId, pageId);
+
 }
+
+
+function siteOutput(siteId, pageId) {
+    var msg = {id: siteId, payload: {
+        clientId: storage.clientId,
+        pageId: pageId
+    }};
+    if (socket) socket.emit('output', msg);
+}
+
 
 function createToasts() {
     toasts.forEach(function (toast) {
@@ -224,12 +237,15 @@ function createToasts() {
 function pageChange(pageName) {
     currentPageName = pageName;
 
+    var siteId = sitePaths[currentSiteName];
     var pageId = pagePaths[currentSiteName + '/' + pageName];
 
     var container = document.querySelector('node-red-polymer');
     container.setAttribute('title', pages[pageId].title);
 
     document.querySelector('node-red-polymer').select();
+
+    siteOutput(siteId, pageId);
 }
 
 
