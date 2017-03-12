@@ -7,7 +7,10 @@
             name: {value: ''},
             label: {value: ''},
             'class': {value: ''},
-            color: {color: ''},
+            color: {value: ''},
+            colorActive: {value: false},
+            bgColor: {value: ''},
+            bgColorActive: {value: false},
             parent: {value: ''},
             repeat: {value: 0},
             width: {value: '100%'},
@@ -39,15 +42,33 @@
 
                 }
             });
+
             Object.keys(options).sort().forEach(function (option) {
                 jQuery('#node-input-parent').append(options[option]);
             });
+
             $('#node-input-payload').typedInput({
                 default: 'str',
                 typeField: $("#node-input-payloadType"),
                 //types:['flow','global','str','num','bool','json','date']
-                types:['str','num','bool']
+                types:['str', 'num', 'bool', 'json']
             });
+
+            $('#node-input-colorActive').change(function () {
+                if ($(this).is(':checked')) {
+                    $('#node-input-color').removeAttr('disabled');
+                } else {
+                    $('#node-input-color').attr('disabled', true);
+                }
+            });
+            $('#node-input-bgColorActive').change(function () {
+                if ($(this).is(':checked')) {
+                    $('#node-input-bgColor').removeAttr('disabled');
+                } else {
+                    $('#node-input-bgColor').attr('disabled', true);
+                }
+            });
+
         }
     });
 </script>
@@ -80,7 +101,13 @@
     </div>
     <div class="form-row">
         <label for="node-input-color"><i class="fa fa-tag"></i> Color</label>
-        <input type="color" id="node-input-color">
+        <input type="checkbox" id="node-input-colorActive" style="width: 40px">
+        <input type="color" id="node-input-color" style="width: 220px">
+    </div>
+    <div class="form-row">
+        <label for="node-input-bgColor"><i class="fa fa-tag"></i> bgColor</label>
+        <input type="checkbox" id="node-input-bgColorActive" style="width: 40px">
+        <input type="color" id="node-input-bgColor" style="width: 220px">
     </div>
     <div class="form-row">
         <label for="node-input-icon"><i class="fa fa-tag"></i> Icon</label>
