@@ -30,16 +30,19 @@ In fact it's a fully rewritten fork of Andrei Tatars original
 
 * Sites: You can create an unlimited number of independent dashboards.
 * Hash-Navigation: Sites and pages are reflected as an URL hash, you can directly jump to a specific page.
-* Sites, pages and groups are "normal" nodes. That makes it more intuitive to directly manipulate them through messages 
+* When Deploying in Node-RED the current Page will be preserved after reload. It's even possible to optionally preserve 
+the scroll position.
+* Sites, pages and groups are "normal" nodes. That makes it more intuitive to directly manipulate them through messages
 and they could also output status information.
 * *All* HTML-attributes of every node can be easily manipulated by just passing a message to them.
 * No fixed grid, nodes can be sized without restrictions.
 * Toasts can be bound to specific sites or pages.
 * Buttons can send messages repeatedly on continuous press with configurable interval.
 
+
 This project is in an early development stage, see the issue tracker to get an idea of the roadmap.
 
-Until now I only implemented what I want for myself, e.g. I'm only using it on my phone in portait mode,
+Until now I'm only implementing what I want for myself, e.g. I'm only using it on my phone in portait mode,
 so there is no multi-column layout yet... Several Widgets known from node-red-dashboard aren't implemented,
 e.g. Audio, Chart and Form. Also there is almost no documentation done until now...
 
@@ -55,6 +58,37 @@ As usual do `npm install node-red-contrib-polymer`. Default URL of the Dashboard
 There are some checks and convinience things missing until now, so you need to make sure that you create a Site Node, 
 a Page Node and a Group Node. The Group needs to have the Page as parent, the Page needs to have the Site as parent. 
 Then you can add an element with the Group as parent.
+
+### Adding and removing classes via msg
+
+You can add or remove classes by simply sending a `msg.payload` containing an Attribute `addClass` or `removeClass`. You
+can add/remove multiple classes by just seperating them with spaces.
+
+Example `msg.payload`:
+```
+{"addClass": "blue bold", "removeClass": "foo"}
+```
+will add the classes "blue" and "bold" and remove the class "foo"
+
+### Settings styles via msg
+
+Example `msg.payload`:
+```
+{"style": {"display": "none"}}
+```
+
+### Setting arbitrary attributes via msg
+
+You can directly set any attribute of any node. For boolean attributes use an empty string to set them and `null` to 
+remove them. 
+
+Example `msg.payload`:
+```
+{"raised":"", "disabled": null, "style": {"background-color":red}, "addClass": "foo"}
+
+```
+This will add the attribute `raised`, remove the attribute `disabled`, sets the background-color to red and add the
+class `foo` with one single message.
 
 
 ## Contributing
