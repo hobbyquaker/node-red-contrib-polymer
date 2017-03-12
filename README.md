@@ -60,6 +60,8 @@ There are some validations, checks and convenience things missing until now, so 
 Site Node, a Page Node and a Group Node. The Group needs to have the Page as parent, the Page needs to have the Site as 
 parent. Then you can add elements with the Group as parent.
 
+Sites and Pages need to have an unique URL-safe name.
+
 
 ### Adding and removing classes via msg
 
