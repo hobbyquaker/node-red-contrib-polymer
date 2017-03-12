@@ -13,7 +13,7 @@ module.exports = function(RED) {
                 parent:         config.parent,
                 element:        'node-red-paper-input',
                 attrType:       config.attrType,
-                attrs:          ['attrType', 'label', 'min', 'max', 'step', 'maxlength', 'pattern', 'has-button', 'label-button'],
+                attrs:          ['attrType', 'label', 'min', 'max', 'step', 'maxlength', 'pattern', 'has-button', 'label-button', 'raised-button'],
                 valueAttribute: 'value',
                 event:          'set:value',
                 name:           config.name,
@@ -22,7 +22,8 @@ module.exports = function(RED) {
                 height:         config.height,
                 topic:          config.topic,
                 'has-button':   config.hasButton ? '' : null,
-                'label-button': config.labelButton
+                'label-button': config.labelButton,
+                'raised-button': config.raisedButton
             }
         });
 

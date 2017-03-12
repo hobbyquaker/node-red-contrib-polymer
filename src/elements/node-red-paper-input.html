@@ -25,7 +25,6 @@
             <paper-input
 
                 value="{{value}}"
-                inputValue="{{inputValue}}"
                 label="[[label]]"
                 type="[[type]]"
                 min="[[min]]"
@@ -37,7 +36,7 @@
             ></paper-input>
             <template is="dom-if" if="[[hasButton]]">
                 <div id="button-container">
-                    <paper-button>[[labelButton]]</paper-button>
+                    <paper-button raised="[[raisedButton]]">[[labelButton]]</paper-button>
                 </div>
             </template>
         </div>
@@ -51,6 +50,9 @@
                     value: ''
                 },
                 hasButton: {
+                    type: Boolean
+                },
+                raisedButton: {
                     type: Boolean
                 },
                 labelButton: {
@@ -81,9 +83,6 @@
             },
             _send: function () {
                 this.fire('set');
-            },
-            _valueChange: function () {
-                console.log('valueChange', this.value);
             }
         })
     </script>

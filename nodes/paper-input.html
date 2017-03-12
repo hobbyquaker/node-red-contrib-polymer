@@ -7,6 +7,7 @@
             label: {value: ''},
             attrType: {value: 'text'},
             hasButton: {value: false},
+            raisedButton: {value: false},
             labelButton: {value: 'Set'},
             parent: {value: ''},
             width: {value: '100%'},
@@ -42,6 +43,15 @@
             });
 
 
+            $('#node-input-hasButton').change(function () {
+                if ($(this).is(':checked')) {
+                    $('#node-input-raisedButton').removeAttr('disabled');
+                    $('#node-input-labelButton').removeAttr('disabled');
+                } else {
+                    $('#node-input-raisedButton').attr('disabled', true);
+                    $('#node-input-labelButton').attr('disabled', true);
+                }
+            });
 
         }
     });
@@ -86,10 +96,7 @@
         </select>
     </div>
 
-     <div class="form-row">
-        <label for="node-input-hasButton"><i class="fa fa-tag"></i> Button</label>
-        <input type="checkbox" id="node-input-hasButton">
-    </div>
+
 
 
     <div class="form-row">
@@ -115,6 +122,19 @@
     <div class="form-row">
         <label for="node-input-topic"><i class="fa fa-tag"></i> Topic</label>
         <input type="text" id="node-input-topic">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-hasButton"><i class="fa fa-tag"></i> Button</label>
+        <input type="checkbox" id="node-input-hasButton">
+    </div>
+    <div class="form-row">
+        <label for="node-input-labelButton"><i class="fa fa-tag"></i> Button Label</label>
+        <input type="text" id="node-input-labelButton">
+    </div>
+    <div class="form-row">
+        <label for="node-input-raisedButton"><i class="fa fa-tag"></i> Button Raised</label>
+        <input type="checkbox" id="node-input-raisedButton">
     </div>
 
 </script>
