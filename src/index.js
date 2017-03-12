@@ -161,7 +161,16 @@ function initSite(siteName, pageName) {
         document.querySelector('body').className = 'theme-' + sites[siteId].theme;
         Polymer.updateStyles();
     }
+
+    if (sites[siteId].css) {
+        var style = document.createElement('style');
+        style.innerText = sites[siteId].css;
+        document.querySelector('body').append(style);
+    }
+
     document.querySelector('div.loader').style.display = 'none';
+
+
 
 
 

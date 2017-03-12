@@ -6,6 +6,7 @@
             name: {value: ''},
             title: {value: ''},
             theme: {value: ''},
+            css: {value: ''},
             forceNarrow: {value: false},
             pageOrder: {value: []}
         },
@@ -39,8 +40,30 @@
                 if (site.pageOrder.indexOf(pageId) === -1) $pagelist.editableList('addItem', pages[pageId]);
             });
 
+
+            this.editor = RED.editor.createEditor({
+                id: 'node-input-css-editor',
+                mode: 'ace/mode/html',
+                value: jQuery("#node-input-css").val()
+            });
+
+            this.editor.focus();
+
+
         },
-        oneditsave: function () {
+        oneditsave: function() {
+            var annot = this.editor.getSession().getAnnotations();
+            this.noerr = 0;
+            $("#node-input-noerr").val(0);
+            for (var k=0; k < annot.length; k++) {
+                if (annot[k].type === "error") {
+                    $("#node-input-noerr").val(annot.length);
+                    this.noerr = annot.length;
+                }
+            }
+            $("#node-input-css").val(this.editor.getValue());
+            delete this.editor;
+
             var $pagelist = jQuery("#node-input-sort-container");
             var pages = $pagelist.editableList('items');
             var pageOrder = [];
@@ -48,7 +71,19 @@
                 pageOrder.push($(this).data('data').id);
             });
             this.pageOrder = pageOrder;
+        },
+        oneditresize: function(size) {
+            var rows = $("#dialog-form>div:not(.node-css-editor-row)");
+            var height = $("#dialog-form").height() + 250;
+            for (var i=0;i<rows.size();i++) {
+                height -= $(rows[i]).outerHeight(true);
+            }
+            var editorRow = $("#dialog-form>div.node-css-editor-row");
+            height -= (parseInt(editorRow.css("marginTop"))+parseInt(editorRow.css("marginBottom")));
+            $(".node-css-editor").css("height",height+"px");
+            this.editor.resize();
         }
+
     });
 </script>
 
@@ -72,10 +107,20 @@
         <label for="node-input-forceNarrow"><i class="fa fa-tag"></i> Hide Menu</label>
         <input type="checkbox" id="node-input-forceNarrow">
     </div>
-
+    <div class="form-row">
+        <i class="fa fa-copy"></i> Page Sort Order</label>
+    </div>
     <div class="form-row node-input-sort-container-row">
         <ol id="node-input-sort-container"></ol>
     </div>
+    <div class="form-row">
+        <label for="node-input-css"><i class="fa fa-copy"></i> Styles</label>
+        <input type="hidden" id="node-input-css">
+    </div>
+    <div style="min-height:250px;" class="form-row node-css-editor-row">
+        <div style="height:250px;" class="node-css-editor" id="node-input-css-editor" ></div>
+    </div>
+
 </script>
 
 <script type="text/x-red" data-help-name="polymer_nav_site">
