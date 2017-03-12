@@ -314,11 +314,11 @@ function createPage(pageId, siteId) {
 function createGroup(groupId, pageId, siteId) {
     var group = groups[groupId];
 
-    var groupElem = document.createElement('paper-card');
-    groupElem.setAttribute('id', elementId(groupId));
 
     switch (group.type) {
         case 'polymer_nav_group':
+            var groupElem = document.createElement('paper-card');
+            groupElem.setAttribute('id', elementId(groupId));
             var contentElem = document.createElement('div');
             contentElem.className = 'card-content';
             if (group.title) groupElem.setAttribute('heading', group.title);
@@ -326,10 +326,11 @@ function createGroup(groupId, pageId, siteId) {
             break;
 
         case 'polymer_nav_group_collapsible':
-            var collapse = document.createElement('node-red-collapse');
-            if (group.title) collapse.setAttribute('heading', group.title);
-            if (store.get(groupId) && store.get(groupId).opened) collapse.setAttribute('opened', true);
-            collapse.addEventListener('change', function (event) {
+            var groupElem = document.createElement('node-red-collapse');
+            groupElem.setAttribute('id', elementId(groupId));
+            if (group.title) groupElem.setAttribute('heading', group.title);
+            if (store.get(groupId) && store.get(groupId).opened) groupElem.setAttribute('opened', true);
+            groupElem.addEventListener('change', function (event) {
                 var groupStore = store.get(groupId) || {}
                 groupStore.opened = event.detail;
                 store.set(groupId, groupStore);
@@ -339,7 +340,6 @@ function createGroup(groupId, pageId, siteId) {
                 });
 
             });
-            groupElem.appendChild(collapse);
             break;
 
     }
@@ -520,7 +520,7 @@ function elementId(id) {
 }
 
 function updateElem(msg) {
-    //console.log('updateElem', msg)
+    console.log('updateElem', msg)
     var elem = document.getElementById(elementId(msg.id));
     if (!elem) return;
 
@@ -532,6 +532,9 @@ function updateElem(msg) {
     if (groups[msg.id]) subject = groups[msg.id];
     if (pages[msg.id]) subject = pages[msg.id];
     if (sites[msg.id]) subject = sites[msg.id];
+
+    console.log('subject', subject);
+
 
 
     if (typeof subject.payloadFalse !== 'undefined') {

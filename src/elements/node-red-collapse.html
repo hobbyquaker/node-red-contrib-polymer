@@ -27,18 +27,19 @@
             }
 
         </style>
-        <div class="header" on-tap="_toggleOpened">
-            <div class="flex">
-                <div class="title-text">[[heading]]</div>
+        <paper-card>
+            <div class="header" on-tap="_toggleOpened">
+                <div class="flex">
+                    <div class="title-text">[[heading]]</div>
+                </div>
+                <paper-icon-button class="toogle" icon="[[_toggleIcon]]"></paper-icon-button>
+
             </div>
-            <paper-icon-button class="toogle" icon="[[_toggleIcon]]"></paper-icon-button>
 
-        </div>
-
-        <iron-collapse opened="{{opened}}">
-            <div class="card-content"></div>
-        </iron-collapse>
-
+            <iron-collapse opened="{{opened}}">
+                <div class="card-content"></div>
+            </iron-collapse>
+        </paper-card>
     </template>
     <script>
         Polymer({

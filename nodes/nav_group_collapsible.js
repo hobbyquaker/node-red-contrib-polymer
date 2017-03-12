@@ -14,7 +14,9 @@ module.exports = function(RED) {
                 'class':        config.class,
                 name:           config.name,
                 title:          config.title,
-                elementOrder:   config.elementOrder
+                elementOrder:   config.elementOrder,
+                valueAttribute: 'opened',
+                valueFalseNull: true
             }
         });
 
