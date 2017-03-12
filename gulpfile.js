@@ -3,7 +3,7 @@ const clean =       require('gulp-clean');
 const vulcanize =   require('gulp-vulcanize');
 const gulpCopy =    require('gulp-copy');
 const manifest =    require('gulp-manifest');
-
+const fs =          require('fs');
 
 gulp.task('default', ['clean', 'vulcanize', 'copy', 'manifest']);
 
@@ -38,7 +38,7 @@ gulp.task('copy', ['clean'], function () {
         .pipe(gulpCopy('dist/', {prefix: 1}))
 });
 
-gulp.task('manifest', ['vulcanize', 'copy'], function (){
+gulp.task('manifest', ['vulcanize', 'copy'], function () {
     gulp.src(['dist/**/*'], { base: './dist' })
         .pipe(manifest({
             hash: true,
@@ -49,4 +49,34 @@ gulp.task('manifest', ['vulcanize', 'copy'], function (){
             exclude: 'dist/app.manifest'
         }))
         .pipe(gulp.dest('dist'));
+});
+
+
+gulp.task('fa-autocomplete', function () {
+
+    let files = [
+        'nodes/paper-button.html',
+        'nodes/nav_page.html'
+    ];
+
+    let css = fs.readFileSync('src/bower_components/components-font-awesome/css/font-awesome.css').toString();
+    let res = [];
+    css.split('\n').forEach(line => {
+        let match = line.match(/^\.fa-(.*):before {$/);
+        if (match) res.push(match[1]);
+    });
+    res = JSON.stringify(res);
+
+    files.forEach(file => {
+        let content = fs.readFileSync(file).toString();
+        let out = [];
+        content.split('\n').forEach(line => {
+            if (line.indexOf('/* fa-autocomplete */') === 0) {
+                out.push('/* fa-autocomplete */ source: ' + res);
+            } else {
+                out.push(line);
+            }
+        });
+        fs.writeFileSync(file, out.join('\n'));
+    });
 });
