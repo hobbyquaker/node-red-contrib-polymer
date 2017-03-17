@@ -1,0 +1,40 @@
+<dom-module id="node-red-linear-gauge">
+    <template>
+        <style>
+            :host {
+                display: inline-block;
+            }
+        </style>
+        <canvas id="gauge"></canvas>
+    </template>
+    <script>
+        Polymer({
+            is: 'node-red-linear-gauge',
+            properties: {
+                value: {
+                    type: Number,
+                    observer: '_value'
+                }
+            },
+            attached: function () {
+                this.gauge = new LinearGauge({
+                    renderTo: this.querySelector('#gauge'),
+                    width: 160,
+                    height: 600,
+                    borderRadius: 20,
+                    borders: 0,
+                    barStrokeWidth: 20,
+                    minorTicks: 10,
+                    majorTicks: [0,10,20,30,40,50,60,70,80,90,100],
+                    value: 0,
+                    units: "°C",
+                    colorValueBoxShadow: false
+                }).draw();
+            },
+            _value: function () {
+                this.gauge && (this.gauge.value = this.value);
+            }
+        })
+    </script>
+
+</dom-module>

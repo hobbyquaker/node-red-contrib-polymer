@@ -1,0 +1,74 @@
+<script type="text/javascript">
+    RED.nodes.registerType('canvas_linear-gauge', {
+        category: 'polymer',
+        color: '#a6bbcf',
+        defaults: {
+            name: {value: ''},
+            label: {value: ''},
+            'class': {value: ''},
+            parent: {value: ''},
+            width: {value: '100%'},
+            height: {value: ''},
+
+        },
+        inputs: 1,
+        outputs: 0,
+        //icon: "ui_button.png",
+        paletteLabel: 'linear-gauge',
+        label: function() { return this.name || 'linear-gauge'; },
+        oneditprepare: function () {
+            var node = this;
+            var options = {};
+            RED.nodes.eachNode(function (group) {
+                if (group.type.indexOf('polymer_nav_group') === 0) {
+                    var optionText = RED.nodes.node(RED.nodes.node(RED.nodes.node(group.id).parent).parent).name + '/' +
+                        RED.nodes.node(RED.nodes.node(group.id).parent).name + '/' +
+                        group.name;
+
+                    options[optionText] = '<option value="' + group.id + '"' +
+                        (group.id === node.parent ? ' selected' : '') + '>' +
+                        optionText + '</option>';
+
+                }
+            });
+            Object.keys(options).sort().forEach(function (option) {
+                jQuery('#node-input-parent').append(options[option]);
+            });
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="canvas_linear-gauge">
+    <div class="form-row">
+        <label for="node-input-parent"><i class="fa fa-tag"></i> Parent Group</label>
+        <select id="node-input-parent"></select>
+    </div>
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-class"><i class="fa fa-tag"></i> Class</label>
+        <input type="text" id="node-input-class">
+    </div>
+    <div class="form-row">
+        <label for="node-input-width"><i class="fa fa-tag"></i> Width</label>
+        <input type="text" id="node-input-width">
+    </div>
+    <div class="form-row">
+        <label for="node-input-height"><i class="fa fa-tag"></i> Height</label>
+        <input type="text" id="node-input-height">
+    </div>
+    <div class="form-row">
+        <label for="node-input-label"><i class="fa fa-tag"></i> Label</label>
+        <input type="text" id="node-input-label">
+    </div>
+
+
+
+
+</script>
+
+<script type="text/x-red" data-help-name="canvas_linear-gauge">
+
+</script>

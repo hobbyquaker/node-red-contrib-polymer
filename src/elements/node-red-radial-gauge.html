@@ -1,0 +1,33 @@
+<dom-module id="node-red-radial-gauge">
+    <template>
+        <style>
+            :host {
+                display: inline-block;
+            }
+        </style>
+        <canvas id="gauge"></canvas>
+    </template>
+    <script>
+        Polymer({
+            is: 'node-red-radial-gauge',
+            properties: {
+                value: {
+                    type: Number,
+                    observer: '_value'
+                }
+            },
+            attached: function () {
+                this.gauge = new RadialGauge({
+                    renderTo: this.querySelector('#gauge'),
+                    width: 300,
+                    height: 300,
+                    value: 0
+                }).draw();
+            },
+            _value: function () {
+                this.gauge && (this.gauge.value = this.value);
+            }
+        })
+    </script>
+
+</dom-module>

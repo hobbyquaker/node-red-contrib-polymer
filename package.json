@@ -35,7 +35,8 @@
       "polymer_paper-dropdown": "nodes/paper-dropdown.js",
       "polymer_paper-slider": "nodes/paper-slider.js",
       "google_chart-gauge": "nodes/google_chart-gauge.js",
-      "canvas_radial-gauge": "nodes/canvas_radial-gauge.js"
+      "canvas_radial-gauge": "nodes/canvas_radial-gauge.js",
+      "canvas_linear-gauge": "nodes/canvas_linear-gauge.js"
     }
   },
   "dependencies": {

@@ -33,6 +33,7 @@ gulp.task('copy', ['clean'], function () {
             'src/bower_components/promise-polyfill/Promise-Statics.js',
             'src/bower_components/components-font-awesome/fonts/*',
             'src/bower_components/store-js/store.min.js',
+            'src/node_modules/canvas-gauges/gauge.min.js',
             'src/index.js'
         ])
         .pipe(gulpCopy('dist/', {prefix: 1}))

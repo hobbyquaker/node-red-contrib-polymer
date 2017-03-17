@@ -130,6 +130,10 @@ window.addEventListener('WebComponentsReady', function (e) {
 function navigate(siteName, pageName) {
     if (!sitePaths[siteName]) {
         siteName = Object.keys(sitePaths)[0];
+        if (!sitePaths[siteName] || !sites[sitePaths[siteName]]) {
+            console.error(siteName);
+            return;
+        }
         var pageId = sites[sitePaths[siteName]].pageOrder[0] || Object.keys(tree[sitePaths[siteName]])[0];
         pageName = pages[pageId].name;
         window.location.hash = '#/' + siteName + '/' + pageName;
