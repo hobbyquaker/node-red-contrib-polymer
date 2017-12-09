@@ -13,6 +13,15 @@ In fact it's a fully rewritten fork of Andrei Tatars original
 
 ## FAQs
 
+#### Is this Project still alive?
+
+* I'm sorry to say that since March 2017 I didn't find time/motivation to develop this further. However I wouldn't call
+it "dead' yet, I'm still hoping that I will continue working on it, right now I'm also waiting for the Polymer 3 release
+that will require a larger modification of the projects structure and the elements definitions
+* Anyhow I'm still happy to receive pull requests and will try my best to fulfill the maintainers role and merge them
+as quickly as possible.
+
+
 #### So why another Node-RED Dashboard UI when node-red-dashboard already exists?
 
 * Mhmm. There are reasons.
