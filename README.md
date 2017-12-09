@@ -125,7 +125,13 @@ Pull requests welcome!
 
 Please post feature requests, bug reports, suggestions and critics in the Github issue tracker.
 
-For Developing you need to `bower install` in the src directory.
+
+## Development
+
+For Development you need to `bower install` _and_ `npm install` in the src directory. 
+
+If the `dist` folder does not exist node-red will server form the `src` folder. Mind that this can possibly lead to
+reduced performance. To create a build in the `dist` folder use the Gulp task "default".
 
 
 ## License
