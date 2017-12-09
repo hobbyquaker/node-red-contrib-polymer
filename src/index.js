@@ -311,7 +311,7 @@ function createPage(pageId, siteId) {
         }
     });
 
-    pageElem.className = 'page';
+    pageElem.className = 'page' + page['class'] ? ' ' + page['class'] : '';
     return pageElem;
 }
 
