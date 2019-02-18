@@ -1,7 +1,9 @@
 # node-red-contrib-polymer
 
+**UNMAINTAINED** I stopped working on this project in favor of https://github.com/hobbyquaker/node-red-contrib-feezal
+
+
 [![NPM version](https://badge.fury.io/js/node-red-contrib-polymer.svg)](http://badge.fury.io/js/node-red-contrib-polymer)
-[![Dependency Status](https://img.shields.io/gemnasium/hobbyquaker/node-red-contrib-polymer.svg?maxAge=2592000)](https://gemnasium.com/github.com/hobbyquaker/node-red-contrib-polymer)
 [![License][mit-badge]][mit-url]
 
 > A Polymer based dashboard UI for Node-RED
@@ -15,11 +17,9 @@ In fact it's a fully rewritten fork of Andrei Tatars original
 
 #### Is this Project still alive?
 
-* I'm sorry to say that since March 2017 I didn't find time/motivation to develop this further. However I wouldn't call
-it "dead' yet, I'm still hoping that I will continue working on it, right now I'm also waiting for the Polymer 3 release
-that will require a larger modification of the projects structure and the elements definitions
-* Anyhow I'm still happy to receive pull requests and will try my best to fulfill the maintainers role and merge them
-as quickly as possible.
+* ~~I'm sorry to say that since March 2017 I didn't find time/motivation to develop this further. However I wouldn't call it "dead' yet, I'm still hoping that I will continue working on it, right now I'm also waiting for the Polymer 3 release that will require a larger modification of the projects structure and the elements definitions~~
+* ~~Anyhow I'm still happy to receive pull requests and will try my best to fulfill the maintainers role and merge them as quickly as possible.~~
+* **YES**. I'm no working on https://github.com/hobbyquaker/node-red-contrib-feezal
 
 
 #### So why another Node-RED Dashboard UI when node-red-dashboard already exists?
