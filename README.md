@@ -1,6 +1,6 @@
 # node-red-contrib-polymer
 
-**UNMAINTAINED** I stopped working on this project in favor of https://github.com/hobbyquaker/node-red-contrib-feezal
+# **UNMAINTAINED** I stopped working on this project in favor of its successor: https://github.com/hobbyquaker/feezal
 
 
 [![NPM version](https://badge.fury.io/js/node-red-contrib-polymer.svg)](http://badge.fury.io/js/node-red-contrib-polymer)
@@ -19,7 +19,7 @@ In fact it's a fully rewritten fork of Andrei Tatars original
 
 * ~~I'm sorry to say that since March 2017 I didn't find time/motivation to develop this further. However I wouldn't call it "dead' yet, I'm still hoping that I will continue working on it, right now I'm also waiting for the Polymer 3 release that will require a larger modification of the projects structure and the elements definitions~~
 * ~~Anyhow I'm still happy to receive pull requests and will try my best to fulfill the maintainers role and merge them as quickly as possible.~~
-* **NO**. I'm now working on https://github.com/hobbyquaker/node-red-contrib-feezal
+* **NO**. I'm now working on its successor: https://github.com/hobbyquaker/feezal
 
 
 #### So why another Node-RED Dashboard UI when node-red-dashboard already exists?
